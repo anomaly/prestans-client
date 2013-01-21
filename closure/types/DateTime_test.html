@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<!--
+Copyright 2006 The Closure Library Authors. All Rights Reserved.
+
+Use of this source code is governed by the Apache License, Version 2.0.
+See the COPYING file for details.
+-->
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Prestans Unit Tests - prestans.types.DateTime</title>
+<script src="../../goog/base.js"></script>
+<script src="../deps.js"></script>
+<script>
+    goog.require('prestans.types.DateTime');
+    goog.require('goog.testing.jsunit');
+    goog.require('goog.date.DateTime');
+</script>
+</head>
+<body>
+<script>
+
+function testConstructor() {
+
+	//pass date
+	var datetime1_ = new prestans.types.DateTime(new goog.date.DateTime());
+	assertTrue(datetime1_.getValue() instanceof goog.date.DateTime);
+
+	//pass string
+	var datetime2_ = new prestans.types.DateTime("2010-01-01 10:00:00");
+	assertTrue(datetime2_.getValue() instanceof goog.date.DateTime);
+
+}
+
+function testGetAndSetValue() {
+
+	//test set date
+	var datetime1_ = new prestans.types.DateTime();
+	var d1_ = new goog.date.DateTime()
+	assertTrue(datetime1_.setValue(d1_));
+	assertEquals(d1_, datetime1_.getValue());
+
+	//test set string
+	var datetime2_ = new prestans.types.DateTime();
+	var d2_ = "2010-01-01 10:00:00";
+	assertTrue(datetime2_.setValue(d2_));
+	assertEquals(d2_, datetime2_.getJSONObject());
+
+}
+
+function testRequired() {
+	var datetime1_ = new prestans.types.DateTime(null, false);
+	assertTrue(datetime1_.setValue(null));
+
+	var datetime2_ = new prestans.types.DateTime(null, true);
+	assertFalse(datetime2_.setValue(null));
+}
+
+function testDefault() {
+
+	//Test now constant
+	var datetime1_ = new prestans.types.DateTime(null, false, prestans.types.DateTime.NOW);
+	assertTrue(datetime1_.getValue() instanceof goog.date.DateTime);
+
+	//Test datetime object
+	var d_ = new goog.date.DateTime();
+	var datetime2_ = new prestans.types.DateTime(null, false, d_);
+	assertEquals(d_, datetime2_.getValue());
+
+	//Test ISO string format
+	var s_ = "2010-01-01 10:10:10";
+	datetime3_ = new prestans.types.DateTime(null, false, s_);
+	assertEquals(s_, datetime3_.getJSONObject());
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<!--
+Copyright 2006 The Closure Library Authors. All Rights Reserved.
+
+Use of this source code is governed by the Apache License, Version 2.0.
+See the COPYING file for details.
+-->
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Prestans Unit Tests - prestans.types.Integer</title>
+<script src="../../goog/base.js"></script>
+<script src="../deps.js"></script>
+<script>
+    goog.require('prestans.types.Integer');
+    goog.require('goog.testing.jsunit');
+</script>
+</head>
+<body>
+<script>
+function testGetAndSetValue() {
+    var integer_ = new prestans.types.Integer(1);
+    assertEquals(1, integer_.getValue());
+
+    integer_.setValue(2);
+    assertEquals(2, integer_.getValue());
+    assertFalse(integer_.setValue("asdasd"));
+}
+
+function testGetChoices() {
+    var choices_ = [1, 2, 3];
+
+    var integer_ = new prestans.types.Integer(null, false, null, null, null, choices_);
+    assertTrue(goog.array.equals(choices_, integer_.getChoices()));
+}
+
+function testRequired() {
+    var integer1_ = new prestans.types.Integer(null, false);
+    assertTrue(integer1_.setValue(null));
+
+    var integer2_ = new prestans.types.Integer(null, true);
+    assertFalse(integer2_.setValue(null));
+}
+
+function testDefault() {
+    var integer1_ = new prestans.types.Integer(null, false, 1);
+    assertEquals(1, integer1_.getValue());
+
+    var integer2_ = new prestans.types.Integer(null, false, 5);
+    assertEquals(5, integer2_.getValue());
+}
+
+function testMinimum() {
+    var integer_ = new prestans.types.Integer(null, false, null, null, 6);
+
+    assertFalse(integer_.setValue(5));
+    assertTrue(integer_.setValue(6));
+    assertTrue(integer_.setValue(7));
+}
+
+function testMaximum() {
+
+    var integer_ = new prestans.types.Integer(null, false, null, 6);
+
+    assertTrue(integer_.setValue(5));
+    assertTrue(integer_.setValue(6));
+    assertFalse(integer_.setValue(7));
+}
+
+function testChoices() {
+    var integer_ = new prestans.types.Integer(null, false, null, null, null, [1, 2, 3]);
+
+    assertTrue(integer_.setValue(1));
+    assertTrue(integer_.setValue(2));
+    assertTrue(integer_.setValue(3));
+    assertFalse(integer_.setValue(4));
+}
+
+</script>
+</body>
+</html>

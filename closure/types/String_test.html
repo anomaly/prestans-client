@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<!--
+Copyright 2006 The Closure Library Authors. All Rights Reserved.
+
+Use of this source code is governed by the Apache License, Version 2.0.
+See the COPYING file for details.
+-->
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Prestans Unit Tests - prestans.types.String</title>
+<script src="../../goog/base.js"></script>
+<script src="../deps.js"></script>
+<script>
+    goog.require('prestans.types.String');
+    goog.require('goog.testing.jsunit');
+</script>
+</head>
+<body>
+<script>
+function testGetAndSetValue() {
+    var string_ = new prestans.types.String("Iron Maiden");
+    assertEquals("Iron Maiden", string_.getValue());
+
+    string_.setValue("Metallica");
+    assertEquals("Metallica", string_.getValue());
+}
+
+function testGetChoices() {
+
+    var choices_ = ["A", "B", "C"];
+
+    var string_ = new prestans.types.String(null, false, null, null, null, null, choices_);
+    assertTrue(goog.array.equals(choices_, string_.getChoices()));
+}
+
+function testRequired() {
+    var string1_ = new prestans.types.String(null, false);
+    assertTrue(string1_.setValue(null));
+
+    var string2_ = new prestans.types.String(null, true);
+    assertFalse(string2_.setValue(null));
+}
+
+function testDefault() {
+    var string1_ = new prestans.types.String(null, false, "Metallica");
+    assertEquals("Metallica", string1_.getValue());
+
+    var string2_ = new prestans.types.String(null, false, "Pink Floyd");
+    assertEquals("Pink Floyd", string2_.getValue());
+}
+
+function testMinLength() {
+    var string_ = new prestans.types.String(null, false, null, null, 3);
+
+    assertTrue(string_.setValue("123"));
+    assertFalse(string_.setValue("12"));
+    assertTrue(string_.setValue("1234"));
+}
+
+function testMaxLength() {
+    var string_ = new prestans.types.String(null, false, null, 3);
+
+    assertTrue(string_.setValue("123"));
+    assertTrue(string_.setValue("12"));
+    assertFalse(string_.setValue("1234"));
+}
+
+function testFormat() {
+    var string_ = new prestans.types.String(null, false, null, null, null, "^http://[a-z.]*$");
+
+    assertTrue(string_.setValue("http://www.etk.com.au"));
+    assertTrue(string_.setValue("http://www.google.com.au"));
+    assertFalse(string_.setValue("https://www.etk.com.au"));
+
+}
+
+function testChoices() {
+    var string_ = new prestans.types.String(null, false, null, null, null, null, ["Metallica", "Iron Maiden"]);
+
+    assertTrue(string_.setValue("Metallica"));
+    assertFalse(string_.setValue("Pink Floyd"));
+}
+
+</script>
+</body>
+</html>

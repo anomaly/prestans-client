@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<!--
+Copyright 2006 The Closure Library Authors. All Rights Reserved.
+
+Use of this source code is governed by the Apache License, Version 2.0.
+See the COPYING file for details.
+-->
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Prestans Unit Tests - prestans.types.Array</title>
+<script src="../../goog/base.js"></script>
+<script src="../deps.js"></script>
+<script>
+    goog.require('prestans.types.Array');
+    goog.require('goog.testing.jsunit');
+</script>
+</head>
+<body>
+<script>
+
+function testConstructor() {
+    var array1_ = new prestans.types.Array(prestans.types.Integer, [1, 2, 3]);
+    assertEquals(3, array1_.length());
+
+    var array2_ = new prestans.types.Array(prestans.types.Integer, null, [1, 2, 3]);
+    assertEquals(3, array2_.length());
+}
+
+function testAppend() {
+
+    var stringArray_ = new prestans.types.Array(prestans.types.String);
+    assertTrue(stringArray_.append("Metallica"));
+    assertFalse(stringArray_.append(1));
+
+    var floatArray_ = new prestans.types.Array(prestans.types.Float);
+    assertTrue(floatArray_.append(1.1));
+    assertFalse(floatArray_.append("Metallica"));
+
+    var integerArray_ = new prestans.types.Array(prestans.types.Integer);
+    assertTrue(integerArray_.append(1));
+    assertFalse(integerArray_.append("Metallica"));
+
+    var booleanArray_ = new prestans.types.Array(prestans.types.Boolean);
+    assertTrue(booleanArray_.append(true));
+    assertFalse(booleanArray_.append("Metallica"));
+
+}
+
+function testRemove() {
+    var bands_ = ["Metallica", "Iron Maiden"];
+    var array_ = new prestans.types.Array(prestans.types.String, bands_);
+
+    assertFalse(array_.remove("Pink Floyd"));
+    assertEquals(bands_.length, array_.length());
+
+    assertTrue(array_.remove("Iron Maiden"));
+    assertEquals(bands_.length - 1, array_.length());
+
+    assertTrue(array_.remove("Metallica"));
+    assertTrue(array_.isEmpty());
+}
+
+function testIsEmpty() {
+
+    var array_ = new prestans.types.Array(prestans.types.String);
+    assertTrue(array_.isEmpty());
+
+    assertTrue(array_.append("Metallica"));
+    assertFalse(array_.isEmpty());
+}
+
+function testIsValid() {
+
+}
+
+function testMinLength() {
+    var array_ = new prestans.types.Array(prestans.types.Integer, null, null, null, 2);
+    assertTrue(array_.append(1));
+    assertFalse(array_.isValid());
+    assertTrue(array_.append(2));
+    assertTrue(array_.isValid());
+    assertTrue(array_.append(3));
+    assertTrue(array_.isValid());
+}
+
+function testMaxLength() {
+    var array_ = new prestans.types.Array(prestans.types.Integer, null, null, 2);
+    assertTrue(array_.append(1));
+    assertTrue(array_.isValid());
+    assertTrue(array_.append(2));
+    assertTrue(array_.isValid());
+    assertTrue(array_.append(3));
+    assertFalse(array_.isValid());
+}
+
+function testLength() {
+    var array_ = new prestans.types.Array(prestans.types.Integer);
+    assertTrue(array_.append(1));
+    assertEquals(1, array_.length());
+    assertTrue(array_.append(2));
+    assertEquals(2, array_.length());
+}
+
+function testClear() {
+    var array_ = new prestans.types.Array(prestans.types.Integer);
+    assertTrue(array_.isEmpty());
+    assertTrue(array_.append(1));
+    assertFalse(array_.isEmpty());
+    array_.clear();
+    assertTrue(array_.isEmpty());
+}
+
+function testContains() {
+    var array_ = new prestans.types.Array(prestans.types.Integer);
+}
+
+function testObjectAtIndex() {
+    var array_ = new prestans.types.Array(prestans.types.Integer, [1, 2, 3]);
+    assertEquals(1, array_.objectAtIndex(0));
+    assertEquals(2, array_.objectAtIndex(1));
+    assertEquals(3, array_.objectAtIndex(2));
+}
+
+function testIterator() {
+    var values_ = [2, 4, 8, 16];
+    var array_ = new prestans.types.Array(prestans.types.Integer, values_);
+
+    //Check for each
+    var count_ = 2;
+    goog.iter.forEach(array_, function(element, undef, iterator) {
+        assertEquals(count_, element);
+        count_ *= 2;
+    }, this);
+
+    //Check to array
+    assertTrue(goog.array.equals(values_, goog.iter.toArray(array_)));
+
+}
+
+</script>
+</body>
+</html>

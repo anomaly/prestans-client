@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<!--
+Copyright 2006 The Closure Library Authors. All Rights Reserved.
+
+Use of this source code is governed by the Apache License, Version 2.0.
+See the COPYING file for details.
+-->
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Prestans Unit Tests - prestans.types.Boolean</title>
+<script src="../../goog/base.js"></script>
+<script src="../deps.js"></script>
+<script>
+    goog.require('prestans.types.Boolean');
+    goog.require('goog.testing.jsunit');
+</script>
+</head>
+<body>
+<script>
+function testGetAndSetValue() {
+    var bool_ = new prestans.types.Boolean(true);
+    assertEquals(true, bool_.getValue());
+
+    assertTrue(bool_.setValue(false));
+    assertEquals(false, bool_.getValue());
+    assertTrue(bool_.setValue(true));
+    assertEquals(true, bool_.getValue());
+
+    assertFalse(bool_.setValue("asdasd"));
+    assertFalse(bool_.setValue(1));
+    assertFalse(bool_.setValue(1.1));
+}
+
+function testDefault() {
+    var bool1_ = new prestans.types.Boolean(null, false, true);
+    assertEquals(true, bool1_.getValue());
+
+    var bool2_ = new prestans.types.Boolean(null, false, false);
+    assertEquals(false, bool2_.getValue());
+}
+
+function testRequired() {
+    var bool1_ = new prestans.types.Boolean(null, false);
+    assertTrue(bool1_.setValue(null));
+
+    var bool2_ = new prestans.types.Boolean(null, true);
+    assertFalse(bool2_.setValue(null));
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<!--
+Copyright 2006 The Closure Library Authors. All Rights Reserved.
+
+Use of this source code is governed by the Apache License, Version 2.0.
+See the COPYING file for details.
+-->
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Prestans Unit Tests - prestans.rest.json.Request</title>
+<script src="../../../goog/base.js"></script>
+<script src="../../deps.js"></script>
+<script>
+    goog.require('prestans.net.HttpMethod');
+    goog.require('prestans.rest.json.Request');
+    goog.require('prestans.types.Array');
+    goog.require('prestans.types.Integer');
+    goog.require('prestans.types.Model');
+    goog.require('goog.testing.jsunit');
+</script>
+</head>
+<body>
+<script>
+
+function testIdentifier() {
+
+    var config_ = {
+        identifier: "A",
+        httpMethod: prestans.net.HttpMethod.GET,
+        responseModel: new prestans.types.Model(),
+        urlFormat: "/api/task",
+    };
+
+    var request_ = new prestans.rest.json.Request(config_);
+    assertEquals("A", request_.getIdentifier());
+
+    request_.setIdentifier("B");
+    assertEquals("B", request_.getIdentifier());
+}
+
+function testHttpMethod() {
+
+    var config_ = {
+        identifier: "HttpMethod",
+        httpMethod: prestans.net.HttpMethod.GET,
+        responseModel: new prestans.types.Model(),
+        urlFormat: "/url",
+    };
+
+    var request_ = new prestans.rest.json.Request(config_);
+    assertEquals(prestans.net.HttpMethod.GET, request_.getHttpMethod());
+
+    request_.setHttpMethod(prestans.net.HttpMethod.POST);
+    assertEquals(prestans.net.HttpMethod.POST, request_.getHttpMethod());
+
+    request_.setHttpMethod(prestans.net.HttpMethod.PUT);
+    assertEquals(prestans.net.HttpMethod.PUT, request_.getHttpMethod());
+
+    request_.setHttpMethod(prestans.net.HttpMethod.DELETE);
+    assertEquals(prestans.net.HttpMethod.DELETE, request_.getHttpMethod());
+}
+
+function testUrl() {
+
+    var config_ = {
+        identifier: "ABC",
+        httpMethod: prestans.net.HttpMethod.GET,
+        responseModel: new prestans.types.Model(),
+        urlFormat: "/A/%i/B/%i/C/%i",
+        urlArgs: [1, 2, 3]
+    };
+
+    var request_ = new prestans.rest.json.Request(config_);
+    assertEquals("/A/1/B/2/C/3", request_.getUrl());
+
+    request_.setUrl("/C/%i/B/%i/A/%i", [3, 2, 1]);
+    assertEquals("/C/3/B/2/A/1", request_.getUrl());
+};
+
+function testUrlWithParameters() {
+
+    var config_ = {
+        identifier: "Search",
+        httpMethod: prestans.net.HttpMethod.GET,
+        responseModel: new prestans.types.Model(),
+        urlFormat: "/search"
+    };
+
+    //Check no params
+    var request_ = new prestans.rest.json.Request(config_);
+    assertEquals("/search", request_.getUrl());
+    assertEquals("/search", request_.getUrlWithParameters());
+
+    //Check basic params
+    request_.addParameter("colour", "green");
+    assertEquals("/search?colour=green", request_.getUrlWithParameters());
+    request_.addParameter("shape", "circle");
+    assertEquals("/search?colour=green&shape=circle", request_.getUrlWithParameters());
+    request_.removeParameter("shape");
+    assertEquals("/search?colour=green", request_.getUrlWithParameters());
+
+    //Check clear
+    request_.clearParameters();
+    assertEquals("/search", request_.getUrlWithParameters());
+
+    //Check multiple params
+    request_.addParameter("animal", "fox");
+    request_.addParameter("animal", "bear");
+    assertEquals("/search?animal=fox&animal=bear", request_.getUrlWithParameters());
+    request_.removeParameter("animal");
+    assertEquals("/search", request_.getUrlWithParameters());
+
+    var config2_ = {
+        identifier: "Review",
+        httpMethod: prestans.net.HttpMethod.GET,
+        parameters: [
+            {
+                key: "complete",
+                value: "yes"
+            }
+        ],
+        responseModel: new prestans.types.Model(),
+        urlFormat: "/review/%i/record/search",
+        urlArgs: [1]
+    };
+
+    //Check constructor params and working with urls args
+    var request2_ = new prestans.rest.json.Request(config2_);
+    assertEquals("/review/1/record/search?complete=yes", request2_.getUrlWithParameters());
+}
+
+function testRequestModel() {
+
+    var requestModel_ = new prestans.types.Model();
+
+    var config_ = {
+        identifier: "RequestModel",
+        httpMethod: prestans.net.HttpMethod.GET,
+        requestModel: requestModel_,
+        responseModel: new prestans.types.Model(),
+        urlFormat: "/url"
+    };
+
+    var request_ = new prestans.rest.json.Request(config_);
+    assertEquals(requestModel_, request_.getRequestModel());
+}
+
+</script>
+</body>
+</html>
