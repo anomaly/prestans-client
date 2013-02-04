@@ -55,8 +55,10 @@ prestans.types.Date = function(opt_value, opt_required, opt_default) {
             if(parsedDate_ == null)
                 throw "Default date string incorrect format";
             else {
-                this.default_ = parsedDate_;
-                this.value_ = parsedDate_;
+                var date_ = new goog.date.Date(parsedDate_.getFullYear(), parsedDate_.getMonth(), parsedDate_.getDate());
+
+                this.default_ = date_;
+                this.value_ = date_;
             }
         }
         else
@@ -71,7 +73,7 @@ prestans.types.Date = function(opt_value, opt_required, opt_default) {
     }
 };
 
-prestans.types.Date.TODAY                     = 'prestans.types.Date.TODAY';
+prestans.types.Date.TODAY                   = 'prestans.types.Date.TODAY';
 prestans.types.Date.prototype.value_        = null;
 prestans.types.Date.prototype.required_     = null;
 prestans.types.Date.prototype.default_      = null;
@@ -103,7 +105,8 @@ prestans.types.Date.prototype.setValue = function(value) {
         if(parsedDate_ == null)
             return false;
         else {
-            this.value_ = parsedDate_;
+            var date_ = new goog.date.Date(parsedDate_.getFullYear(), parsedDate_.getMonth(), parsedDate_.getDate());
+            this.value_ = date_;
             return true;
         }
 
