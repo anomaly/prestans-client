@@ -255,6 +255,10 @@ prestans.types.Array.prototype.clear = function() {
 	goog.array.clear(this.elements_);
 };
 
+prestans.types.Array.prototype.find = function(condition, opt_context) {
+	return goog.array.find(this.elements_, condition, opt_context);
+};
+
 prestans.types.Array.prototype.containsIf = function(condition, opt_context) {
 	return goog.array.find(this.elements_, condition, opt_context) != null;
 };
