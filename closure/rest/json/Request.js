@@ -156,8 +156,13 @@ prestans.rest.json.Request.prototype.getUrlWithParameters = function() {
         parameterString_ = "?";
     
         goog.array.forEach(this.parameters_, function(parameter) {
-            if(goog.isArray(parameter.value))
-                parameterString_+= parameter.key+"="+parameter.value.toString()+"&";
+            if(goog.isArray(parameter.value)) {
+                
+                goog.array.forEach(parameter.value, function(value) {
+                    parameterString_+= parameter.key+"="+value.toString()+"&";
+                }, this);
+                
+            }
             else
                 parameterString_+= parameter.key+"="+parameter.value+"&";
         }, this);
