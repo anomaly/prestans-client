@@ -80,6 +80,12 @@ prestans.types.String.prototype.setValue = function(value) {
     if(this.required_ && !goog.isString(value))
         return false;
 
+    //Check null is ok for not required
+    if(!this.required && goog.isNull(value)) {
+        this.value_ = value;
+        return true;
+    }
+
     //Check max length
     if(this.maxLength_ != null && value.length > this.maxLength_)
         return false;
