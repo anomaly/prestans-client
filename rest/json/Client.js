@@ -31,6 +31,7 @@ goog.provide('prestans.rest.json.Client');
 goog.require('goog.events.Event');
 goog.require('goog.events.EventTarget');
 goog.require('goog.net.XhrManager');
+goog.require('goog.string');
 
 goog.require('prestans.rest.json.Response');
 
@@ -44,6 +45,8 @@ goog.require('prestans.rest.json.Response');
  */
 prestans.rest.json.Client = function(baseUrl, opt_numRetries) {
     
+    goog.events.EventTarget.call(this);
+
     this.baseUrl_ = baseUrl;
     
     if(opt_numRetries) this.numRetries_ = opt_numRetries;
@@ -99,7 +102,7 @@ prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSucc
     
     // Append this to the list of ids
     if(request.getCancelable()) {
-        var uniqueId_ = goog.events.getUniqueId(request.getIdentifier());
+        var uniqueId_ = goog.string.format("%s %s", request.getIdentifier(), goog.string.createUniqueString());
         goog.array.insert(this.cancelableRequestIds_, uniqueId_);
     }
 
