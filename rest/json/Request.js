@@ -159,12 +159,12 @@ prestans.rest.json.Request.prototype.getUrlWithParameters = function() {
             if(goog.isArray(parameter.value)) {
                 
                 goog.array.forEach(parameter.value, function(value) {
-                    parameterString_+= parameter.key+"="+value.toString()+"&";
+                    parameterString_+= goog.string.format("%s=%s&", encodeURIComponent(parameter.key), encodeURIComponent(value.toString()));
                 }, this);
                 
             }
             else
-                parameterString_+= parameter.key+"="+parameter.value+"&";
+                parameterString_ += goog.string.format("%s=%s&", encodeURIComponent(parameter.key), encodeURIComponent(parameter.value))
         }, this);
     
         //remove trailing &
