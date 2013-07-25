@@ -74,11 +74,17 @@ prestans.types.Integer.prototype.setValue = function(value) {
 
     //Check required
      var intValue = parseInt(value, 10);
-    if(!this.required_ && (value == null) || value.length == 0) {
+    if(!this.required_ && (value == null || value.length == 0)) {
         this.value_ = null;
         return true;
     }
-    else if(isNaN(intValue))
+
+    //stop empty strings
+    if(this.required_ && value.length == 0)
+        return false;
+
+    //invalid integer
+    if(isNaN(intValue))
         return false;
 
     //maximum
