@@ -74,7 +74,7 @@ prestans.types.Integer.prototype.setValue = function(value) {
 
     //Check required
      var intValue = parseInt(value, 10);
-    if(!this.required_ && value == null) {
+    if(!this.required_ && (value == null) || value.length == 0) {
         this.value_ = null;
         return true;
     }

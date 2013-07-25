@@ -198,11 +198,12 @@ prestans.ui.bound.Form.prototype.isValid = function() {
         
         if(!input.isValid()) {
             valid_ = false;
+
             return;
         }
         
     }, this);
-    
+
     return valid_;
 };
 

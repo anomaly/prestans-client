@@ -80,6 +80,10 @@ prestans.types.String.prototype.setValue = function(value) {
     if(this.required_ && !goog.isString(value))
         return false;
 
+    //Check empty string if required
+    if(this.required_ && goog.isString(value) && value.length == 0)
+        return false;
+
     //Check null is ok for not required
     if(!this.required && goog.isNull(value)) {
         this.value_ = value;
