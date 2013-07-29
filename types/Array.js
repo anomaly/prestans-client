@@ -182,6 +182,14 @@ prestans.types.Array.prototype.append = function(value) {
 	return false;
 };
 
+prestans.types.Array.prototype.binarySearch = function(element, compare) {
+	return goog.array.binarySearch(this.elements_, element, compare);
+};
+
+prestans.types.Array.prototype.binaryInsert = function(element, compare) {
+	goog.array.binaryInsert(this.elements_, element, compare);
+};
+
 prestans.types.Array.prototype.insertAt = function(value, index) {
 	
 	//Check supported types
