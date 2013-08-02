@@ -74,13 +74,17 @@ prestans.types.Integer.prototype.setValue = function(value) {
 
     //Check required
      var intValue = parseInt(value, 10);
-    if(!this.required_ && (value == null || value.length == 0)) {
+    if(!this.required_ && (goog.isNull(value) || value.length == 0)) {
         this.value_ = null;
         return true;
     }
 
+    //stop null if required
+    if(this.required && goog.isNull(value))
+        return false;
+
     //stop empty strings
-    if(this.required_ && value.length == 0)
+    if(this.required_ && goog.isString(value) && value.length == 0)
         return false;
 
     //invalid integer

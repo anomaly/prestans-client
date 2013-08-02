@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-CLOSURE=/usr/local/share/closure-library-read-only
-DEPSWRITER=$CLOSURE/closure/bin/build/depswriter.py
+DEPSWRITER=closure/closure/bin/build/depswriter.py
 
-$DEPSWRITER --root_with_prefix=". ../prestans" > deps.js
+$DEPSWRITER --root_with_prefix=". ../../../" > deps.js
