@@ -13,5 +13,5 @@ Google Closure client extensions for prestans.
 1. run the calcdeps.sh script
 
 	<code>
-	./calcdeps
+	./calcdeps.sh
 	</code>

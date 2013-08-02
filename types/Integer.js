@@ -31,30 +31,39 @@ goog.require('goog.array');
 /**
  * @constructor
 */
-prestans.types.Integer = function(opt_value, opt_required, opt_default, opt_maximum, opt_minimum, opt_choices) {
+prestans.types.Integer = function(opt_config) { // opt_value, opt_required, opt_default, opt_maximum, opt_minimum, opt_choices
 
-    //required defaults to true
-    if(goog.isDef(opt_required))
-        this.required_ = opt_required;
-    else
-        this.required_ = true;
+    //setup default values if config missing
+    if(!goog.isDef(opt_config)) {
+        opt_config = {
+            required: true
+        };
+    }
 
-    if(goog.isDef(opt_default)) {
-        this.default_ = opt_default;
+    //required
+    this.required_ = opt_config.required;
+
+    //default
+    if(goog.isDef(opt_config.default)) {
+        this.default_ = opt_config.default;
         this.value_ = this.default_;
     }
-    //Set value after default has been evaluated
-    if(goog.isDef(opt_value) && opt_value != null)
-        this.value_ = opt_value;
 
-    if(goog.isDef(opt_maximum))
-        this.maximum_ = opt_maximum;
+    if(goog.isDef(opt_config.maximum))
+        this.maximum_ = opt_config.maximum;
     
-    if(goog.isDef(opt_minimum))
-        this.minimum_ = opt_minimum;
+    if(goog.isDef(opt_config.minimum))
+        this.minimum_ = opt_config.minimum;
     
-    if(goog.isDef(opt_choices))
-        this.choices_ = opt_choices;
+    if(goog.isDef(opt_config.choices))
+        this.choices_ = opt_config.choices;
+
+    //run setter once to check if value is valid
+    if(goog.isDef(opt_config.value)) {
+        if(!this.setValue(opt_config.value))
+            throw "provided value is not valid";
+    }
+        
 
 
 };
@@ -92,7 +101,7 @@ prestans.types.Integer.prototype.setValue = function(value) {
         return false;
 
     //maximum
-    if(this.maximum_ != null && value > this.maximum_)
+    if(goog.isDefAndNotNull(this.maximum_) && value > this.maximum_)
         return false;
 
     //minium
