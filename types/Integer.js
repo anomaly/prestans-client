@@ -31,7 +31,7 @@ goog.require('goog.array');
 /**
  * @constructor
 */
-prestans.types.Integer = function(opt_config) { // opt_value, opt_required, opt_default, opt_maximum, opt_minimum, opt_choices
+prestans.types.Integer = function(opt_config) {
 
     //setup default values if config missing
     if(!goog.isDef(opt_config)) {
