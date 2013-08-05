@@ -31,6 +31,14 @@ goog.provide('prestans.types.Boolean');
 */
 prestans.types.Boolean = function(opt_value, opt_required, opt_default) {
 
+    //setup default values if config missing
+    /*
+    if(!goog.isDef(opt_config)) {
+        opt_config = {
+            required: true
+        };
+    }
+    */
     //required defaults to true
     if(goog.isDef(opt_required))
         this.required_ = opt_required;

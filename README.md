@@ -2,6 +2,14 @@
 
 Google Closure client extensions for prestans.
 
+## Packages
+
+### prestans.net
+
+### prestans.types
+
+
+
 ## Unit Testing
 1. Symlink your google closure library location to a "closure" directory in the root of the project.
 
