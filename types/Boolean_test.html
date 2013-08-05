@@ -9,7 +9,7 @@ See the COPYING file for details.
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Prestans Unit Tests - prestans.types.Boolean</title>
-<script src="../goog/base.js"></script>
+<script src="../closure/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
 <script>
     goog.require('prestans.types.Boolean');
@@ -19,7 +19,10 @@ See the COPYING file for details.
 <body>
 <script>
 function testGetAndSetValue() {
-    var bool_ = new prestans.types.Boolean(true);
+
+    var bool_ = new prestans.types.Boolean({
+        value: true
+    });
     assertEquals(true, bool_.getValue());
 
     assertTrue(bool_.setValue(false));
@@ -33,18 +36,29 @@ function testGetAndSetValue() {
 }
 
 function testDefault() {
-    var bool1_ = new prestans.types.Boolean(null, false, true);
+    var bool1_ = new prestans.types.Boolean({
+        required: false,
+        default: true
+    });
     assertEquals(true, bool1_.getValue());
 
-    var bool2_ = new prestans.types.Boolean(null, false, false);
+    var bool2_ = new prestans.types.Boolean({
+        required: false,
+        default: false
+    });
     assertEquals(false, bool2_.getValue());
 }
 
 function testRequired() {
-    var bool1_ = new prestans.types.Boolean(null, false);
+
+    var bool1_ = new prestans.types.Boolean({
+        required: false
+    });
     assertTrue(bool1_.setValue(null));
 
-    var bool2_ = new prestans.types.Boolean(null, true);
+    var bool2_ = new prestans.types.Boolean({
+        required: true
+    });
     assertFalse(bool2_.setValue(null));
 }
 

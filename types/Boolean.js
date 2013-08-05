@@ -29,29 +29,31 @@ goog.provide('prestans.types.Boolean');
 /**
  * @constructor
 */
-prestans.types.Boolean = function(opt_value, opt_required, opt_default) {
+prestans.types.Boolean = function(opt_config) {
 
     //setup default values if config missing
-    /*
     if(!goog.isDef(opt_config)) {
         opt_config = {
             required: true
         };
     }
-    */
+
     //required defaults to true
-    if(goog.isDef(opt_required))
-        this.required_ = opt_required;
+    if(goog.isDef(opt_config.required))
+        this.required_ = opt_config.required;
     else
         this.required_ = true;
 
-    if(goog.isDef(opt_default)) {
-        this.default_ = opt_default;
+    if(goog.isDef(opt_config.default)) {
+        this.default_ = opt_config.default;
         this.value_ = this.default_;
     }
-    //Set value after default has been evaluated
-    if(goog.isDef(opt_value) && opt_value != null)
-        this.value_ = opt_value;
+
+    //run setter once to check if value is valid
+    if(goog.isDef(opt_config.value)) {
+        if(!this.setValue(opt_config.value))
+            throw "provided value is not valid";
+    }
 };
 
 prestans.types.Boolean.prototype.value_         = null;
