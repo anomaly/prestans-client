@@ -9,7 +9,7 @@ See the COPYING file for details.
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Prestans Unit Tests - prestans.types.Float</title>
-<script src="../goog/base.js"></script>
+<script src="../closure/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
 <script>
     goog.require('prestans.types.Float');
@@ -19,7 +19,10 @@ See the COPYING file for details.
 <body>
 <script>
 function testGetAndSetValue() {
-    var float_ = new prestans.types.Float(1.1);
+    var float_ = new prestans.types.Float({
+        required: true,
+        value: 1.1
+    });
     assertEquals(1.1, float_.getValue());
 
     float_.setValue(2.2);
@@ -30,28 +33,44 @@ function testGetAndSetValue() {
 function testGetChoices() {
     var choices_ = [1.1, 2.2, 3.3];
 
-    var float_ = new prestans.types.Float(null, false, null, null, null, choices_);
+    var float_ = new prestans.types.Float({
+        required: false,
+        choices: choices_
+    });
     assertTrue(goog.array.equals(choices_, float_.getChoices()));
 }
 
 function testRequired() {
-    var float1_ = new prestans.types.Float(null, false);
+    var float1_ = new prestans.types.Float({
+        required: false
+    });
     assertTrue(float1_.setValue(null));
 
-    var float2_ = new prestans.types.Float(null, true);
+    var float2_ = new prestans.types.Float({
+        required: true
+    });
     assertFalse(float2_.setValue(null));
 }
 
 function testDefault() {
-    var float1_ = new prestans.types.Float(null, false, 1.1);
+    var float1_ = new prestans.types.Float({
+        required: false,
+        default: 1.1
+    });
     assertEquals(1.1, float1_.getValue());
 
-    var float2_ = new prestans.types.Float(null, false, 2.2);
+    var float2_ = new prestans.types.Float({
+        required: false,
+        default: 2.2
+    });
     assertEquals(2.2, float2_.getValue());
 }
 
 function testMinimum() {
-    var float_ = new prestans.types.Float(null, false, null, null, 6.6);
+    var float_ = new prestans.types.Float({
+        required: false,
+        minimum: 6.6
+    });
 
     assertFalse(float_.setValue(6.5));
     assertTrue(float_.setValue(6.6));
@@ -60,7 +79,10 @@ function testMinimum() {
 
 function testMaximum() {
 
-    var float_ = new prestans.types.Float(null, false, null, 6.6);
+    var float_ = new prestans.types.Float({
+        required: false,
+        maximum: 6.6
+    });
 
     assertTrue(float_.setValue(6.5));
     assertTrue(float_.setValue(6.6));
@@ -68,12 +90,16 @@ function testMaximum() {
 }
 
 function testChoices() {
-    var float_ = new prestans.types.Float(null, false, null, null, null, [1.1, 2.2, 3.3]);
+    var float_ = new prestans.types.Float({
+        required: false,
+        choices: [1.1, 2.2, 3.3]
+    });
 
     assertTrue(float_.setValue(1.1));
     assertTrue(float_.setValue(2.2));
     assertTrue(float_.setValue(3.3));
     assertFalse(float_.setValue(4.4));
+    assertFalse(float_.setValue(5.5));
 }
 
 </script>
