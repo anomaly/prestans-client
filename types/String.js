@@ -31,35 +31,45 @@ goog.require('goog.array');
 /**
  * @constructor
 */
-prestans.types.String = function(opt_value, opt_required, opt_default, opt_maxLength, opt_minLength, opt_format, opt_choices) {
+prestans.types.String = function(opt_config){ // opt_value, opt_required, opt_default, opt_maxLength, opt_minLength, opt_format, opt_choices
+
+    //setup default values if config missing
+    if(!goog.isDef(opt_config)) {
+        opt_config = {
+            required: true
+        };
+    }
 
     //required defaults to true
-    if(goog.isDef(opt_required))
-        this.required_ = opt_required;
+    if(goog.isDef(opt_config.required))
+        this.required_ = opt_config.required;
     else
         this.required_ = true;
 
-    if(goog.isDef(opt_default)) {
-        this.default_ = opt_default;
+    if(goog.isDef(opt_config.default)) {
+        this.default_ = opt_config.default;
         this.value_ = this.default_;
     }
-    //Set value after default has been evaluated
-    if(goog.isDef(opt_value) && opt_value != null) {
-        this.value_ = opt_value;
+
+    if(goog.isDef(opt_config.maxLength))
+        this.maxLength_ = opt_config.maxLength;
+    
+    if(goog.isDef(opt_config.minLength))
+        this.minLength_ = opt_config.minLength;
+
+    if(goog.isDef(opt_config.format) && opt_config.format != null)
+        this.format_ = new RegExp(opt_config.format);
+
+    
+    if(goog.isDef(opt_config.choices) && goog.isArray(opt_config.choices))
+        this.choices_ = opt_config.choices;
+
+    //run setter once to check if value is valid
+    if(goog.isDef(opt_config.value)) {
+        if(!this.setValue(opt_config.value))
+            throw "provided value is not valid";
     }
 
-    if(goog.isDef(opt_maxLength))
-        this.maxLength_ = opt_maxLength;
-    
-    if(goog.isDef(opt_minLength))
-        this.minLength_ = opt_minLength;
-
-    if(goog.isDef(opt_format) && opt_format != null)
-        this.format_ = new RegExp(opt_format);
-
-    
-    if(goog.isDef(opt_choices) && goog.isArray(opt_choices))
-        this.choices_ = opt_choices;
 };
 
 prestans.types.String.prototype.value_         = null;
