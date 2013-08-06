@@ -9,7 +9,7 @@ See the COPYING file for details.
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Prestans Unit Tests - prestans.types.DateTime</title>
-<script src="../goog/base.js"></script>
+<script src="../closure/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
 <script>
     goog.require('prestans.types.DateTime');
@@ -22,12 +22,18 @@ See the COPYING file for details.
 
 function testConstructor() {
 
+	var date1_ = new goog.date.DateTime();
+
 	//pass date
-	var datetime1_ = new prestans.types.DateTime(new goog.date.DateTime());
-	assertTrue(datetime1_.getValue() instanceof goog.date.DateTime);
+	var datetime1_ = new prestans.types.DateTime({
+		value: date1_
+	});
+	assertEquals(date1_, datetime1_.getValue());
 
 	//pass string
-	var datetime2_ = new prestans.types.DateTime("2010-01-01 10:00:00");
+	var datetime2_ = new prestans.types.DateTime({
+		value: "2010-01-01 10:00:00"
+	});
 	assertTrue(datetime2_.getValue() instanceof goog.date.DateTime);
 
 }
@@ -49,27 +55,41 @@ function testGetAndSetValue() {
 }
 
 function testRequired() {
-	var datetime1_ = new prestans.types.DateTime(null, false);
+	
+	var datetime1_ = new prestans.types.DateTime({
+		required: false
+	});
 	assertTrue(datetime1_.setValue(null));
 
-	var datetime2_ = new prestans.types.DateTime(null, true);
+	var datetime2_ = new prestans.types.DateTime({
+		required: true
+	});
 	assertFalse(datetime2_.setValue(null));
 }
 
 function testDefault() {
 
 	//Test now constant
-	var datetime1_ = new prestans.types.DateTime(null, false, prestans.types.DateTime.NOW);
+	var datetime1_ = new prestans.types.DateTime({
+		required: false,
+		default: prestans.types.DateTime.NOW
+	});
 	assertTrue(datetime1_.getValue() instanceof goog.date.DateTime);
 
 	//Test datetime object
 	var d_ = new goog.date.DateTime();
-	var datetime2_ = new prestans.types.DateTime(null, false, d_);
+	var datetime2_ = new prestans.types.DateTime({
+		required: false,
+		value: d_
+	});
 	assertEquals(d_, datetime2_.getValue());
 
 	//Test ISO string format
 	var s_ = "2010-01-01 10:10:10";
-	datetime3_ = new prestans.types.DateTime(null, false, s_);
+	datetime3_ = new prestans.types.DateTime({
+		required: false, 
+		value: s_
+	});
 	assertEquals(s_, datetime3_.getJSONObject());
 }
 

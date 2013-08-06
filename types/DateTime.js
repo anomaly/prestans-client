@@ -31,27 +31,34 @@ goog.require('goog.date.DateTime');
 /**
  * @constructor
 */
-prestans.types.DateTime = function(opt_value, opt_required, opt_default) {
+prestans.types.DateTime = function(opt_config) { //opt_value, opt_required, opt_default
+
+    //setup default values if config missing
+    if(!goog.isDef(opt_config)) {
+        opt_config = {
+            required: true
+        };
+    }
 
     //required defaults to true
-    if(goog.isDef(opt_required))
-        this.required_ = opt_required;
+    if(goog.isDef(opt_config.required))
+        this.required_ = opt_config.required;
     else
         this.required_ = true;
 
     //Check that default is defined and not null
-    if(goog.isDef(opt_default) && opt_default != null) {
+    if(goog.isDef(opt_config.default) && opt_config.default != null) {
 
-        if(opt_default instanceof goog.date.DateTime) {
-            this.default_ = opt_default;
+        if(opt_config.default instanceof goog.date.DateTime) {
+            this.default_ = opt_config.default;
             this.value_ = this.default_;
         }
-        else if(opt_default == prestans.types.DateTime.NOW) {
-            this.default_ = opt_default;
+        else if(opt_config.default == prestans.types.DateTime.NOW) {
+            this.default_ = opt_config.default;
             this.value_ = new goog.date.DateTime();
         }
-        else if(goog.isString(opt_default)) {
-            var parsedDate_ = goog.date.fromIsoString(opt_default);
+        else if(goog.isString(opt_config.default)) {
+            var parsedDate_ = goog.date.fromIsoString(opt_config.default);
             if(parsedDate_ == null)
                 throw "Default date string incorrect format";
             else {
@@ -63,11 +70,10 @@ prestans.types.DateTime = function(opt_value, opt_required, opt_default) {
             throw "Default must be of acceptable type";
     }
 
-    //Set value after default has been evaluated
-    if(goog.isDef(opt_value) && opt_value != null) {
-        var valid_ = this.setValue(opt_value);
-        if(!valid_)
-            throw "Incorrect type for DateTime";
+    //run setter once to check if value is valid
+    if(goog.isDef(opt_config.value)) {
+        if(!this.setValue(opt_config.value))
+            throw "provided value is not valid";
     }
 };
 
