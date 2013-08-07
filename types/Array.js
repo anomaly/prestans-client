@@ -308,10 +308,14 @@ prestans.types.Array.prototype.asArray = function() {
 
 	return array_;
 };
-/*
+
 prestans.types.Array.prototype.clone = function() {
 
-	var clone_ = new prestans.types.Array(this.elementTemplate_, null, null, this.maxLength_, this.minLength_);
+	var clone_ = new prestans.types.Array({
+		elementTemplate: this.elementTemplate_,
+		maxLength: this.maxLength_,
+		minLength: this.minLength_
+	});
 
 	goog.array.forEach(this.elements_, function(element) {
 			if(this.elementTemplate_ == prestans.types.String ||this.elementTemplate_ == prestans.types.Integer || this.elementTemplate_ == prestans.types.Float || this.elementTemplate_ == prestans.types.Boolean)
@@ -322,7 +326,7 @@ prestans.types.Array.prototype.clone = function() {
 
 	return clone_;
 };
-*/
+
 prestans.types.Array.prototype.__iterator__ = function(){
 	return new prestans.types.ArrayIterator(this);
 };

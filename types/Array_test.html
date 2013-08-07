@@ -284,12 +284,21 @@ function testAsArray() {
     assertTrue(goog.array.equals(stringData_, stringArray_.asArray()));
 
 }
-/*
+
 function testClone() {
+
+    //string
+    var stringData_ = ["A", "B", "C"];
+    var stringArray_ = new prestans.types.Array({
+        elementTemplate: prestans.types.String,
+        elements: stringData_
+    });
+    var cloneStringArray_ = stringArray_.clone();
+
+    assertTrue(goog.array.equals(stringData_, cloneStringArray_.asArray()));
 
 }
 
-*/
 function testMinLength() {
     var array_ = new prestans.types.Array({
         elementTemplate: prestans.types.Integer,
