@@ -27,7 +27,8 @@
 goog.provide('prestans.types.Filter');
 
 /**
+ * Base class for filters, used for type checking.
  * @constructor
-*/
+ */
 prestans.types.Filter = function() {
 };
