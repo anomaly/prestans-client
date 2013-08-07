@@ -26,7 +26,7 @@
 //
 goog.provide('prestans.types.Model');
 goog.provide('prestans.types.Model.EventType');
-goog.provide('prestans.types.Model.ChangedEvent');
+goog.provide('prestans.types.Model.AttributeChangedEvent');
 
 goog.require('goog.events.Event');
 goog.require('goog.events.EventTarget');
@@ -39,33 +39,53 @@ prestans.types.Model = function() {
 };
 goog.inherits(prestans.types.Model, goog.events.EventTarget);
 
+/**
+ * Events associated with a Model
+ * @enum {string}
+ */
 prestans.types.Model.EventType = {
-    CHANGED: 'prestans.types.Model.EventType.CHANGED'
+    ATTRIBUTE_CHANGED: 'attribute_changed'
 };
 
 /**
  * @constructor
  */
-prestans.types.Model.ChangedEvent = function(eventType, identifier, previousValue, currentValue) {
-	goog.events.Event.call (this, eventType);
-	this.identifier_ = identifier;
-	this.previousValue_ = previousValue;
-	this.currentValue_ = currentValue;
+prestans.types.Model.AttributeChangedEvent = function(config) {
+
+	goog.events.Event.call (this, prestans.types.Model.EventType.ATTRIBUTE_CHANGED);
+
+	if(goog.isDefAndNotNull(config.identifier))
+		this.identifier_ = config.identifier;
+	else
+		throw "identifier is required";
+
+	if(goog.isDefAndNotNull(config.previousValue))
+		this.previousValue_ = config.previousValue;
+	else
+		throw "previous value is required";
+
+	if(goog.isDefAndNotNull(config.currentValue))
+		this.currentValue_ = config.currentValue;
+	else throw "current value is required";
 };
-goog.inherits(prestans.types.Model.ChangedEvent, goog.events.Event);
+goog.inherits(prestans.types.Model.AttributeChangedEvent, goog.events.Event);
 
-prestans.types.Model.ChangedEvent.prototype.identifier_	    = null;
-prestans.types.Model.ChangedEvent.prototype.currentValue_	= null;
-prestans.types.Model.ChangedEvent.prototype.previousValue_	= null;
+/*
+ * @type {string}
+ * @private
+ */
+prestans.types.Model.AttributeChangedEvent.prototype.identifier_	    = null;
+prestans.types.Model.AttributeChangedEvent.prototype.currentValue_		= null;
+prestans.types.Model.AttributeChangedEvent.prototype.previousValue_		= null;
 
-prestans.types.Model.ChangedEvent.prototype.getIdentifier = function() {
+prestans.types.Model.AttributeChangedEvent.prototype.getIdentifier = function() {
 	return this.identifier_;
 };
 
-prestans.types.Model.ChangedEvent.prototype.getCurrentValue = function() {
+prestans.types.Model.AttributeChangedEvent.prototype.getCurrentValue = function() {
 	return this.currentValue_;
 };
 
-prestans.types.Model.ChangedEvent.prototype.getPreviousValue = function() {
+prestans.types.Model.AttributeChangedEvent.prototype.getPreviousValue = function() {
 	return this.previousValue_;
 };
