@@ -9,10 +9,11 @@ See the COPYING file for details.
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Prestans Unit Tests - prestans.types.Array</title>
-<script src="../goog/base.js"></script>
+<script src="../closure/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
 <script>
     goog.require('prestans.types.Array');
+    goog.require('prestans.types.Integer');
     goog.require('goog.testing.jsunit');
 </script>
 </head>
@@ -20,50 +21,97 @@ See the COPYING file for details.
 <script>
 
 function testConstructor() {
-    var array1_ = new prestans.types.Array(prestans.types.Integer, [1, 2, 3]);
+
+    //test elements array
+    var array1_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer,
+        elements: [1, 2, 3]
+    });
     assertEquals(3, array1_.length());
 
-    var array2_ = new prestans.types.Array(prestans.types.Integer, null, [1, 2, 3]);
+    //test json array
+    var array2_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer,
+        json: [1, 2, 3]
+    });
     assertEquals(3, array2_.length());
 }
 
 function testAppend() {
 
-    var stringArray_ = new prestans.types.Array(prestans.types.String);
+    var stringArray_ = new prestans.types.Array({
+        elementTemplate: prestans.types.String
+    });
     assertTrue(stringArray_.append("Metallica"));
     assertFalse(stringArray_.append(1));
+    assertEquals(1, stringArray_.length());
 
-    var floatArray_ = new prestans.types.Array(prestans.types.Float);
+    var floatArray_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Float
+    });
     assertTrue(floatArray_.append(1.1));
     assertFalse(floatArray_.append("Metallica"));
+    assertEquals(1, floatArray_.length());
 
-    var integerArray_ = new prestans.types.Array(prestans.types.Integer);
+    var integerArray_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer
+    });
     assertTrue(integerArray_.append(1));
     assertFalse(integerArray_.append("Metallica"));
+    assertEquals(1, integerArray_.length());
 
-    var booleanArray_ = new prestans.types.Array(prestans.types.Boolean);
+    var booleanArray_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Boolean
+    });
     assertTrue(booleanArray_.append(true));
     assertFalse(booleanArray_.append("Metallica"));
+    assertEquals(1, booleanArray_.length());
 
 }
 
 function testRemove() {
+    
     var bands_ = ["Metallica", "Iron Maiden"];
-    var array_ = new prestans.types.Array(prestans.types.String, bands_);
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.String,
+        elements: bands_
+    });
 
     assertFalse(array_.remove("Pink Floyd"));
     assertEquals(bands_.length, array_.length());
 
     assertTrue(array_.remove("Iron Maiden"));
-    assertEquals(bands_.length - 1, array_.length());
+    assertEquals(1, array_.length());
 
     assertTrue(array_.remove("Metallica"));
     assertTrue(array_.isEmpty());
 }
 
+function testRemoveIf() {
+
+    var bands_ = ["Metallica", "Iron Maiden"];
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.String,
+        elements: bands_
+    });
+
+    assertFalse(array_.removeIf(function(element) {
+        return element == "Pink Floyd";
+    }, this));
+    assertEquals(2, array_.length());
+
+    assertTrue(array_.removeIf(function(element) {
+        return element == "Iron Maiden";
+    }, this));
+    assertEquals(1, array_.length());
+
+}
+
 function testIsEmpty() {
 
-    var array_ = new prestans.types.Array(prestans.types.String);
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.String
+    });
     assertTrue(array_.isEmpty());
 
     assertTrue(array_.append("Metallica"));
@@ -72,10 +120,181 @@ function testIsEmpty() {
 
 function testIsValid() {
 
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer,
+        minLength: 1,
+        maxLength: 3
+    });
+
+    assertFalse(array_.isValid());
+    array_.append(1);
+    assertTrue(array_.isValid());
+    array_.append(2);
+    assertTrue(array_.isValid());
+    array_.append(3);
+    assertTrue(array_.isValid());
+    array_.append(4);
+    assertFalse(array_.isValid());
+    assertTrue(array_.remove(4));
+    assertTrue(array_.isValid());
 }
 
+function testBinarySearch() {
+    
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer,
+        elements: [1, 2, 3, 4, 5]
+    });
+
+    var result_ = array_.binarySearch(3);
+    assertEquals(2, result_);
+}
+
+function testBinaryInsert() {
+    
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer,
+        elements: [1, 2, 4, 5]
+    });
+
+    assertEquals(4, array_.length());
+    assertTrue(array_.binaryInsert(3));
+    assertEquals(5, array_.length());
+}
+
+function testBinaryRemove() {
+
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer,
+        elements: [1, 2, 3, 4, 5]
+    });
+
+    assertEquals(5, array_.length());
+    assertTrue(array_.binaryRemove(3));
+    assertEquals(4, array_.length());
+}
+
+function testSort() {
+
+    //integer
+    var unsorted_ = [2, 1, 4, 3, 5];
+    var sorted_ = [1, 2, 3, 4, 5];
+
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer,
+        elements: unsorted_
+    });
+
+    assertTrue(goog.array.equals(unsorted_, array_.asArray()));
+    array_.sort();
+    assertTrue(goog.array.equals(sorted_, array_.asArray()));
+}
+
+function testFind() {
+
+    var data_ = ["James", "Cliff", "Kirk", "Lars"];
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.String,
+        elements: data_
+    });
+
+    assertEquals(null, array_.find(function(element, index, array) {
+        return element == "Dave";
+    }, this));
+
+    assertEquals("James", array_.find(function(element, index, array) {
+        return element == "James";
+    }, this));
+}
+
+function testContains() {
+
+    var data_ = ["Bruce", "Steve", "Dave", "Janick", "Nicko", "Adrian"];
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.String,
+        elements: data_
+    });
+    assertTrue(array_.contains("Bruce"));
+    assertFalse(array_.contains("Blaze"));
+    assertTrue(array_.contains("Steve"));
+}
+
+function testContainsIf() {
+
+    var data_ = ["Dave", "Richard", "Nick", "Roger"];
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.String,
+        elements: data_
+    });
+    assertTrue(array_.containsIf(function(element, index, array){
+        return element == "Dave";
+    }, this));
+    assertFalse(array_.containsIf(function(element, index, array) {
+        return element == "Syd";
+    }, this));
+    assertTrue(array_.containsIf(function(element, index, array) {
+        return element == "Roger";
+    }, this));
+}
+
+function testObjectAtIndex() {
+
+    var data_ = [1, 2, 3];
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer,
+        elements: data_
+    });
+    assertEquals(1, array_.objectAtIndex(0));
+    assertEquals(2, array_.objectAtIndex(1));
+    assertEquals(3, array_.objectAtIndex(2));
+}
+
+function testAsArray() {
+
+    //integer
+    var integerData_ = [1, 2, 3];
+    var integerArray_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer,
+        elements: integerData_
+    });
+    assertTrue(goog.array.equals(integerData_, integerArray_.asArray()));
+
+    //boolean
+    var booleanData_ = [true, true, false];
+    var booleanArray_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Boolean,
+        elements: booleanData_
+    });
+    assertTrue(goog.array.equals(booleanData_, booleanArray_.asArray()));
+
+    //float
+    var floatData_ = [1.0, 2.0, 3.0];
+    var floatArray_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Float,
+        elements: floatData_
+    });
+    assertTrue(goog.array.equals(floatData_, floatArray_.asArray()));
+
+    //string
+    var stringData_ = ["A", "B", "C"];
+    var stringArray_ = new prestans.types.Array({
+        elementTemplate: prestans.types.String,
+        elements: stringData_
+    });
+    assertTrue(goog.array.equals(stringData_, stringArray_.asArray()));
+
+}
+/*
+function testClone() {
+
+}
+
+*/
 function testMinLength() {
-    var array_ = new prestans.types.Array(prestans.types.Integer, null, null, null, 2);
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer,
+        minLength: 2
+    });
     assertTrue(array_.append(1));
     assertFalse(array_.isValid());
     assertTrue(array_.append(2));
@@ -85,7 +304,10 @@ function testMinLength() {
 }
 
 function testMaxLength() {
-    var array_ = new prestans.types.Array(prestans.types.Integer, null, null, 2);
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer, 
+        maxLength: 2
+    });
     assertTrue(array_.append(1));
     assertTrue(array_.isValid());
     assertTrue(array_.append(2));
@@ -95,7 +317,10 @@ function testMaxLength() {
 }
 
 function testLength() {
-    var array_ = new prestans.types.Array(prestans.types.Integer);
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer
+    });
+    assertEquals(0, array_.length());
     assertTrue(array_.append(1));
     assertEquals(1, array_.length());
     assertTrue(array_.append(2));
@@ -103,7 +328,9 @@ function testLength() {
 }
 
 function testClear() {
-    var array_ = new prestans.types.Array(prestans.types.Integer);
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer
+    });
     assertTrue(array_.isEmpty());
     assertTrue(array_.append(1));
     assertFalse(array_.isEmpty());
@@ -111,20 +338,40 @@ function testClear() {
     assertTrue(array_.isEmpty());
 }
 
-function testContains() {
-    var array_ = new prestans.types.Array(prestans.types.Integer);
+function testInsertAt() {
+    
+    var data_ = [2, 3, 4];
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer,
+        elements: data_
+    });
+
+    array_.insertAt(1, 0);
+    assertEquals(1, array_.objectAtIndex(0));
 }
 
-function testObjectAtIndex() {
-    var array_ = new prestans.types.Array(prestans.types.Integer, [1, 2, 3]);
+function testInsertAfter() {
+
+    var data_ = [1, 3, 4];
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer,
+        elements: data_
+    });
+
+    array_.insertAfter(2, 1);
     assertEquals(1, array_.objectAtIndex(0));
     assertEquals(2, array_.objectAtIndex(1));
     assertEquals(3, array_.objectAtIndex(2));
+    assertEquals(4, array_.objectAtIndex(3));
+
 }
 
 function testIterator() {
     var values_ = [2, 4, 8, 16];
-    var array_ = new prestans.types.Array(prestans.types.Integer, values_);
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.Integer,
+        elements: values_
+    });
 
     //Check for each
     var count_ = 2;
@@ -136,6 +383,15 @@ function testIterator() {
     //Check to array
     assertTrue(goog.array.equals(values_, goog.iter.toArray(array_)));
 
+}
+
+function testElementTemplate() {
+
+    var array_ = new prestans.types.Array({
+        elementTemplate: prestans.types.String
+    });
+
+    assertEquals(prestans.types.String, array_.getElementTemplate());
 }
 
 </script>

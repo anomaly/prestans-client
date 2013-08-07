@@ -41,7 +41,7 @@ goog.require('prestans.types.String');
 
 /**
  * @constructor
-*/
+ */
 prestans.types.ArrayIterator = function(array) {
   this.array_ = array;
   this.currentIndex_ = 0;
@@ -60,29 +60,28 @@ prestans.types.ArrayIterator.prototype.next = function() {
 
 /**
  * @constructor
-*/
-prestans.types.Array = function(elementTemplate, opt_elements, opt_json, opt_maxLength, opt_minLength) {
+ */
+prestans.types.Array = function(config) {
 
 	//Check that element template exists
-	if (!goog.isDef(elementTemplate))
+	if (!goog.isDef(config.elementTemplate))
 		throw "No element template was supplied for Array";
-
+	
 	//Check that element template is of an acceptable type
-	if(elementTemplate != prestans.types.String &&
-	   elementTemplate != prestans.types.Integer &&
-	   elementTemplate != prestans.types.Float &&
-	   elementTemplate != prestans.types.Boolean &&
-	   !(new elementTemplate() instanceof prestans.types.Model))
+	if(config.elementTemplate != prestans.types.Boolean &&
+	   config.elementTemplate != prestans.types.Float &&
+	   config.elementTemplate != prestans.types.Integer &&
+	   config.elementTemplate != prestans.types.String &&
+	   !(new config.elementTemplate() instanceof prestans.types.Model))
 		throw "Element template is not an acceptable type";
 
-	this.elementTemplate_ = elementTemplate;
+	this.elementTemplate_ = config.elementTemplate;
 	this.elements_ = new Array();
-
 	
 	//Add elements if passed in
-	if(goog.isDef(opt_elements) && goog.isArray(opt_elements)) {
+	if(goog.isDef(config.elements) && goog.isArray(config.elements)) {
 
-		goog.array.forEach(opt_elements, function(element) {
+		goog.array.forEach(config.elements, function(element) {
 
 			//Check that given value is of passed type
 			if(goog.isString(element) && this.elementTemplate_ == prestans.types.String)
@@ -102,9 +101,9 @@ prestans.types.Array = function(elementTemplate, opt_elements, opt_json, opt_max
 
 	}
 	//Alternatively add json but not both
-	else if(goog.isDef(opt_json) && goog.isArray(opt_json)) {
+	else if(goog.isDef(config.json) && goog.isArray(config.json)) {
 
-		goog.array.forEach(opt_json, function(elementJSON) {
+		goog.array.forEach(config.json, function(elementJSON) {
 
 			//Check that given value is of passed type
 			if(goog.isString(elementJSON) && this.elementTemplate_ == prestans.types.String)
@@ -124,17 +123,25 @@ prestans.types.Array = function(elementTemplate, opt_elements, opt_json, opt_max
 
 	}
 
-	if(goog.isDef(opt_maxLength) && opt_maxLength != null)
-		this.maxLength_ = opt_maxLength;
+	if(goog.isDef(config.maxLength) && config.maxLength != null)
+		this.maxLength_ = config.maxLength;
 
-	if(goog.isDef(opt_minLength) && opt_minLength != null)
-		this.minLength_ = opt_minLength;
+	if(goog.isDef(config.minLength) && config.minLength != null)
+		this.minLength_ = config.minLength;
 };
 
 prestans.types.Array.prototype.elements_ 			= null;
 prestans.types.Array.prototype.elementTemplate_ 	= null;
 prestans.types.Array.prototype.maxLength_ 			= null;
 prestans.types.Array.prototype.minLength_ 			= null;
+
+prestans.types.Array.prototype.getMinLength = function() {
+	return this.minLength_;
+};
+
+prestans.types.Array.prototype.getMaxLength = function() {
+	return this.maxLength_;
+};
 
 prestans.types.Array.prototype.isEmpty = function() {
 	return goog.array.isEmpty(this.elements_);
@@ -150,12 +157,11 @@ prestans.types.Array.prototype.isValid = function() {
 	if(this.minLength_ != null && this.elements_.length < this.minLength_)
 		return false;
 
-	//Check that all elements are of correct type
-
 	return true;
 };
 
 prestans.types.Array.prototype.append = function(value) {
+
 	//Check supported types
 	if(goog.isString(value) && this.elementTemplate_ == prestans.types.String) {
 		goog.array.insertAt(this.elements_, value, this.elements_.length);
@@ -187,7 +193,11 @@ prestans.types.Array.prototype.binarySearch = function(element, compare) {
 };
 
 prestans.types.Array.prototype.binaryInsert = function(element, compare) {
-	goog.array.binaryInsert(this.elements_, element, compare);
+	return goog.array.binaryInsert(this.elements_, element, compare);
+};
+
+prestans.types.Array.prototype.binaryRemove = function(element, compare) {
+	return goog.array.binaryRemove(this.elements_, element, compare);
 };
 
 prestans.types.Array.prototype.insertAt = function(value, index) {
@@ -267,12 +277,12 @@ prestans.types.Array.prototype.find = function(condition, opt_context) {
 	return goog.array.find(this.elements_, condition, opt_context);
 };
 
-prestans.types.Array.prototype.containsIf = function(condition, opt_context) {
-	return goog.array.find(this.elements_, condition, opt_context) != null;
-};
-
 prestans.types.Array.prototype.contains = function(element) {
 	return goog.array.contains(this.elements_, element);
+};
+
+prestans.types.Array.prototype.containsIf = function(condition, opt_context) {
+	return goog.array.find(this.elements_, condition, opt_context) != null;
 };
 
 prestans.types.Array.prototype.objectAtIndex = function(index) {
@@ -298,7 +308,7 @@ prestans.types.Array.prototype.asArray = function() {
 
 	return array_;
 };
-
+/*
 prestans.types.Array.prototype.clone = function() {
 
 	var clone_ = new prestans.types.Array(this.elementTemplate_, null, null, this.maxLength_, this.minLength_);
@@ -312,7 +322,7 @@ prestans.types.Array.prototype.clone = function() {
 
 	return clone_;
 };
-
+*/
 prestans.types.Array.prototype.__iterator__ = function(){
 	return new prestans.types.ArrayIterator(this);
 };
