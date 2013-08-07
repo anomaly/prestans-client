@@ -79,6 +79,10 @@ prestans.types.Date = function(opt_config) {// opt_value, opt_required, opt_defa
     }
 };
 
+/*
+ * @const
+ * @type {string}
+ */
 prestans.types.Date.TODAY                   = 'prestans.types.Date.TODAY';
 prestans.types.Date.prototype.value_        = null;
 prestans.types.Date.prototype.required_     = null;

@@ -77,6 +77,10 @@ prestans.types.DateTime = function(opt_config) { //opt_value, opt_required, opt_
     }
 };
 
+/*
+ * @const
+ * @type {string}
+ */
 prestans.types.DateTime.NOW                     = 'prestans.types.DateTime.NOW';
 prestans.types.DateTime.prototype.value_        = null;
 prestans.types.DateTime.prototype.required_     = null;
