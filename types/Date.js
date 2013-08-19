@@ -117,8 +117,11 @@ prestans.types.Date.prototype.setValue = function(value) {
 };
 
 prestans.types.Date.prototype.getJSONObject = function() {
-    if(this.value_ instanceof goog.date.Date)
-        return this.value_.toIsoString(true);
+
+    if(this.value_ instanceof goog.date.Date) {
+        var date_ = new goog.date.Date(this.value_.getFullYear(), this.value_.getMonth(), this.value_.getDate());
+        return date_.toIsoString(true);
+    }
     else
         return null;
 };
