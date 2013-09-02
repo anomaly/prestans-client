@@ -136,6 +136,14 @@ prestans.ui.bound.Wizard.prototype.decorateInternal = function(element) {
 	this.selectedForm_.show();
 };
 
+prestans.ui.bound.Wizard.prototype.exitDocument = function() {
+    goog.base(this, 'exitDocument');
+
+    goog.array.forEach(this.forms_, function(form) {
+        form.dispose();
+    }, this);
+};
+
 prestans.ui.bound.Wizard.prototype.makeCrumbActive_ = function(activeCrumb) {
     
     var crumbIndex_ = 0;

@@ -178,6 +178,14 @@ prestans.ui.bound.Form.prototype.decorateInternal = function(element) {
 	}, this);
 };
 
+prestans.ui.bound.Form.prototype.exitDocument = function() {
+    goog.base(this, 'exitDocument');
+
+    goog.array.forEach(this.inputs_, function(input) {
+        input.dispose();
+    }, this);
+};
+
 prestans.ui.bound.Form.prototype.fieldChanged_ = function() {
     this.dispatchEvent(goog.ui.Component.EventType.CHANGE);
 };

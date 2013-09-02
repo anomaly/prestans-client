@@ -98,6 +98,12 @@ prestans.ui.bound.DatePicker.prototype.decorateInternal = function(element) {
 	
 };
 
+prestans.ui.bound.DatePicker.prototype.exitDocument = function() {
+    goog.base(this, 'exitDocument');
+
+    this.datePicker_.dispose();
+};
+
 prestans.ui.bound.DatePicker.prototype.changed_ = function(event) {
     
     this.valid_ = this.callModelSetter_(this.datePicker_.getDate());
