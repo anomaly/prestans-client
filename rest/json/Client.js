@@ -108,7 +108,13 @@ prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSucc
         goog.array.insert(this.cancelableRequestIds_, uniqueId_);
     }
 
-    this.xhrManager_.send(uniqueId_, completeURL_, request.getHttpMethod(), objectAsJson_, null, null, goog.bind(function(response){
+    //Add content type header for request bodies
+    var headers_ = null;
+    if(request.getRequestModel()) {
+        headers_ = new goog.structs.Map({"Content-Type": "application/json"});
+    }
+
+    this.xhrManager_.send(uniqueId_, completeURL_, request.getHttpMethod(), objectAsJson_, headers_, null, goog.bind(function(response){
 
         // Remove this from the list
         goog.array.remove(this.cancelableRequestIds_, uniqueId_);
@@ -122,7 +128,7 @@ prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSucc
             statusCode: response.target.getStatus(),
             responseModel: request.getResponseModel(),
             arrayElementTemplate: request.getArrayElementTemplate(),
-            responseModelElementTemplates: request.getResponseModelElementTemplates(),
+            //responseModelElementTemplates: request.getResponseModelElementTemplates(),
             responseBody: responseJson_
         };
 
