@@ -55,8 +55,10 @@ prestans.rest.json.Client = function(baseUrl, opt_numRetries) {
     this.eventHandler_ = new goog.events.EventHandler(this);
     this.cancelableRequestIds_ = new Array();
 
+    var headers_ = new goog.structs.Map({"Accept": "application/json"});
+
     // Shared XhrManager
-    this.xhrManager_ = new goog.net.XhrManager(this.numRetries_);
+    this.xhrManager_ = new goog.net.XhrManager(this.numRetries_, headers_);
     
 };
 goog.inherits(prestans.rest.json.Client, goog.events.EventTarget);
