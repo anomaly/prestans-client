@@ -115,7 +115,7 @@ prestans.types.Array = function(config) {
 			else if(goog.isNumber(elementJSON) && this.elementTemplate_ == prestans.types.Integer)
 				goog.array.insertAt(this.elements_, elementJSON, this.elements_.length);
 			else if(new this.elementTemplate_() instanceof prestans.types.Model)
-				goog.array.insertAt(this.elements_, new this.elementTemplate_(elementJSON), this.elements_.length);
+				goog.array.insertAt(this.elements_, new this.elementTemplate_(elementJSON, config.opt_minified), this.elements_.length);
 			else
 				throw "Element was not of element template type";
 

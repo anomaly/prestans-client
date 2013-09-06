@@ -68,13 +68,16 @@ prestans.rest.json.Response = function(config) {
                 if(goog.isDef(config.arrayElementTemplate))
                     this.unpackedBody_ = new prestans.types.Array({
                         elementTemplate: config.arrayElementTemplate,
-                        json: config.responseBody});
+                        json: config.responseBody,
+                        opt_minified: config.minified
+                    });
                 else
                     throw "arrayElementTemplate must be defined in order to unpack as a prestans.types.Array";
             }
             else if(new config.responseModel() instanceof prestans.types.Model)
                 this.unpackedBody_ = new config.responseModel({
-                    opt_json: config.responseBody
+                    opt_json: config.responseBody,
+                    opt_minified: config.minified
                 });
             else
                 throw "responseModel is not an acceptable type: must be prestans.types.Array or subclass of prestans.types.Model";
