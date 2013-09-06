@@ -66,16 +66,16 @@ prestans.rest.json.Response = function(config) {
             //Unpack for array
             if(config.responseModel == prestans.types.Array) {
                 if(goog.isDef(config.arrayElementTemplate))
-                    this.unpackedBody_ = new prestans.types.Array(config.arrayElementTemplate, null, config.responseBody);
+                    this.unpackedBody_ = new prestans.types.Array({
+                        elementTemplate: config.arrayElementTemplate,
+                        opt_json: config.responseBody});
                 else
                     throw "arrayElementTemplate must be defined in order to unpack as a prestans.types.Array";
             }
-            //Unpack for model with dynamic array
-            else if(config.responseModel.superClass_.constructor == prestans.types.Model && goog.isDef(config.responseModelElementTemplates) && goog.isObject(config.responseModelElementTemplates))
-                this.unpackedBody_ = new config.responseModel(config.responseModelElementTemplates, config.responseBody);
-            //Unpack for regular model
             else if(new config.responseModel() instanceof prestans.types.Model)
-                this.unpackedBody_ = new config.responseModel(config.responseBody);
+                this.unpackedBody_ = new config.responseModel({
+                    opt_json: config.responseBody
+                });
             else
                 throw "responseModel is not an acceptable type: must be prestans.types.Array or subclass of prestans.types.Model";
 
