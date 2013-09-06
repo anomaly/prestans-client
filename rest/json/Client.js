@@ -55,7 +55,9 @@ prestans.rest.json.Client = function(baseUrl, opt_numRetries) {
     this.eventHandler_ = new goog.events.EventHandler(this);
     this.cancelableRequestIds_ = new Array();
 
-    var headers_ = new goog.structs.Map({"Accept": "application/json"});
+    var headers_ = new goog.structs.Map({
+        "Accept": "application/json"
+    });
 
     // Shared XhrManager
     this.xhrManager_ = new goog.net.XhrManager(this.numRetries_, headers_);
@@ -108,11 +110,14 @@ prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSucc
         goog.array.insert(this.cancelableRequestIds_, uniqueId_);
     }
 
+
+    var headers_ = new goog.structs.Map();
     //Add content type header for request bodies
-    var headers_ = null;
-    if(request.getRequestModel()) {
-        headers_ = new goog.structs.Map({"Content-Type": "application/json"});
-    }
+    if(request.getRequestModel())
+        headers_.set("Content-Type", "application/json");
+    //Add response filter if present
+    if(request.getResponseFilter())
+        headers_.set("Prestans-Response-Attribute-List", request.getResponseFilter().getJSONString());
 
     this.xhrManager_.send(uniqueId_, completeURL_, request.getHttpMethod(), objectAsJson_, headers_, null, goog.bind(function(response){
 
@@ -128,7 +133,6 @@ prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSucc
             statusCode: response.target.getStatus(),
             responseModel: request.getResponseModel(),
             arrayElementTemplate: request.getArrayElementTemplate(),
-            //responseModelElementTemplates: request.getResponseModelElementTemplates(),
             responseBody: responseJson_
         };
 

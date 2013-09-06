@@ -81,7 +81,6 @@ prestans.rest.json.Request = function(config) {
     this.setRequestFilter(config.requestFilter);
     this.setResponseFilter(config.responseFilter);
     this.setArrayElementTemplate(config.arrayElementTemplate);
-    this.setResponseModelElementTemplates(config.responseModelElementTemplates);
     this.setResponseFilter(config.responseFilter);
     this.setCancelable(config.cancelable);
 };
@@ -97,7 +96,6 @@ prestans.rest.json.Request.prototype.requestModel_                  = null;
 prestans.rest.json.Request.prototype.responseFilter_                = null;
 prestans.rest.json.Request.prototype.responseModel_                 = null;
 prestans.rest.json.Request.prototype.arrayElementTemplate_          = null;
-prestans.rest.json.Request.prototype.responseModelElementTemplates_ = null;
 
 prestans.rest.json.Request.prototype.setIdentifier = function(identifier) {
     if(goog.isDef(identifier) && goog.isString(identifier))
@@ -172,6 +170,7 @@ prestans.rest.json.Request.prototype.getUrlWithParameters = function() {
     
     }
 
+    /*
     if(this.responseFilter_ != null) {
         if(goog.array.isEmpty(this.parameters_))
             parameterString_ = "?_response_attribute_list="+this.responseFilter_.getJSONString();
@@ -179,7 +178,8 @@ prestans.rest.json.Request.prototype.getUrlWithParameters = function() {
             parameterString_ = parameterString_ + "&_response_attribute_list="+this.responseFilter_.getJSONString();
 
     }
-    
+    */
+
     return this.getUrl()+parameterString_;
 };
 
@@ -239,18 +239,6 @@ prestans.rest.json.Request.prototype.getArrayElementTemplate = function() {
 prestans.rest.json.Request.prototype.setArrayElementTemplate = function(arrayElementTemplate) {
     if(goog.isDef(arrayElementTemplate))
         this.arrayElementTemplate_ = arrayElementTemplate;
-};
-
-prestans.rest.json.Request.prototype.getResponseModelElementTemplates = function() {
-    return this.responseModelElementTemplates_;
-};
-
-prestans.rest.json.Request.prototype.setResponseModelElementTemplates = function(responseModelElementTemplates) {
-    if(goog.isDef(responseModelElementTemplates))
-        if(goog.isObject(responseModelElementTemplates))
-            this.responseModelElementTemplates_ = responseModelElementTemplates;
-        else
-            throw "response model templates must be an object";
 };
 
 prestans.rest.json.Request.prototype.clearParameters = function() {

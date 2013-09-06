@@ -68,7 +68,7 @@ prestans.rest.json.Response = function(config) {
                 if(goog.isDef(config.arrayElementTemplate))
                     this.unpackedBody_ = new prestans.types.Array({
                         elementTemplate: config.arrayElementTemplate,
-                        opt_json: config.responseBody});
+                        json: config.responseBody});
                 else
                     throw "arrayElementTemplate must be defined in order to unpack as a prestans.types.Array";
             }
