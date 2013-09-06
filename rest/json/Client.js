@@ -33,6 +33,7 @@ goog.require('goog.events.EventTarget');
 goog.require('goog.net.XhrManager');
 goog.require('goog.string');
 
+goog.require('prestans');
 goog.require('prestans.rest.json.Response');
 
 /**
@@ -43,20 +44,31 @@ goog.require('prestans.rest.json.Response');
  *
  *
  */
-prestans.rest.json.Client = function(baseUrl, opt_numRetries) {
+prestans.rest.json.Client = function(config) {
     
     goog.events.EventTarget.call(this);
 
-    this.baseUrl_ = baseUrl;
+    this.baseUrl_ = config.baseUrl;
     
-    if(opt_numRetries) this.numRetries_ = opt_numRetries;
-    else this.numRetries_ = 0;
+    //num retries
+    if(goog.isDef(config.opt_numRetries) && goog.isNumber(config.opt_numRetries))
+        this.numRetries_ = config.opt_numRetries;
+    else
+        this.numRetries_ = 0;
     
+    //minified
+    if(goog.isDef(config.opt_minified) && goog.isBoolean(config.opt_minified))
+        this.minified_ = config.opt_minified;
+    else
+       this.minified_ = false;
+
     this.eventHandler_ = new goog.events.EventHandler(this);
     this.cancelableRequestIds_ = new Array();
 
     var headers_ = new goog.structs.Map({
-        "Accept": "application/json"
+        "Accept": "application/json",
+        "Prestans-Version": prestans.GLOBALS.VERSION,
+        "Prestans-Minification": this.minified_ ? "On" : "Off"
     });
 
     // Shared XhrManager
