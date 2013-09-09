@@ -59,12 +59,12 @@ prestans.types.Model.AttributeChangedEvent = function(config) {
 	else
 		throw "identifier is required";
 
-	if(goog.isDefAndNotNull(config.previousValue))
+	if(goog.isDef(config.previousValue))
 		this.previousValue_ = config.previousValue;
 	else
 		throw "previous value is required";
 
-	if(goog.isDefAndNotNull(config.currentValue))
+	if(goog.isDef(config.currentValue))
 		this.currentValue_ = config.currentValue;
 	else throw "current value is required";
 };
