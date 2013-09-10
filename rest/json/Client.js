@@ -104,10 +104,10 @@ prestans.rest.json.Client.prototype.abortAllPendingRequests = function() {
 prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSuccessMethod, callbackFailureMethod, opt_abortPreviousRequests) {
 
     var objectAsJson_ = null;
-    if(request.getRequestModel() && request.getRequestFilter())
-        objectAsJson_ = request.getRequestModel().getJSONString(request.getRequestFilter());
+    if(request.getRequestModel() && goog.isDefAndNotNull(request.getRequestFilter()))
+        objectAsJson_ = request.getRequestModel().getJSONString(this.minified_, request.getRequestFilter());
     else if(request.getRequestModel())
-        objectAsJson_ = request.getRequestModel().getJSONString();
+        objectAsJson_ = request.getRequestModel().getJSONString(this.minified_);
 
     var completeURL_ = this.baseUrl_ + request.getUrlWithParameters();
     
@@ -129,7 +129,7 @@ prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSucc
         headers_.set("Content-Type", "application/json");
     //Add response filter if present
     if(request.getResponseFilter())
-        headers_.set("Prestans-Response-Attribute-List", request.getResponseFilter().getJSONString());
+        headers_.set("Prestans-Response-Attribute-List", request.getResponseFilter().getJSONString(this.minified_, false));
 
     this.xhrManager_.send(uniqueId_, completeURL_, request.getHttpMethod(), objectAsJson_, headers_, null, goog.bind(function(response){
 
@@ -160,8 +160,6 @@ prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSucc
             this.dispatchEvent(new prestans.rest.json.Client.Event(prestans.rest.json.Client.EventType.RESPONSE, this, response_));
             if(callbackSuccessMethod) callbackSuccessMethod(response_); 
         }
-        
-       
         
     }, this));
     
