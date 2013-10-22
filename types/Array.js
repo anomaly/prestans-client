@@ -63,6 +63,8 @@ prestans.types.ArrayIterator.prototype.next = function() {
  */
 prestans.types.Array = function(config) {
 
+	console.log(config.json);
+
 	//Check that element template exists
 	if (!goog.isDef(config.elementTemplate))
 		throw "No element template was supplied for Array";
@@ -79,9 +81,9 @@ prestans.types.Array = function(config) {
 	this.elements_ = new Array();
 	
 	//Add elements if passed in
-	if(goog.isDef(config.elements) && goog.isArray(config.elements)) {
+	if(goog.isDef(config.opt_elements) && goog.isArray(config.opt_elements)) {
 
-		goog.array.forEach(config.elements, function(element) {
+		goog.array.forEach(config.opt_elements, function(element) {
 
 			//Check that given value is of passed type
 			if(goog.isString(element) && this.elementTemplate_ == prestans.types.String)
@@ -101,9 +103,9 @@ prestans.types.Array = function(config) {
 
 	}
 	//Alternatively add json but not both
-	else if(goog.isDef(config.json) && goog.isArray(config.json)) {
+	else if(goog.isDef(config.opt_json) && goog.isArray(config.opt_json)) {
 
-		goog.array.forEach(config.json, function(elementJSON) {
+		goog.array.forEach(config.opt_json, function(elementJSON) {
 
 			//Check that given value is of passed type
 			if(goog.isString(elementJSON) && this.elementTemplate_ == prestans.types.String)
