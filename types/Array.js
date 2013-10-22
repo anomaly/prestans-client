@@ -63,8 +63,6 @@ prestans.types.ArrayIterator.prototype.next = function() {
  */
 prestans.types.Array = function(config) {
 
-	console.log(config.json);
-
 	//Check that element template exists
 	if (!goog.isDef(config.elementTemplate))
 		throw "No element template was supplied for Array";
