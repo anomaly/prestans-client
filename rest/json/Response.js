@@ -68,7 +68,7 @@ prestans.rest.json.Response = function(config) {
                 if(goog.isDef(config.arrayElementTemplate))
                     this.unpackedBody_ = new prestans.types.Array({
                         elementTemplate: config.arrayElementTemplate,
-                        json: config.responseBody,
+                        opt_json: config.responseBody,
                         opt_minified: config.minified
                     });
                 else
