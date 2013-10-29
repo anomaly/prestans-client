@@ -75,10 +75,7 @@ prestans.rest.json.Response = function(config) {
                     throw "arrayElementTemplate must be defined in order to unpack as a prestans.types.Array";
             }
             else if(new config.responseModel() instanceof prestans.types.Model)
-                this.unpackedBody_ = new config.responseModel({
-                    opt_json: config.responseBody,
-                    opt_minified: config.minified
-                });
+                this.unpackedBody_ = new config.responseModel(config.responseBody, config.minified);
             else
                 throw "responseModel is not an acceptable type: must be prestans.types.Array or subclass of prestans.types.Model";
 
