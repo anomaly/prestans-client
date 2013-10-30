@@ -253,6 +253,11 @@ prestans.types.Array.prototype.insertAfter = function(newValue, existingValue) {
 
 };
 
+
+prestans.types.Array.prototype.indexOf = function(object, opt_fromIndex) {
+	return goog.array.indexOf(this.elements_, object, opt_fromIndex);
+};
+
 prestans.types.Array.prototype.removeIf = function(condition, opt_context) {
 	return goog.array.removeIf(this.elements_, condition, opt_context);
 };
