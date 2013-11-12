@@ -44,7 +44,7 @@ goog.inherits(prestans.types.Model, goog.events.EventTarget);
  * @enum {string}
  */
 prestans.types.Model.EventType = {
-    ATTRIBUTE_CHANGED: 'attribute_changed'
+    ATTRIBUTE_CHANGED: goog.events.getUniqueId('PRESTANS')
 };
 
 /**
