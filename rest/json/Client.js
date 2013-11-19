@@ -78,8 +78,8 @@ prestans.rest.json.Client = function(config) {
 goog.inherits(prestans.rest.json.Client, goog.events.EventTarget);
 
 prestans.rest.json.Client.EventType = {
-    RESPONSE: goog.events.getUniqueId('prestans-rest-json-client-event-type-response'),
-    FAILURE: goog.events.getUniqueId('prestans-rest-json-client-event-type-response')
+    RESPONSE: goog.events.getUniqueId('PRESTANS'),
+    FAILURE: goog.events.getUniqueId('PRESTANS')
 };
 
 /**
