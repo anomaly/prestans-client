@@ -47,18 +47,18 @@ prestans.types.Date = function(opt_config) {// opt_value, opt_required, opt_defa
         this.required_ = true;
 
     //Check that default is defined and not null
-    if(goog.isDef(opt_config.default) && opt_config.default != null) {
+    if(goog.isDef(opt_config.defaultValue) && opt_config.defaultValue != null) {
 
-        if(opt_config.default instanceof goog.date.Date) {
-            this.default_ = opt_config.default;
+        if(opt_config.defaultValue instanceof goog.date.Date) {
+            this.default_ = opt_config.defaultValue;
             this.value_ = this.default_;
         }
-        else if(opt_config.default == prestans.types.Date.TODAY) {
-            this.default_ = opt_config.default;
+        else if(opt_config.defaultValue == prestans.types.Date.TODAY) {
+            this.default_ = opt_config.defaultValue;
             this.value_ = new goog.date.Date();
         }
-        else if(goog.isString(opt_config.default)) {
-            var parsedDate_ = goog.date.fromIsoString(opt_config.default);
+        else if(goog.isString(opt_config.defaultValue)) {
+            var parsedDate_ = goog.date.fromIsoString(opt_config.defaultValue);
             if(parsedDate_ == null)
                 throw "Default date string incorrect format";
             else {
@@ -79,7 +79,7 @@ prestans.types.Date = function(opt_config) {// opt_value, opt_required, opt_defa
     }
 };
 
-/*
+/**
  * @const
  * @type {string}
  */

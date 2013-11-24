@@ -46,8 +46,8 @@ prestans.types.String = function(opt_config){ // opt_value, opt_required, opt_de
     else
         this.required_ = true;
 
-    if(goog.isDef(opt_config.default)) {
-        this.default_ = opt_config.default;
+    if(goog.isDef(opt_config.defaultValue)) {
+        this.default_ = opt_config.defaultValue;
         this.value_ = this.default_;
     }
 

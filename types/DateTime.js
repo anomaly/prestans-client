@@ -31,7 +31,7 @@ goog.require('goog.date.DateTime');
 /**
  * @constructor
 */
-prestans.types.DateTime = function(opt_config) { //opt_value, opt_required, opt_default
+prestans.types.DateTime = function(opt_config) {
 
     //setup default values if config missing
     if(!goog.isDef(opt_config)) {
@@ -47,18 +47,18 @@ prestans.types.DateTime = function(opt_config) { //opt_value, opt_required, opt_
         this.required_ = true;
 
     //Check that default is defined and not null
-    if(goog.isDef(opt_config.default) && opt_config.default != null) {
+    if(goog.isDef(opt_config.defaultValue) && opt_config.defaultValue != null) {
 
-        if(opt_config.default instanceof goog.date.DateTime) {
-            this.default_ = opt_config.default;
+        if(opt_config.defaultValue instanceof goog.date.DateTime) {
+            this.default_ = opt_config.defaultValue;
             this.value_ = this.default_;
         }
-        else if(opt_config.default == prestans.types.DateTime.NOW) {
-            this.default_ = opt_config.default;
+        else if(opt_config.defaultValue == prestans.types.DateTime.NOW) {
+            this.default_ = opt_config.defaultValue;
             this.value_ = new goog.date.DateTime();
         }
-        else if(goog.isString(opt_config.default)) {
-            var parsedDate_ = goog.date.fromIsoString(opt_config.default);
+        else if(goog.isString(opt_config.defaultValue)) {
+            var parsedDate_ = goog.date.fromIsoString(opt_config.defaultValue);
             if(parsedDate_ == null)
                 throw "Default date string incorrect format";
             else {
@@ -77,7 +77,7 @@ prestans.types.DateTime = function(opt_config) { //opt_value, opt_required, opt_
     }
 };
 
-/*
+/**
  * @const
  * @type {string}
  */

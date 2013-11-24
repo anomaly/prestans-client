@@ -44,8 +44,8 @@ prestans.types.Integer = function(opt_config) {
     this.required_ = opt_config.required;
 
     //default
-    if(goog.isDef(opt_config.default)) {
-        this.default_ = opt_config.default;
+    if(goog.isDef(opt_config.defaultValue)) {
+        this.default_ = opt_config.defaultValue;
         this.value_ = this.default_;
     }
 

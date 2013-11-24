@@ -70,7 +70,7 @@ prestans.types.Model.AttributeChangedEvent = function(config) {
 };
 goog.inherits(prestans.types.Model.AttributeChangedEvent, goog.events.Event);
 
-/*
+/**
  * @type {string}
  * @private
  */
