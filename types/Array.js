@@ -282,6 +282,10 @@ prestans.types.Array.prototype.find = function(condition, opt_context) {
 	return goog.array.find(this.elements_, condition, opt_context);
 };
 
+prestans.types.Array.prototype.slice = function(start, opt_end) {
+	return goog.array.slice(this.elements_, start, opt_end);
+};
+
 prestans.types.Array.prototype.contains = function(element) {
 	return goog.array.contains(this.elements_, element);
 };
