@@ -283,7 +283,12 @@ prestans.types.Array.prototype.find = function(condition, opt_context) {
 };
 
 prestans.types.Array.prototype.slice = function(start, opt_end) {
-	return goog.array.slice(this.elements_, start, opt_end);
+	var sliced_ = goog.array.slice(this.elements_, start, opt_end);
+
+	return new prestans.types.Array({
+		elementTemplate: this.elementTemplate_,
+		opt_elements: sliced_
+	});
 };
 
 prestans.types.Array.prototype.contains = function(element) {
