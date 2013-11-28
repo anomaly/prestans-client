@@ -80,7 +80,7 @@ prestans.rest.json.Request = function(config) {
     this.setResponseModel(config.responseModel);
     this.setRequestFilter(config.requestFilter);
     this.setResponseFilter(config.responseFilter);
-    this.setArrayElementTemplate(config.arrayElementTemplate);
+    this.setIsArray(config.isArray);
     this.setResponseFilter(config.responseFilter);
     this.setCancelable(config.cancelable);
 };
@@ -95,7 +95,7 @@ prestans.rest.json.Request.prototype.requestFilter_                 = null;
 prestans.rest.json.Request.prototype.requestModel_                  = null;
 prestans.rest.json.Request.prototype.responseFilter_                = null;
 prestans.rest.json.Request.prototype.responseModel_                 = null;
-prestans.rest.json.Request.prototype.arrayElementTemplate_          = null;
+prestans.rest.json.Request.prototype.isArray_                       = false;
 
 prestans.rest.json.Request.prototype.setIdentifier = function(identifier) {
     if(goog.isDef(identifier) && goog.isString(identifier))
@@ -232,13 +232,13 @@ prestans.rest.json.Request.prototype.setResponseModel = function(responseModel) 
         throw "responseModel must be provided";
 };
 
-prestans.rest.json.Request.prototype.getArrayElementTemplate = function() {
-    return this.arrayElementTemplate_;
+prestans.rest.json.Request.prototype.getIsArray = function() {
+    return this.isArray_;
 };
 
-prestans.rest.json.Request.prototype.setArrayElementTemplate = function(arrayElementTemplate) {
-    if(goog.isDef(arrayElementTemplate))
-        this.arrayElementTemplate_ = arrayElementTemplate;
+prestans.rest.json.Request.prototype.setIsArray = function(isArray) {
+    if(goog.isDef(isArray) && goog.isBoolean(isArray))
+        this.isArray_ = isArray;
 };
 
 prestans.rest.json.Request.prototype.clearParameters = function() {

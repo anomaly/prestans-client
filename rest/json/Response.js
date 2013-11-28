@@ -51,7 +51,7 @@ goog.require('prestans.types.Array');
 prestans.rest.json.Response = function(config) {
 
     this.requestIdentifier_ = config.requestIdentifier;
-    this.arrayElementTemplate_ = config.arrayElementTemplate;
+    this.isArray_ = config.isArray;
     this.responseModel_ = config.responseModel;
     this.responseBody_ = config.responseBody;
     this.minified_ = config.minified;
@@ -79,38 +79,46 @@ prestans.rest.json.Response.prototype.getStatusCode = function() {
 };
 
 prestans.rest.json.Response.prototype.getUnpackedBody = function() {
-    return this.unpackBodyWithTemplate(this.responseModel_);
+    if(this.responseModel_ == prestans.rest.json.Response.EMPTY_BODY)
+        throw "responseModel must be provided or use prestans.rest.json.Response.EMPTY_BODY";
+    else if(this.isArray_)
+        return this.unpackBodyAsArrayWithTemplate(this.responseModel_);
+    else
+        return this.unpackBodyWithTemplate(this.responseModel_);
+};
+
+prestans.rest.json.Response.prototype.unpackBodyAsArrayWithTemplate = function(bodyTemplate) {
+
+    var unpackedBody_ = null;
+
+    //If a response body was provided we should try to unpack it
+    if(goog.isDefAndNotNull(bodyTemplate)) {
+
+        if(new bodyTemplate() instanceof prestans.types.Model) {
+            unpackedBody_ = new prestans.types.Array({
+                elementTemplate: bodyTemplate,
+                opt_json: this.responseBody_,
+                opt_minified: this.minified_
+            });
+        }
+        else
+            throw "responseModel is not an acceptable type: must be subclass of prestans.types.Model";
+    }
+
+    return unpackedBody_;
 };
 
 prestans.rest.json.Response.prototype.unpackBodyWithTemplate = function(bodyTemplate) {
     
     var unpackedBody_ = null;
 
-    //If a response body was provided we should try and unpack it
-    if(goog.isDef(this.responseBody_) && this.responseBody_ != null) {
+    //If a response body was provided we should try to unpack it
+    if(goog.isDefAndNotNull(bodyTemplate)) {
 
-        //Check that response model was provided
-        if(goog.isDef(this.responseModel_)) {
-
-            //Unpack for array
-            if(this.responseModel_ == prestans.types.Array) {
-                if(goog.isDef(this.arrayElementTemplate_))
-                    unpackedBody_ = new prestans.types.Array({
-                        elementTemplate: this.arrayElementTemplate_,
-                        opt_json: this.responseBody_,
-                        opt_minified: this.minified_
-                    });
-                else
-                    throw "arrayElementTemplate must be defined in order to unpack as a prestans.types.Array";
-            }
-            else if(new this.responseModel_() instanceof prestans.types.Model)
-                unpackedBody_ = new this.responseModel_(this.responseBody_, this.minified_);
-            else
-                throw "responseModel is not an acceptable type: must be prestans.types.Array or subclass of prestans.types.Model";
-
-        }
-        else if(this.responseModel_ != prestans.rest.json.Response.EMPTY_BODY)
-            throw "responseModel must be provided";
+        if(new bodyTemplate() instanceof prestans.types.Model)
+            unpackedBody_ = new bodyTemplate(this.responseBody_, this.minified_);
+        else
+            throw "responseModel is not an acceptable type: must be subclass of prestans.types.Model";
     }
 
     return unpackedBody_;

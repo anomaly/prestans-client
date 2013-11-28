@@ -144,7 +144,7 @@ prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSucc
             requestIdentifier: request.getIdentifier(),
             statusCode: response.target.getStatus(),
             responseModel: request.getResponseModel(),
-            arrayElementTemplate: request.getArrayElementTemplate(),
+            isArray: request.getIsArray(),
             responseBody: responseJson_,
             minified: this.minified_
         };
