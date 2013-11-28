@@ -51,48 +51,24 @@ goog.require('prestans.types.Array');
 prestans.rest.json.Response = function(config) {
 
     this.requestIdentifier_ = config.requestIdentifier;
+    this.arrayElementTemplate_ = config.arrayElementTemplate;
+    this.responseModel_ = config.responseModel;
+    this.responseBody_ = config.responseBody;
+    this.minified_ = config.minified;
 
     if(goog.isDef(config.statusCode) && goog.isNumber(config.statusCode))
         this.statusCode_ = config.statusCode;
     else
         throw "status code must be provided and of type number";
-
-    //If a response body was provided we should try and unpack it
-    if(goog.isDef(config.responseBody) && config.responseBody != null) {
-
-        //Check that response model was provided
-        if(goog.isDef(config.responseModel)) {
-
-            //Unpack for array
-            if(config.responseModel == prestans.types.Array) {
-                if(goog.isDef(config.arrayElementTemplate))
-                    this.unpackedBody_ = new prestans.types.Array({
-                        elementTemplate: config.arrayElementTemplate,
-                        opt_json: config.responseBody,
-                        opt_minified: config.minified
-                    });
-                else
-                    throw "arrayElementTemplate must be defined in order to unpack as a prestans.types.Array";
-            }
-            else if(new config.responseModel() instanceof prestans.types.Model)
-                this.unpackedBody_ = new config.responseModel(config.responseBody, config.minified);
-            else
-                throw "responseModel is not an acceptable type: must be prestans.types.Array or subclass of prestans.types.Model";
-
-        }
-        else if(config.responseModel != prestans.rest.json.Response.EMPTY_BODY)
-            throw "responseModel must be provided";
-
-
-    }
 };
 
 //constant used to skip body unpack
 prestans.rest.json.Response.EMPTY_BODY = "prestans.rest.json.Response.EMPTY_BODY";
 
 prestans.rest.json.Response.prototype.requestIdentifier_    = null;
+prestans.rest.json.Response.prototype.responseModel_        = null;
+prestans.rest.json.Response.prototype.responseBody_         = null;
 prestans.rest.json.Response.prototype.statusCode_           = null;
-prestans.rest.json.Response.prototype.unpackedBody_         = null;
 
 prestans.rest.json.Response.prototype.getRequestIdentifier = function() {
     return this.requestIdentifier_;
@@ -103,5 +79,39 @@ prestans.rest.json.Response.prototype.getStatusCode = function() {
 };
 
 prestans.rest.json.Response.prototype.getUnpackedBody = function() {
-    return this.unpackedBody_;
+    return this.unpackBodyWithTemplate(this.responseModel_);
+};
+
+prestans.rest.json.Response.prototype.unpackBodyWithTemplate = function(bodyTemplate) {
+    
+    var unpackedBody_ = null;
+
+    //If a response body was provided we should try and unpack it
+    if(goog.isDef(this.responseBody_) && this.responseBody_ != null) {
+
+        //Check that response model was provided
+        if(goog.isDef(this.responseModel_)) {
+
+            //Unpack for array
+            if(this.responseModel_ == prestans.types.Array) {
+                if(goog.isDef(this.arrayElementTemplate_))
+                    unpackedBody_ = new prestans.types.Array({
+                        elementTemplate: this.arrayElementTemplate_,
+                        opt_json: this.responseBody_,
+                        opt_minified: this.minified_
+                    });
+                else
+                    throw "arrayElementTemplate must be defined in order to unpack as a prestans.types.Array";
+            }
+            else if(new this.responseModel_() instanceof prestans.types.Model)
+                unpackedBody_ = new this.responseModel_(this.responseBody_, this.minified_);
+            else
+                throw "responseModel is not an acceptable type: must be prestans.types.Array or subclass of prestans.types.Model";
+
+        }
+        else if(this.responseModel_ != prestans.rest.json.Response.EMPTY_BODY)
+            throw "responseModel must be provided";
+    }
+
+    return unpackedBody_;
 };
