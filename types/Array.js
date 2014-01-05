@@ -323,7 +323,7 @@ prestans.types.Array.prototype.asArray = function() {
 	return array_;
 };
 
-prestans.types.Array.prototype.clone = function() {
+prestans.types.Array.prototype.clone = function(opt_filter) {
 
 	var clone_ = new prestans.types.Array({
 		elementTemplate: this.elementTemplate_,
@@ -335,7 +335,7 @@ prestans.types.Array.prototype.clone = function() {
 			if(this.elementTemplate_ == prestans.types.String ||this.elementTemplate_ == prestans.types.Integer || this.elementTemplate_ == prestans.types.Float || this.elementTemplate_ == prestans.types.Boolean)
 				clone_.append(element);
 			else if(new this.elementTemplate_() instanceof prestans.types.Model)
-				clone_.append(new this.elementTemplate_(element.getJSONObject()));
+				clone_.append(element.clone(opt_filter));
 	}, this);
 
 	return clone_;
