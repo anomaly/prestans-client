@@ -45,8 +45,7 @@ prestans.types.DataURLFile = function(opt_config){ // opt_config
         this.required_ = true;
 
     if(goog.isDef(opt_config.allowed_mime_types)) {
-        this.default_ = opt_config.defaultValue;
-        this.value_ = this.default_;
+        this.allowedMimeTypes_ = opt_config.allowedMimeTypes;
     }
 
 };
