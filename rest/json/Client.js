@@ -77,6 +77,10 @@ prestans.rest.json.Client = function(config) {
 };
 goog.inherits(prestans.rest.json.Client, goog.events.EventTarget);
 
+/**
+ * Compiler directive to translate these into strings
+ * @enum {string}
+ */
 prestans.rest.json.Client.EventType = {
     RESPONSE: goog.events.getUniqueId('PRESTANS'),
     FAILURE: goog.events.getUniqueId('PRESTANS')
