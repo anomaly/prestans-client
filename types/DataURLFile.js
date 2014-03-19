@@ -48,6 +48,12 @@ prestans.types.DataURLFile = function(opt_config){ // opt_config
         this.allowedMimeTypes_ = opt_config.allowedMimeTypes;
     }
 
+    //run setter once to check if value is valid
+    if(goog.isDef(opt_config.value)) {
+        if(!this.setValue(opt_config.value))
+            throw "provided value is not valid";
+    }
+
 };
 
 prestans.types.DataURLFile.prototype.value_             = null;
