@@ -105,6 +105,13 @@ prestans.rest.json.Client.prototype.abortAllPendingRequests = function() {
     goog.array.clear(this.cancelableRequestIds_);  
 };
 
+prestans.rest.json.Client.prototype.abortByRequestId = function(requestId) {
+    if(goog.array.contains(this.cancelableRequestIds_, requestId)) {
+        this.xhrManager_.abort(requestId, true);
+        goog.array.remove(this.cancelableRequestIds_, requestId);
+    }
+};
+
 prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSuccessMethod, callbackFailureMethod, opt_abortPreviousRequests) {
 
     var objectAsJson_ = null;
