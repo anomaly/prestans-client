@@ -204,7 +204,7 @@ prestans.rest.json.Request.prototype.getRequestFilter = function() {
 
 prestans.rest.json.Request.prototype.setRequestModel = function(requestModel) {
 
-    if((goog.isDef(requestModel) && requestModel instanceof prestans.types.Model) || requestModel == null)
+    if((goog.isDef(requestModel) && requestModel instanceof prestans.types.Model) || (goog.isDef(requestModel) && requestModel instanceof prestans.types.Array) || requestModel == null)
         this.requestModel_ = requestModel;
     else
         throw "Body model must be of type prestans.types.Model";
