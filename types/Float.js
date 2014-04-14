@@ -41,7 +41,7 @@ prestans.types.Float = function(opt_config) {
     }
 
     //required defaults to true
-    if(goog.isDef(opt_config.required))
+    if(goog.isDefAndNotNull(opt_config.required))
         this.required_ = opt_config.required;
     else
         this.required_ = true;
@@ -68,6 +68,7 @@ prestans.types.Float = function(opt_config) {
 
 };
 
+prestans.types.Float.REGEX                    = /^\d+(\.\d*)?|\.\d+$/;
 prestans.types.Float.prototype.value_         = null;
 prestans.types.Float.prototype.required_      = null;
 prestans.types.Float.prototype.default_       = null;
@@ -83,19 +84,46 @@ prestans.types.Float.prototype.setValue = function(value) {
 
     //Check required
      var floatValue = parseFloat(value);
-    if(!this.required_ && value == null) {
+    if(!this.required_ && (goog.isNull(value) || value.length == 0)) {
         this.value_ = null;
         return true;
     }
-    else if(isNaN(floatValue))
+    
+    //stop null if required
+    if(this.required_ && goog.isNull(value))
         return false;
+    
+    //stop empty strings
+    if(this.required_ && goog.isString(value) && value.length == 0)
+        return false;
+    
+    //stop invalid strings that might still parse
+    if(goog.isString(value)) {
+        var matches_ = value.match(prestans.types.Float.REGEX);
+
+        console.log(matches_);
+
+        if(matches_ == null || matches_.length == 0)
+            return false;
+    }
+
+    //invalid float
+    if(isNaN(floatValue))
+        return false;
+
+    //check that the value is a float
+    if(goog.isNumber(value) && !(value === +value && value !== (value|0)))
+        return false;
+
+    //copy the float value across for further testing
+    value = floatValue;
 
     //maximum
-    if(this.maximum_ != null && value > this.maximum_)
+    if(goog.isDefAndNotNull(this.maximum_) && value > this.maximum_)
         return false;
 
-    //minium
-    if(this.minimum_ != null && value < this.minimum_)
+    //minimum
+    if(goog.isDefAndNotNull(this.minimum_) && value < this.minimum_)
         return false;
 
     //Check that value is in choices

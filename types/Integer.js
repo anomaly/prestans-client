@@ -44,7 +44,7 @@ prestans.types.Integer = function(opt_config) {
     if(goog.isDefAndNotNull(opt_config.required))
         this.required_ = opt_config.required;
     else
-        this.required_ = false;
+        this.required_ = true;
 
     //default
     if(goog.isDef(opt_config.defaultValue)) {
@@ -94,7 +94,7 @@ prestans.types.Integer.prototype.setValue = function(value) {
     }
 
     //stop null if required
-    if(this.required && goog.isNull(value))
+    if(this.required_ && goog.isNull(value))
         return false;
 
     //stop empty strings

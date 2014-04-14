@@ -54,8 +54,8 @@ function testGetAndSetValue() {
     assertFalse(integer_.setValue(false)); //try to set a bool
     assertEquals(-250, integer_.getValue()); //check that previous fail did not affect stored value
 
-    assertTrue(integer_.setValue(null)); //try to set a null
-    assertEquals(null, integer_.getValue()); //check value
+    assertFalse(integer_.setValue(null)); //try to set a null
+    assertEquals(-250, integer_.getValue()); //check value
 }
 
 function testGetChoices() {

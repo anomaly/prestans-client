@@ -9,7 +9,7 @@ See the COPYING file for details.
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Prestans Unit Tests - prestans.types.Float</title>
-<script src="../closure/closure/goog/base.js"></script>
+<script src="../../closure-library/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
 <script>
     goog.require('prestans.types.Float');
@@ -21,13 +21,29 @@ See the COPYING file for details.
 function testGetAndSetValue() {
     var float_ = new prestans.types.Float({
         required: true,
-        value: 1.1
+        defaultValue: 1.1
     });
     assertEquals(1.1, float_.getValue());
 
-    float_.setValue(2.2);
+    assertTrue(float_.setValue(-2.2));
+    assertEquals(-2.2, float_.getValue());
+    
+    assertTrue(float_.setValue(2.2));
     assertEquals(2.2, float_.getValue());
+
     assertFalse(float_.setValue("asdasd"));
+    assertEquals(2.2, float_.getValue());
+
+    assertFalse(float_.setValue(null));
+    assertEquals(2.2, float_.getValue());
+
+    assertTrue(float_.setValue("2.5"));
+    assertEquals(2.5, float_.getValue());
+
+    //assertTrue(float_.setValue("2.53234"));
+    //assertEquals(2.53234, float_.getValue());
+
+    //assertFalse(float_.setValue("2,5"));
 }
 
 function testGetChoices() {
@@ -45,23 +61,26 @@ function testRequired() {
         required: false
     });
     assertTrue(float1_.setValue(null));
-
+    assertEquals(null, float1_.getValue());
+    
     var float2_ = new prestans.types.Float({
-        required: true
+        required: true,
+        value: 1.1
     });
     assertFalse(float2_.setValue(null));
+    assertEquals(1.1, float2_.getValue());
 }
 
 function testDefault() {
     var float1_ = new prestans.types.Float({
         required: false,
-        default: 1.1
+        defaultValue: 1.1
     });
     assertEquals(1.1, float1_.getValue());
-
+    
     var float2_ = new prestans.types.Float({
         required: false,
-        default: 2.2
+        defaultValue: 2.2
     });
     assertEquals(2.2, float2_.getValue());
 }
@@ -71,10 +90,19 @@ function testMinimum() {
         required: false,
         minimum: 6.6
     });
+    assertEquals(null, float_.getValue());
 
     assertFalse(float_.setValue(6.5));
+    assertEquals(null, float_.getValue());
+
     assertTrue(float_.setValue(6.6));
+    assertEquals(6.6, float_.getValue());
+
     assertTrue(float_.setValue(6.7));
+    assertEquals(6.7, float_.getValue());
+
+    assertFalse(float_.setValue(6.5));
+    assertEquals(6.7, float_.getValue());
 }
 
 function testMaximum() {
@@ -83,10 +111,16 @@ function testMaximum() {
         required: false,
         maximum: 6.6
     });
+    assertEquals(null, float_.getValue());
 
     assertTrue(float_.setValue(6.5));
+    assertEquals(6.5, float_.getValue());
+
     assertTrue(float_.setValue(6.6));
+    assertEquals(6.6, float_.getValue());
+
     assertFalse(float_.setValue(6.7));
+    assertEquals(6.6, float_.getValue());
 }
 
 function testChoices() {
@@ -96,10 +130,19 @@ function testChoices() {
     });
 
     assertTrue(float_.setValue(1.1));
+    assertEquals(1.1, float_.getValue());
+    
     assertTrue(float_.setValue(2.2));
+    assertEquals(2.2, float_.getValue());
+
     assertTrue(float_.setValue(3.3));
+    assertEquals(3.3, float_.getValue());
+
     assertFalse(float_.setValue(4.4));
+    assertEquals(3.3, float_.getValue());
+
     assertFalse(float_.setValue(5.5));
+    assertEquals(3.3, float_.getValue());
 }
 
 </script>
