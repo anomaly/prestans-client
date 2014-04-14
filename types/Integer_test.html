@@ -9,7 +9,7 @@ See the COPYING file for details.
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Prestans Unit Tests - prestans.types.Integer</title>
-<script src="../closure/closure/goog/base.js"></script>
+<script src="../../closure-library/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
 <script>
     goog.require('prestans.types.Integer');
@@ -23,10 +23,27 @@ function testGetAndSetValue() {
         value: 1
     });
     assertEquals(1, integer_.getValue()); //check that contructor value is passed correctly
+
     assertTrue(integer_.setValue(2)); //set valid integer
+
     assertEquals(2, integer_.getValue()); //check value
+
     assertFalse(integer_.setValue("asdasd")); //try to set bad value
+
     assertEquals(2, integer_.getValue()); //check that previous fail did not affect stored value
+
+    assertTrue(integer_.setValue("250")); //try to set valid string
+    assertEquals(250, integer_.getValue()); //test that value was parsed and stored
+
+    assertTrue(integer_.setValue("-250")); //try to set valid string
+    assertEquals(-250, integer_.getValue()); //test that value was parsed and stored
+
+    assertFalse(integer_.setValue("2,500")); //try to set invalid string
+    assertEquals(-250, integer_.getValue()); //check that previous fail did not affect stored value
+
+    assertFalse(integer_.setValue("2.500")); //try to set invalid string
+    assertEquals(-250, integer_.getValue()); //check that previous fail did not affect stored value
+
 }
 
 function testGetChoices() {
@@ -56,13 +73,13 @@ function testRequired() {
 function testDefault() {
     var integer1_ = new prestans.types.Integer({
         required: false,
-        default: 1
+        defaultValue: 1
     });
     assertEquals(1, integer1_.getValue());
 
     var integer2_ = new prestans.types.Integer({
         required: false,
-        default: 5
+        defaultValue: 5
     });
     assertEquals(5, integer2_.getValue());
 }
