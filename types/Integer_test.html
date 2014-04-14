@@ -25,16 +25,17 @@ function testGetAndSetValue() {
     assertEquals(1, integer_.getValue()); //check that contructor value is passed correctly
 
     assertTrue(integer_.setValue(2)); //set valid integer
-
     assertEquals(2, integer_.getValue()); //check value
 
     assertFalse(integer_.setValue("asdasd")); //try to set bad value
-
     assertEquals(2, integer_.getValue()); //check that previous fail did not affect stored value
+
+    assertTrue(integer_.setValue(-5)); //set negative value
+    assertEquals(-5, integer_.getValue()); //check value
 
     assertTrue(integer_.setValue("250")); //try to set valid string
     assertEquals(250, integer_.getValue()); //test that value was parsed and stored
-
+    
     assertTrue(integer_.setValue("-250")); //try to set valid string
     assertEquals(-250, integer_.getValue()); //test that value was parsed and stored
 
@@ -44,6 +45,17 @@ function testGetAndSetValue() {
     assertFalse(integer_.setValue("2.500")); //try to set invalid string
     assertEquals(-250, integer_.getValue()); //check that previous fail did not affect stored value
 
+    assertFalse(integer_.setValue(2.56)); //try to set a float
+    assertEquals(-250, integer_.getValue()); //check that previous fail did not affect stored value
+
+    assertFalse(integer_.setValue(true)); //try to set a bool
+    assertEquals(-250, integer_.getValue()); //check that previous fail did not affect stored value
+
+    assertFalse(integer_.setValue(false)); //try to set a bool
+    assertEquals(-250, integer_.getValue()); //check that previous fail did not affect stored value
+
+    assertTrue(integer_.setValue(null)); //try to set a null
+    assertEquals(null, integer_.getValue()); //check value
 }
 
 function testGetChoices() {
@@ -68,6 +80,9 @@ function testRequired() {
         required: true
     });
     assertFalse(integer2_.setValue(null));
+
+    var integer3_ = new prestans.types.Integer();
+    assertFalse(integer3_.setValue(null));
 }
 
 function testDefault() {
@@ -98,6 +113,9 @@ function testMinimum() {
     assertEquals(6, integer_.getValue());
     assertTrue(integer_.setValue(7));
     assertEquals(7, integer_.getValue());
+
+    assertFalse(integer_.setValue(5));
+    assertEquals(7, integer_.getValue());
 }
 
 function testMaximum() {
@@ -120,13 +138,24 @@ function testMaximum() {
 function testChoices() {
     var integer_ = new prestans.types.Integer({
         required: false,
-        choices: [1, 2, 3]
+        choices: [1, 2, 3],
+        value: 3
     });
 
-    assertTrue(integer_.setValue(1));
-    assertTrue(integer_.setValue(2));
-    assertTrue(integer_.setValue(3));
-    assertFalse(integer_.setValue(4));
+    assertTrue(integer_.setValue(1)); //check valid
+    assertEquals(1, integer_.getValue()); //check value has changed
+
+    assertTrue(integer_.setValue(2)); //check valid
+    assertEquals(2, integer_.getValue()); //check value has changed
+
+    assertTrue(integer_.setValue(3)); //check valid
+    assertEquals(3, integer_.getValue()); //check value has changed
+
+    assertFalse(integer_.setValue(4)); //check valid
+    assertEquals(3, integer_.getValue()); //check value hasn't changed
+
+    assertFalse(integer_.setValue(10));
+    assertEquals(3, integer_.getValue());
 }
 
 </script>

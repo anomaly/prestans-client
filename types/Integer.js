@@ -41,7 +41,10 @@ prestans.types.Integer = function(opt_config) {
     }
 
     //required
-    this.required_ = opt_config.required;
+    if(goog.isDefAndNotNull(opt_config.required))
+        this.required_ = opt_config.required;
+    else
+        this.required_ = false;
 
     //default
     if(goog.isDef(opt_config.defaultValue)) {
@@ -68,7 +71,7 @@ prestans.types.Integer = function(opt_config) {
 
 };
 
-prestans.types.Integer.REGEX = /^[-+]?\d+$/;
+prestans.types.Integer.REGEX                    = /^[-+]?\d+$/;
 
 prestans.types.Integer.prototype.value_         = null;
 prestans.types.Integer.prototype.required_      = null;
@@ -108,6 +111,10 @@ prestans.types.Integer.prototype.setValue = function(value) {
 
     //invalid integer
     if(isNaN(intValue))
+        return false;
+
+    //check that the value is an integer
+    if(goog.isNumber(value) && !(value === +value && value === (value|0)))
         return false;
 
     //copy the integer value across for further testing
