@@ -40,6 +40,12 @@ function testGetAndSetValue() {
     assertTrue(float_.setValue("2.5"));
     assertEquals(2.5, float_.getValue());
 
+    assertTrue(float_.setValue(0.0));
+    assertEquals(0.0, float_.getValue());
+
+    assertTrue(float_.setValue(0));
+    assertEquals(0, float_.getValue());
+
     //assertTrue(float_.setValue("2.53234"));
     //assertEquals(2.53234, float_.getValue());
 

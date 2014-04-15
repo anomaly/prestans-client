@@ -97,7 +97,8 @@ prestans.types.Float.prototype.setValue = function(value) {
     if(this.required_ && goog.isString(value) && value.length == 0)
         return false;
     
-    //stop invalid strings that might still parse
+    //stop invalid strings that might still parse (removed until fully tested)
+    /*
     if(goog.isString(value)) {
         var matches_ = value.match(prestans.types.Float.REGEX);
 
@@ -106,14 +107,17 @@ prestans.types.Float.prototype.setValue = function(value) {
         if(matches_ == null || matches_.length == 0)
             return false;
     }
+    */
 
     //invalid float
     if(isNaN(floatValue))
         return false;
 
+    /*
     //check that the value is a float
     if(goog.isNumber(value) && !(value === +value && value !== (value|0)))
         return false;
+    */
 
     //copy the float value across for further testing
     value = floatValue;
