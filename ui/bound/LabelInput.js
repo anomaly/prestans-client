@@ -67,6 +67,11 @@ prestans.ui.bound.LabelInput.prototype.decorateInternal = function(element) {
     if(this.definition_.name)
         element.setAttribute("name", this.definition_.name);
 
+    if(goog.isDefAndNotNull(this.definition_.isPassword))
+        element.setAttribute("type", "password");
+    else
+        element.setAttribute("type", "text");
+
     //Setup the starting value or use the label
     if(this.definition_.boundPropertyGetter) {
         var value_ = this.definition_.boundPropertyGetter();
