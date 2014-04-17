@@ -59,6 +59,8 @@ prestans.types.Integer = function(opt_value, opt_required, opt_default, opt_maxi
 
 };
 
+prestans.types.Integer.REGEX                    = /^[-+]?\d+$/;
+
 prestans.types.Integer.prototype.value_         = null;
 prestans.types.Integer.prototype.required_      = null;
 prestans.types.Integer.prototype.default_       = null;
@@ -83,16 +85,27 @@ prestans.types.Integer.prototype.setValue = function(value) {
     if(this.required_ && value.length == 0)
         return false;
 
+    //stop invalid strings that might still parse
+    if(goog.isString(value)) {
+        var matches_ = value.match(prestans.types.Integer.REGEX);
+
+        if(matches_ == null || matches_.length == 0)
+            return false;
+    }
+
     //invalid integer
     if(isNaN(intValue))
         return false;
 
+    //copy the integer value across for further testing
+    value = intValue;
+
     //maximum
-    if(this.maximum_ != null && value > this.maximum_)
+    if(goog.isDefAndNotNull(this.maximum_) && value > this.maximum_)
         return false;
 
-    //minium
-    if(this.minimum_ != null && value < this.minimum_)
+    //minimum
+    if(goog.isDefAndNotNull(this.minimum_) && value < this.minimum_)
         return false;
 
     //Check that value is in choices
