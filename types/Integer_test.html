@@ -23,7 +23,7 @@ function testGetAndSetValue() {
         value: 1
     });
     assertEquals(1, integer_.getValue()); //check that contructor value is passed correctly
-
+    
     assertTrue(integer_.setValue(2)); //set valid integer
     assertEquals(2, integer_.getValue()); //check value
 
@@ -32,7 +32,7 @@ function testGetAndSetValue() {
 
     assertTrue(integer_.setValue(-5)); //set negative value
     assertEquals(-5, integer_.getValue()); //check value
-
+    
     assertTrue(integer_.setValue("250")); //try to set valid string
     assertEquals(250, integer_.getValue()); //test that value was parsed and stored
     
@@ -47,15 +47,27 @@ function testGetAndSetValue() {
 
     assertFalse(integer_.setValue(2.56)); //try to set a float
     assertEquals(-250, integer_.getValue()); //check that previous fail did not affect stored value
-
+    
     assertFalse(integer_.setValue(true)); //try to set a bool
     assertEquals(-250, integer_.getValue()); //check that previous fail did not affect stored value
 
     assertFalse(integer_.setValue(false)); //try to set a bool
     assertEquals(-250, integer_.getValue()); //check that previous fail did not affect stored value
-
+    
     assertFalse(integer_.setValue(null)); //try to set a null
     assertEquals(-250, integer_.getValue()); //check value
+
+    assertTrue(integer_.setValue(2147483647)); //check max signed integer
+    assertEquals(2147483647, integer_.getValue()) //check value
+
+    assertFalse(integer_.setValue(2147483648)); //check integer above valid range
+    assertEquals(2147483647, integer_.getValue()) //check value
+
+    assertTrue(integer_.setValue(-2147483647)); //check min signed integer
+    assertEquals(-2147483647, integer_.getValue()) //check value
+
+    assertFalse(integer_.setValue(-2147483648)); //check integer below valid range
+    assertEquals(-2147483647, integer_.getValue()) //check value
 }
 
 function testGetChoices() {

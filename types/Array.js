@@ -27,6 +27,9 @@
 
 goog.provide('prestans.types.Array');
 
+//goog.require('goog.events.Event');
+//goog.require('goog.events.EventTarget');
+
 goog.require('goog.array');
 goog.require('goog.iter');
 goog.require('goog.iter.Iterator');
@@ -62,6 +65,8 @@ prestans.types.ArrayIterator.prototype.next = function() {
  * @constructor
  */
 prestans.types.Array = function(config) {
+
+	//goog.events.EventTarget.call(this);
 
 	//Check that element template exists
 	if (!goog.isDef(config.elementTemplate))
@@ -128,6 +133,15 @@ prestans.types.Array = function(config) {
 
 	if(goog.isDef(config.minLength) && config.minLength != null)
 		this.minLength_ = config.minLength;
+};
+//goog.inherits(prestans.types.Array, goog.events.EventTarget);
+
+/**
+ * Events associated with a Model
+ * @enum {string}
+ */
+prestans.types.Array.EventType = {
+    ARRAY_CHANGED: goog.events.getUniqueId('PRESTANS')
 };
 
 prestans.types.Array.prototype.elements_ 			= null;
