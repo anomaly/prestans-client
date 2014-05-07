@@ -27,8 +27,8 @@
 
 goog.provide('prestans.types.Array');
 
-//goog.require('goog.events.Event');
-//goog.require('goog.events.EventTarget');
+goog.require('goog.events.Event');
+goog.require('goog.events.EventTarget');
 
 goog.require('goog.array');
 goog.require('goog.iter');
@@ -66,7 +66,7 @@ prestans.types.ArrayIterator.prototype.next = function() {
  */
 prestans.types.Array = function(config) {
 
-	//goog.events.EventTarget.call(this);
+	goog.events.EventTarget.call(this);
 
 	//Check that element template exists
 	if (!goog.isDef(config.elementTemplate))
@@ -134,7 +134,7 @@ prestans.types.Array = function(config) {
 	if(goog.isDef(config.minLength) && config.minLength != null)
 		this.minLength_ = config.minLength;
 };
-//goog.inherits(prestans.types.Array, goog.events.EventTarget);
+goog.inherits(prestans.types.Array, goog.events.EventTarget);
 
 /**
  * Events associated with a Model
@@ -174,32 +174,26 @@ prestans.types.Array.prototype.isValid = function() {
 	return true;
 };
 
+prestans.types.Array.prototype.itemIsValidType_ = function(value) {
+	return (
+		goog.isString(value) && this.elementTemplate_ == prestans.types.String ||
+		goog.isBoolean(value) && this.elementTemplate_ == prestans.types.Boolean ||
+		goog.isNumber(value) && this.elementTemplate_ == prestans.types.Float ||
+		goog.isNumber(value) && this.elementTemplate_ == prestans.types.Integer ||
+		value instanceof this.elementTemplate_
+	);
+};
+
 prestans.types.Array.prototype.append = function(value) {
 
-	//Check supported types
-	if(goog.isString(value) && this.elementTemplate_ == prestans.types.String) {
+	if(this.itemIsValidType_(value)) {
 		goog.array.insertAt(this.elements_, value, this.elements_.length);
-		return true;
-	}
-	else if(goog.isBoolean(value) && this.elementTemplate_ == prestans.types.Boolean) {
-		goog.array.insertAt(this.elements_, value, this.elements_.length);
-		return true;
-	}
-	else if(goog.isNumber(value) && this.elementTemplate_ == prestans.types.Float) {
-		goog.array.insertAt(this.elements_, value, this.elements_.length);
-		return true;
-	}
-	else if(goog.isNumber(value) && this.elementTemplate_ == prestans.types.Integer) {
-		goog.array.insertAt(this.elements_, value, this.elements_.length);
-		return true;
-	}
-	else if(value instanceof this.elementTemplate_) {
-		goog.array.insertAt(this.elements_, value, this.elements_.length);
-		return true;
-	}
+		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
 
-	//Unsupported type
-	return false;
+		return true;
+	}
+	else
+		return false;
 };
 
 prestans.types.Array.prototype.binarySearch = function(element, compare) {
@@ -216,55 +210,32 @@ prestans.types.Array.prototype.binaryRemove = function(element, compare) {
 
 prestans.types.Array.prototype.insertAt = function(value, index) {
 	
-	//Check supported types
-	if(goog.isString(value) && this.elementTemplate_ == prestans.types.String) {
+	if(this.itemIsValidType_(value)) {
 		goog.array.insertAt(this.elements_, value, index);
-		return true;
-	}
-	else if(goog.isBoolean(value) && this.elementTemplate_ == prestans.types.Boolean) {
-		goog.array.insertAt(this.elements_, value, index);
-		return true;
-	}
-	else if(goog.isNumber(value) && this.elementTemplate_ == prestans.types.Float) {
-		goog.array.insertAt(this.elements_, value, index);
-		return true;
-	}
-	else if(goog.isNumber(value) && this.elementTemplate_ == prestans.types.Integer) {
-		goog.array.insertAt(this.elements_, value, index);
-		return true;
-	}
-	else if(value instanceof this.elementTemplate_) {
-		goog.array.insertAt(this.elements_, value, index);
-		return true;
-	}
+		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
 
-	//Unsupported type
-	return false;	
+		return true;
+	}
+	else
+		return false;
 };
 
 prestans.types.Array.prototype.insertAfter = function(newValue, existingValue) {
 
+	//check that the existing value actually exists
 	if(!goog.array.contains(this.elements_, existingValue))
 		return false;
 
 	var indexToInsert_ = goog.array.indexOf(this.elements_, existingValue) + 1;
 
-	//Check supported types
-	if(this.elementTemplate_ == prestans.types.String && goog.isString(newValue))
+	if(this.itemIsValidType_) {
 		goog.array.insertAt(this.elements_, newValue, indexToInsert_);
-	else if(this.elementTemplate_ == prestans.types.Boolean && goog.isBoolean(newValue))
-		goog.array.insertAt(this.elements_, newValue, indexToInsert_);
-	else if(this.elementTemplate_ == prestans.types.Float && goog.isNumber(newValue))
-		goog.array.insertAt(this.elements_, newValue, indexToInsert_);
-	else if(this.elementTemplate_ == prestans.types.Integer && goog.isNumber(newValue))
-		goog.array.insertAt(this.elements_, newValue, indexToInsert_);
-	else if(newValue instanceof this.elementTemplate_)
-		goog.array.insertAt(this.elements_, newValue, indexToInsert_);
+		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+
+		return true;
+	}
 	else
 		return false;
-
-	return true;
-
 };
 
 

@@ -47,6 +47,14 @@ prestans.types.Model.EventType = {
     ATTRIBUTE_CHANGED: goog.events.getUniqueId('PRESTANS')
 };
 
+prestans.types.Model.prototype.dispatchAttributeChangedEvent_ = function(attributeName, previousValue, currentValue) {
+    this.dispatchEvent(new prestans.types.Model.AttributeChangedEvent({
+        identifier: attributeName,
+        previousValue: previousValue,
+        currentValue: currentValue
+    }));
+};
+
 /**
  * @constructor
  */
