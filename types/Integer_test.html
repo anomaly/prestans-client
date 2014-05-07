@@ -23,6 +23,9 @@ function testGetAndSetValue() {
         value: 1
     });
     assertEquals(1, integer_.getValue()); //check that contructor value is passed correctly
+
+    assertTrue(integer_.setValue(0)); //check zero
+    assertEquals(0, integer_.getValue()); //check value
     
     assertTrue(integer_.setValue(2)); //set valid integer
     assertEquals(2, integer_.getValue()); //check value
