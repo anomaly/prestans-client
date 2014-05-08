@@ -69,6 +69,16 @@ prestans.types.Float = function(opt_config) {
 };
 
 prestans.types.Float.REGEX                    = /^\d+(\.\d*)?|\.\d+$/;
+
+prestans.types.Float.isFloat = function(value) {
+
+    var float_ = new prestans.types.Float({
+        required: true
+    });
+
+    return float_.setValue(value);
+};
+
 prestans.types.Float.prototype.value_         = null;
 prestans.types.Float.prototype.required_      = null;
 prestans.types.Float.prototype.default_       = null;
@@ -98,26 +108,16 @@ prestans.types.Float.prototype.setValue = function(value) {
         return false;
     
     //stop invalid strings that might still parse (removed until fully tested)
-    /*
     if(goog.isString(value)) {
         var matches_ = value.match(prestans.types.Float.REGEX);
-
-        console.log(matches_);
 
         if(matches_ == null || matches_.length == 0)
             return false;
     }
-    */
 
     //invalid float
     if(isNaN(floatValue))
         return false;
-
-    /*
-    //check that the value is a float
-    if(goog.isNumber(value) && !(value === +value && value !== (value|0)))
-        return false;
-    */
 
     //copy the float value across for further testing
     value = floatValue;

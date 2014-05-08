@@ -18,6 +18,16 @@ See the COPYING file for details.
 </head>
 <body>
 <script>
+
+function testIsFloat() {
+
+    assertTrue(prestans.types.Float.isFloat(1));
+    assertTrue(prestans.types.Float.isFloat(1.1));
+    assertFalse(prestans.types.Float.isFloat("string"));
+    assertFalse(prestans.types.Float.isFloat(null));
+    assertFalse(prestans.types.Float.isFloat(false));
+}
+
 function testGetAndSetValue() {
     var float_ = new prestans.types.Float({
         required: true,
