@@ -175,13 +175,16 @@ prestans.types.Array.prototype.isValid = function() {
 };
 
 prestans.types.Array.prototype.itemIsValidType_ = function(value) {
-	return (
+	if (
 		goog.isString(value) && this.elementTemplate_ == prestans.types.String ||
 		goog.isBoolean(value) && this.elementTemplate_ == prestans.types.Boolean ||
 		goog.isNumber(value) && this.elementTemplate_ == prestans.types.Float ||
 		goog.isNumber(value) && this.elementTemplate_ == prestans.types.Integer ||
 		value instanceof this.elementTemplate_
-	);
+	)
+		return true;
+	else
+		throw "value must be the same type as the element template";
 };
 
 prestans.types.Array.prototype.append = function(value) {
