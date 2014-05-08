@@ -204,10 +204,16 @@ prestans.types.Array.prototype.binarySearch = function(element, compare) {
 };
 
 prestans.types.Array.prototype.binaryInsert = function(element, compare) {
+
+	this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+
 	return goog.array.binaryInsert(this.elements_, element, compare);
 };
 
 prestans.types.Array.prototype.binaryRemove = function(element, compare) {
+
+	this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+
 	return goog.array.binaryRemove(this.elements_, element, compare);
 };
 
@@ -247,10 +253,16 @@ prestans.types.Array.prototype.indexOf = function(object, opt_fromIndex) {
 };
 
 prestans.types.Array.prototype.removeIf = function(condition, opt_context) {
+
+	this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+
 	return goog.array.removeIf(this.elements_, condition, opt_context);
 };
 
 prestans.types.Array.prototype.remove = function(value) {
+
+	this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+
 	return goog.array.remove(this.elements_, value);
 };
 
