@@ -108,13 +108,9 @@ prestans.types.Integer.prototype.setValue = function(value) {
     if(this.required_ && goog.isNull(value))
         return false;
 
-    console.log("int 1");
-
     //stop empty strings
     if(this.required_ && goog.isString(value) && value.length == 0)
         return false;
-
-    console.log("int 2");
 
     //stop invalid strings that might still parse
     if(goog.isString(value)) {
@@ -122,17 +118,11 @@ prestans.types.Integer.prototype.setValue = function(value) {
 
         if(matches_ == null || matches_.length == 0)
             return false;
-
-        value = intValue;
     }
-
-    console.log("int 3");
 
     //invalid integer
     if(isNaN(intValue))
         return false;
-
-    console.log("int 4");
 
     //check that value falls within signed integer range (to avoid bitshift problems in javascript)
     if(value > prestans.types.Integer.MAX_SIGNED_INT || value < -prestans.types.Integer.MAX_SIGNED_INT)
@@ -142,8 +132,6 @@ prestans.types.Integer.prototype.setValue = function(value) {
     if(goog.isNumber(value) && !(value === +value && value === (value|0)))
         return false;
 
-    console.log("int 5");
-
     //copy the integer value across for further testing
     value = intValue;
 
@@ -151,21 +139,15 @@ prestans.types.Integer.prototype.setValue = function(value) {
     if(goog.isDefAndNotNull(this.maximum_) && value > this.maximum_)
         return false;
 
-    console.log("int 6");
-
     //minium
     if(goog.isDefAndNotNull(this.minimum_) && value < this.minimum_)
         return false;
-
-    console.log("int 7");
 
     //Check that value is in choices
     if(this.choices_ != null) {
         if(!goog.array.contains(this.choices_, value))
             return false;
     }
-
-    console.log("int 8");
 
     this.value_ = value;
     return true;
