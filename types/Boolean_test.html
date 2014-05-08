@@ -9,7 +9,7 @@ See the COPYING file for details.
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Prestans Unit Tests - prestans.types.Boolean</title>
-<script src="../closure/closure/goog/base.js"></script>
+<script src="../../closure-library/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
 <script>
     goog.require('prestans.types.Boolean');
@@ -36,15 +36,16 @@ function testGetAndSetValue() {
 }
 
 function testDefault() {
+
     var bool1_ = new prestans.types.Boolean({
         required: false,
-        default: true
+        defaultValue: true
     });
     assertEquals(true, bool1_.getValue());
 
     var bool2_ = new prestans.types.Boolean({
         required: false,
-        default: false
+        defaultValue: false
     });
     assertEquals(false, bool2_.getValue());
 }
