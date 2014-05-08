@@ -31,7 +31,7 @@ goog.require('goog.date.Date');
 /**
  * @constructor
 */
-prestans.types.Date = function(opt_config) {// opt_value, opt_required, opt_default
+prestans.types.Date = function(opt_config) {
 
     //setup default values if config missing
     if(!goog.isDef(opt_config)) {

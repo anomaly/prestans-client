@@ -9,7 +9,7 @@ See the COPYING file for details.
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Prestans Unit Tests - prestans.types.Date</title>
-<script src="../closure/closure/goog/base.js"></script>
+<script src="../../closure-library/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
 <script>
     goog.require('prestans.types.Date');
@@ -69,7 +69,7 @@ function testDefault() {
 	//Test now constant
 	var date1_ = new prestans.types.Date({
 		required: false,
-		default: prestans.types.Date.TODAY
+		defaultValue: prestans.types.Date.TODAY
 	});
 	assertTrue(date1_.getValue() instanceof goog.date.Date);
 
@@ -77,7 +77,7 @@ function testDefault() {
 	var d2_ = new goog.date.Date();
 	var date2_ = new prestans.types.Date({
 		required: false,
-		default: d2_
+		defaultValue: d2_
 	});
 	assertEquals(d2_, date2_.getValue());
 
@@ -85,7 +85,7 @@ function testDefault() {
 	var s_ = "2010-01-01";
 	date3_ = new prestans.types.Date({
 		required: false,
-		default: s_
+		defaultValue: s_
 	});
 	assertEquals(s_, date3_.getJSONObject());
 }
