@@ -9,7 +9,7 @@ See the COPYING file for details.
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Prestans Unit Tests - prestans.types.String</title>
-<script src="../closure/closure/goog/base.js"></script>
+<script src="../../closure-library/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
 <script>
     goog.require('prestans.types.String');
@@ -59,13 +59,13 @@ function testDefault() {
     
     var string1_ = new prestans.types.String({
         required: false,
-        default: "Metallica"
+        defaultValue: "Metallica"
     });
     assertEquals("Metallica", string1_.getValue());
 
     var string2_ = new prestans.types.String({
         required: false,
-        default: "Pink Floyd"
+        defaultValue: "Pink Floyd"
     });
     assertEquals("Pink Floyd", string2_.getValue());
 }
