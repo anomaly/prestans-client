@@ -75,6 +75,15 @@ prestans.types.Integer = function(opt_config) {
 prestans.types.Integer.REGEX                    = /^[-+]?\d+$/;
 prestans.types.Integer.MAX_SIGNED_INT           = 2147483647;
 
+prestans.types.Integer.isInteger = function(value) {
+
+    var integer_ = new prestans.types.Integer({
+        required: true
+    });
+
+    return integer_.setValue(value);
+};
+
 prestans.types.Integer.prototype.value_         = null;
 prestans.types.Integer.prototype.required_      = null;
 prestans.types.Integer.prototype.default_       = null;

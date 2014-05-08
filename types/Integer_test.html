@@ -18,6 +18,19 @@ See the COPYING file for details.
 </head>
 <body>
 <script>
+
+function testIsInteger() {
+
+    assertTrue(prestans.types.Integer.isInteger(1));
+    assertTrue(prestans.types.Integer.isInteger(prestans.types.Integer.MAX_SIGNED_INT));
+    assertFalse(prestans.types.Integer.isInteger(prestans.types.Integer.MAX_SIGNED_INT+1));
+    assertTrue(prestans.types.Integer.isInteger(-prestans.types.Integer.MAX_SIGNED_INT));
+    assertFalse(prestans.types.Integer.isInteger(1.1));
+    assertFalse(prestans.types.Integer.isInteger("string"));
+    assertFalse(prestans.types.Integer.isInteger(null));
+    assertFalse(prestans.types.Integer.isInteger(false));
+}
+
 function testGetAndSetValue() {
     var integer_ = new prestans.types.Integer({
         value: 1
