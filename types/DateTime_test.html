@@ -9,7 +9,7 @@ See the COPYING file for details.
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Prestans Unit Tests - prestans.types.DateTime</title>
-<script src="../closure/closure/goog/base.js"></script>
+<script src="../../closure-library/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
 <script>
     goog.require('prestans.types.DateTime');
@@ -72,7 +72,7 @@ function testDefault() {
 	//Test now constant
 	var datetime1_ = new prestans.types.DateTime({
 		required: false,
-		default: prestans.types.DateTime.NOW
+		defaultValue: prestans.types.DateTime.NOW
 	});
 	assertTrue(datetime1_.getValue() instanceof goog.date.DateTime);
 
@@ -80,7 +80,7 @@ function testDefault() {
 	var d_ = new goog.date.DateTime();
 	var datetime2_ = new prestans.types.DateTime({
 		required: false,
-		value: d_
+		defaultValue: d_
 	});
 	assertEquals(d_, datetime2_.getValue());
 
@@ -88,7 +88,7 @@ function testDefault() {
 	var s_ = "2010-01-01 10:10:10";
 	datetime3_ = new prestans.types.DateTime({
 		required: false, 
-		value: s_
+		defaultValue: s_
 	});
 	assertEquals(s_, datetime3_.getJSONObject());
 }
