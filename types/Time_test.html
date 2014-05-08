@@ -9,7 +9,7 @@ See the COPYING file for details.
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Prestans Unit Tests - prestans.types.Time</title>
-<script src="../closure/closure/goog/base.js"></script>
+<script src="../../closure-library/closure/goog/base.js"></script>
 <script src="../deps.js"></script>
 <script>
     goog.require('prestans.types.Time');
@@ -23,19 +23,17 @@ See the COPYING file for details.
 function testConstructor() {
 	//pass datetime
 	var time1_ = new prestans.types.Time({
-		value: new goog.date.DateTime()
+		value: new goog.date.DateTime(2014, 1, 1, 10, 0, 0)
 	});
 	assertTrue(time1_.getValue() instanceof goog.date.DateTime);
-	assertEquals("", time1_.getJSONObject());
+	assertEquals("10:00:00", time1_.getJSONObject());
 
 	//pass string
-	/*
 	var time2_ = new prestans.types.Time({
 		value: "10:30:15"
 	});
 	assertTrue(time2_.getValue() instanceof goog.date.DateTime);
-	*/
-
+	assertEquals("10:30:35", time2_.getValue())
 }
 /*
 function testGetAndSetValue() {

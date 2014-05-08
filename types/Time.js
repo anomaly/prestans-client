@@ -27,11 +27,16 @@
 goog.provide('prestans.types.Time');
 
 goog.require('goog.date.DateTime');
+goog.require('goog.i18n.DateTimeFormat');
+goog.require('goog.i18n.DateTimeParse');
 
 /**
  * @constructor
 */
 prestans.types.Time = function(opt_config) {
+
+    this.format_ = new goog.i18n.DateTimeFormat(prestans.types.Time.FORMAT);
+    this.parse_ = new goog.i18n.DateTimeParse(prestans.types.Time.FORMAT);
 
     //setup default values if config missing
     if(!goog.isDef(opt_config)) {
@@ -83,12 +88,13 @@ prestans.types.Time = function(opt_config) {
  * @const
  * @type {string}
  */
-prestans.types.Time.FORMAT                  = '%H:%m:%s';
+prestans.types.Time.FORMAT                  = 'HH:mm:ss';
 prestans.types.Time.NOW                     = 'prestans.types.Time.NOW';
 prestans.types.Time.prototype.value_        = null;
 prestans.types.Time.prototype.required_     = null;
 prestans.types.Time.prototype.default_      = null;
 prestans.types.Time.prototype.format_       = null;
+prestans.types.Time.prototype.parse_        = null;
 
 prestans.types.Time.prototype.getValue = function() {
     return this.value_;
@@ -112,7 +118,8 @@ prestans.types.Time.prototype.setValue = function(value) {
 
     //Try to parse string
     if(goog.isString(value)) {
-        var parsedDate_ = goog.date.fromIsoString(value);
+        var parsedDate_ = new goog.date.DateTime(); 
+        this.parse_.parse(value, parsedDate_);
         if(parsedDate_ == null)
             return false;
         else {
@@ -129,10 +136,7 @@ prestans.types.Time.prototype.setValue = function(value) {
 
 prestans.types.Time.prototype.getJSONObject = function() {
     if(this.value_ instanceof goog.date.DateTime) {
-
-        var stringTime_
-
-        return this.value_.toIsoString(true);
+        return this.format_.format(this.value_);
     }
     else
         return null;
