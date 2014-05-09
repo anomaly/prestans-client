@@ -205,16 +205,22 @@ prestans.types.Array.prototype.binarySearch = function(element, compare) {
 
 prestans.types.Array.prototype.binaryInsert = function(element, compare) {
 
-	this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+	var retVal_ = goog.array.binaryInsert(this.elements_, element, compare);
 
-	return goog.array.binaryInsert(this.elements_, element, compare);
+	if(retVal_)
+		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+
+	return retVal_
 };
 
 prestans.types.Array.prototype.binaryRemove = function(element, compare) {
 
-	this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+	var retVal_ = goog.array.binaryRemove(this.elements_, element, compare);
 
-	return goog.array.binaryRemove(this.elements_, element, compare);
+	if(retVal_)
+		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+
+	return retVal_;
 };
 
 prestans.types.Array.prototype.insertAt = function(value, index) {
@@ -254,16 +260,22 @@ prestans.types.Array.prototype.indexOf = function(object, opt_fromIndex) {
 
 prestans.types.Array.prototype.removeIf = function(condition, opt_context) {
 
-	this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+	var retVal_ = goog.array.removeIf(this.elements_, condition, opt_context);
 
-	return goog.array.removeIf(this.elements_, condition, opt_context);
+	if(retVal_)
+		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+
+	return retVal_
 };
 
 prestans.types.Array.prototype.remove = function(value) {
 
-	this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+	var retVal_ = goog.array.remove(this.elements_, value);
 
-	return goog.array.remove(this.elements_, value);
+	if(retVal_)
+		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+
+	return retVal_;
 };
 
 prestans.types.Array.prototype.length = function() {
@@ -276,6 +288,7 @@ prestans.types.Array.prototype.sort = function(sortFunction) {
 
 prestans.types.Array.prototype.clear = function() {
 	goog.array.clear(this.elements_);
+	this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
 };
 
 prestans.types.Array.prototype.find = function(condition, opt_context) {
