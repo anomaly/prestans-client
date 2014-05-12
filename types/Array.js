@@ -69,41 +69,34 @@ prestans.types.Array = function(config) {
 	goog.events.EventTarget.call(this);
 
 	//Check that element template exists
-	if (!goog.isDef(config.elementTemplate))
-		throw "No element template was supplied for Array";
-	
-	//Check that element template is of an acceptable type
-	if(config.elementTemplate != prestans.types.Boolean &&
-	   config.elementTemplate != prestans.types.Float &&
-	   config.elementTemplate != prestans.types.Integer &&
-	   config.elementTemplate != prestans.types.String &&
-	   !(new config.elementTemplate() instanceof prestans.types.Model))
-		throw "Element template is not an acceptable type";
+	if (goog.isDefAndNotNull(config.elementTemplate)) {
 
-	this.elementTemplate_ = config.elementTemplate;
+		//Check that element template is of an acceptable type
+		//Basic type
+		if(config.elementTemplate instanceof prestans.types.Boolean ||
+		   config.elementTemplate instanceof prestans.types.Float ||
+		   config.elementTemplate instanceof prestans.types.Integer ||
+		   config.elementTemplate instanceof prestans.types.String) {
+			this.elementTemplate_ = config.elementTemplate;
+		}
+		//model type
+		else if (new config.elementTemplate() instanceof prestans.types.Model)
+			this.elementTemplate_ = config.elementTemplate;
+		else
+			throw "Element template is not an acceptable type";
+	}
+	else
+		throw "No element template was supplied for Array";
+
+	//setup internal array
 	this.elements_ = new Array();
-	
+
 	//Add elements if passed in
 	if(goog.isDef(config.opt_elements) && goog.isArray(config.opt_elements)) {
 
 		goog.array.forEach(config.opt_elements, function(element) {
-
-			//Check that given value is of passed type
-			if(goog.isString(element) && this.elementTemplate_ == prestans.types.String)
-				goog.array.insertAt(this.elements_, element, this.elements_.length);
-			else if(goog.isBoolean(element) && this.elementTemplate_ == prestans.types.Boolean)
-				goog.array.insertAt(this.elements_, element, this.elements_.length);
-			else if(goog.isNumber(element) && this.elementTemplate_ == prestans.types.Float)
-				goog.array.insertAt(this.elements_, element, this.elements_.length);
-			else if(goog.isNumber(element) && this.elementTemplate_ == prestans.types.Integer)
-				goog.array.insertAt(this.elements_, element, this.elements_.length);
-			else if (element instanceof this.elementTemplate_)
-				goog.array.insertAt(this.elements_, element, this.elements_.length);
-			else
-				throw "Element was not of element template type";
-
+			this.append(element);
 		}, this);
-
 	}
 	//Alternatively add json but not both
 	else if(goog.isDef(config.opt_json) && goog.isArray(config.opt_json)) {
@@ -111,18 +104,13 @@ prestans.types.Array = function(config) {
 		goog.array.forEach(config.opt_json, function(elementJSON) {
 
 			//Check that given value is of passed type
-			if(goog.isString(elementJSON) && this.elementTemplate_ == prestans.types.String)
-				goog.array.insertAt(this.elements_, elementJSON, this.elements_.length);
-			else if(goog.isBoolean(elementJSON) && this.elementTemplate_ == prestans.types.Boolean)
-				goog.array.insertAt(this.elements_, elementJSON, this.elements_.length);
-			else if(goog.isNumber(elementJSON) && this.elementTemplate_ == prestans.types.Float)
-				goog.array.insertAt(this.elements_, elementJSON, this.elements_.length);
-			else if(goog.isNumber(elementJSON) && this.elementTemplate_ == prestans.types.Integer)
-				goog.array.insertAt(this.elements_, elementJSON, this.elements_.length);
+			if(this.elementTemplate_ instanceof prestans.types.Boolean ||
+			   this.elementTemplate_ instanceof prestans.types.Float ||
+			   this.elementTemplate_ instanceof prestans.types.Integer ||
+			   this.elementTemplate_ instanceof prestans.types.String)
+				this.append(elementJSON);
 			else if(new this.elementTemplate_() instanceof prestans.types.Model)
-				goog.array.insertAt(this.elements_, new this.elementTemplate_(elementJSON, config.opt_minified), this.elements_.length);
-			else
-				throw "Element was not of element template type";
+				this.append(new this.elementTemplate_(elementJSON, config.opt_minified));
 
 		}, this);
 
@@ -161,27 +149,30 @@ prestans.types.Array.prototype.isEmpty = function() {
 	return goog.array.isEmpty(this.elements_);
 };
 
-prestans.types.Array.prototype.isValid = function() {
+prestans.types.Array.prototype.isLengthValid = function() {
 
 	//Check max length
-	if(this.maxLength_ != null && this.elements_.length > this.maxLength_)
+	if(goog.isDefAndNotNull(this.maxLength_) && this.elements_.length > this.maxLength_)
 		return false;
 
 	//Check min length
-	if(this.minLength_ != null && this.elements_.length < this.minLength_)
+	if(goog.isDefAndNotNull(this.minLength_) && this.elements_.length < this.minLength_)
 		return false;
 
 	return true;
 };
 
 prestans.types.Array.prototype.itemIsValidType_ = function(value) {
-	if (
-		goog.isString(value) && this.elementTemplate_ == prestans.types.String ||
-		goog.isBoolean(value) && this.elementTemplate_ == prestans.types.Boolean ||
-		goog.isNumber(value) && this.elementTemplate_ == prestans.types.Float ||
-		goog.isNumber(value) && this.elementTemplate_ == prestans.types.Integer ||
-		value instanceof this.elementTemplate_
-	)
+	if (this.elementTemplate_ instanceof prestans.types.String ||
+		this.elementTemplate_ instanceof prestans.types.Boolean ||
+		this.elementTemplate_ instanceof prestans.types.Float ||
+		this.elementTemplate_ instanceof prestans.types.Integer) {
+		if(this.elementTemplate_.setValue(value))
+			return true;
+		else
+			throw "value must be the same type and validate according to rules in the element template";
+	}
+	else if(value instanceof this.elementTemplate_)
 		return true;
 	else
 		throw "value must be the same type as the element template";
@@ -210,7 +201,7 @@ prestans.types.Array.prototype.binaryInsert = function(element, compare) {
 	if(retVal_)
 		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
 
-	return retVal_
+	return retVal_;
 };
 
 prestans.types.Array.prototype.binaryRemove = function(element, compare) {
@@ -323,10 +314,10 @@ prestans.types.Array.prototype.asArray = function() {
 	goog.array.forEach(this.elements_, function(element) {
 
 	//Check that element template is a basic type
-	if(this.elementTemplate_ == prestans.types.String ||
-	   this.elementTemplate_ == prestans.types.Integer ||
-	   this.elementTemplate_ == prestans.types.Float ||
-	   this.elementTemplate_ == prestans.types.Boolean)
+	if(this.elementTemplate_ instanceof prestans.types.String ||
+	   this.elementTemplate_ instanceof prestans.types.Integer ||
+	   this.elementTemplate_ instanceof prestans.types.Float ||
+	   this.elementTemplate_ instanceof prestans.types.Boolean)
 		goog.array.insertAt(array_, element, array_.length);
 	else if (new this.elementTemplate_() instanceof prestans.types.Model)
 		goog.array.insertAt(array_, new this.elementTemplate_(element.getJSONObject()), array_.length);
@@ -345,7 +336,10 @@ prestans.types.Array.prototype.clone = function(opt_filter) {
 	});
 
 	goog.array.forEach(this.elements_, function(element) {
-			if(this.elementTemplate_ == prestans.types.String ||this.elementTemplate_ == prestans.types.Integer || this.elementTemplate_ == prestans.types.Float || this.elementTemplate_ == prestans.types.Boolean)
+			if(this.elementTemplate_ instanceof prestans.types.String ||
+			   this.elementTemplate_ instanceof prestans.types.Integer ||
+			   this.elementTemplate_ instanceof prestans.types.Float ||
+			   this.elementTemplate_ == prestans.types.Boolean)
 				clone_.append(element);
 			else if(new this.elementTemplate_() instanceof prestans.types.Model)
 				clone_.append(element.clone(opt_filter));
