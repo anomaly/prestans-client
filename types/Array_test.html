@@ -159,6 +159,12 @@ function testAppend() {
     });
     assertTrue(boolean_.append(true));
     assertEquals(1, boolean_.length());
+
+    var model_ = new prestans.types.Array({
+        elementTemplate: SampleModel
+    });
+    assertTrue(model_.append(new SampleModel()));
+    assertEquals(1, model_.length());
 }
 
 function testRemove() {

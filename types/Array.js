@@ -362,10 +362,10 @@ prestans.types.Array.prototype.getJSONObject = function(opt_filter) {
 	goog.array.forEach(this.elements_, function(element) {
 
 	//Check that element template is a basic type
-	if(this.elementTemplate_ == prestans.types.String ||
-	   this.elementTemplate_ == prestans.types.Integer ||
-	   this.elementTemplate_ == prestans.types.Float ||
-	   this.elementTemplate_ == prestans.types.Boolean)
+	if(this.elementTemplate_ instanceof prestans.types.String ||
+	   this.elementTemplate_ instanceof prestans.types.Integer ||
+	   this.elementTemplate_ instanceof prestans.types.Float ||
+	   this.elementTemplate_ instanceof prestans.types.Boolean)
 		goog.array.insertAt(jsonifiedArray_, element, jsonifiedArray_.length);
 	else if (new this.elementTemplate_() instanceof prestans.types.Model)
 		goog.array.insertAt(jsonifiedArray_, element.getJSONObject(opt_filter), jsonifiedArray_.length);
