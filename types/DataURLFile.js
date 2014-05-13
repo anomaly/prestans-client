@@ -29,7 +29,7 @@ goog.provide('prestans.types.DataURLFile');
 /**
  * @constructor
  */
-prestans.types.DataURLFile = function(opt_config){ // opt_config
+prestans.types.DataURLFile = function(opt_config){
 
     //setup default values if config missing
     if(!goog.isDef(opt_config)) {
@@ -44,9 +44,10 @@ prestans.types.DataURLFile = function(opt_config){ // opt_config
     else
         this.required_ = true;
 
-    if(goog.isDef(opt_config.allowed_mime_types)) {
+    if(goog.isDef(opt_config.allowedMimeTypes))
         this.allowedMimeTypes_ = opt_config.allowedMimeTypes;
-    }
+    else
+        this.allowedMimeTypes_ = new Array();
 
     //run setter once to check if value is valid
     if(goog.isDef(opt_config.value)) {

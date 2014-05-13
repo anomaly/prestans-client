@@ -21,9 +21,17 @@ See the COPYING file for details.
 
 function testConstructor() {
 	
-	var url_ = new prestans.types.DataURLFile();
-	
+	var stringData_ = "ASDASDASDASDASRGDFGSD";
+	var mimeTypes_ = ["image/png", "image/jpeg"];
 
+	var url_ = new prestans.types.DataURLFile({
+		required: true,
+		value: stringData_,
+		allowedMimeTypes: mimeTypes_
+	});
+
+	assertEquals(stringData_, url_.getValue());
+	assertEquals(mimeTypes_, url_.getAllowedMimeTypes());
 }
 
 </script>
