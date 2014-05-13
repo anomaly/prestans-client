@@ -11,11 +11,11 @@ Google Closure client extensions for prestans.
 
 
 ## Unit Testing
-1. Symlink your google closure library location to a "closure" directory in the root of the project.
+1. To calculate dependencies prestans expects the closure directory to located at the same level and named "closure-library".
 
 	<code>
-	cd prestans-client
-	ln -s /home/user/closure-library closure
+	ls
+	closure-library		prestans
 	</code>
 
 1. run the calcdeps.sh script
@@ -23,3 +23,5 @@ Google Closure client extensions for prestans.
 	<code>
 	./calcdeps.sh
 	</code>
+
+1. Open any html file located in the source in a web browser to run unit tests for the corresponding javascript file.
