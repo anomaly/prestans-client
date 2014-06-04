@@ -27,6 +27,7 @@
 goog.provide('prestans.types.DateTime');
 
 goog.require('goog.date.DateTime');
+goog.require('goog.date.UtcDateTime');
 
 /**
  * @constructor
@@ -126,6 +127,26 @@ prestans.types.DateTime.prototype.setValue = function(value) {
 prestans.types.DateTime.prototype.getJSONObject = function() {
     if(this.value_ instanceof goog.date.DateTime)
         return this.value_.toIsoString(true);
+    else
+        return null;
+};
+
+/******************
+ * CLASS METHODS
+ ******************/
+
+prestans.types.DateTime.asUTC = function(datetime) {
+    if(datetime instanceof goog.date.DateTime) {
+        return new goog.date.UtcDateTime(
+            datetime.getFullYear(),
+            datetime.getMonth(),
+            datetime.getDate(),
+            datetime.getHours(),
+            datetime.getMinutes(),
+            datetime.getSeconds(),
+            datetime.getMilliseconds()
+        );
+    }
     else
         return null;
 };
