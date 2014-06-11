@@ -116,11 +116,11 @@ prestans.types.Array = function(config) {
 
 	}
 
-	if(goog.isDef(config.maxLength) && config.maxLength != null)
-		this.maxLength_ = config.maxLength;
+	if(goog.isDefAndNotNull(config.opt_maxLength))
+		this.maxLength_ = config.opt_maxLength;
 
-	if(goog.isDef(config.minLength) && config.minLength != null)
-		this.minLength_ = config.minLength;
+	if(goog.isDefAndNotNull(config.opt_minLength))
+		this.minLength_ = config.opt_minLength;
 };
 goog.inherits(prestans.types.Array, goog.events.EventTarget);
 
@@ -190,13 +190,13 @@ prestans.types.Array.prototype.append = function(value) {
 		return false;
 };
 
-prestans.types.Array.prototype.binarySearch = function(element, compare) {
-	return goog.array.binarySearch(this.elements_, element, compare);
+prestans.types.Array.prototype.binarySearch = function(target, opt_compareFn) {
+	return goog.array.binarySearch(this.elements_, target, opt_compareFn);
 };
 
-prestans.types.Array.prototype.binaryInsert = function(element, compare) {
+prestans.types.Array.prototype.binaryInsert = function(value, opt_compareFn) {
 
-	var retVal_ = goog.array.binaryInsert(this.elements_, element, compare);
+	var retVal_ = goog.array.binaryInsert(this.elements_, value, opt_compareFn);
 
 	if(retVal_)
 		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
@@ -204,9 +204,9 @@ prestans.types.Array.prototype.binaryInsert = function(element, compare) {
 	return retVal_;
 };
 
-prestans.types.Array.prototype.binaryRemove = function(element, compare) {
+prestans.types.Array.prototype.binaryRemove = function(value, opt_compareFn) {
 
-	var retVal_ = goog.array.binaryRemove(this.elements_, element, compare);
+	var retVal_ = goog.array.binaryRemove(this.elements_, value, opt_compareFn);
 
 	if(retVal_)
 		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
@@ -214,10 +214,10 @@ prestans.types.Array.prototype.binaryRemove = function(element, compare) {
 	return retVal_;
 };
 
-prestans.types.Array.prototype.insertAt = function(value, index) {
+prestans.types.Array.prototype.insertAt = function(obj, opt_i) {
 	
-	if(this.itemIsValidType_(value)) {
-		goog.array.insertAt(this.elements_, value, index);
+	if(this.itemIsValidType_(obj)) {
+		goog.array.insertAt(this.elements_, obj, opt_i);
 		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
 
 		return true;
@@ -234,7 +234,7 @@ prestans.types.Array.prototype.insertAfter = function(newValue, existingValue) {
 
 	var indexToInsert_ = goog.array.indexOf(this.elements_, existingValue) + 1;
 
-	if(this.itemIsValidType_) {
+	if(this.itemIsValidType_(newValue)) {
 		goog.array.insertAt(this.elements_, newValue, indexToInsert_);
 		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
 
@@ -245,23 +245,33 @@ prestans.types.Array.prototype.insertAfter = function(newValue, existingValue) {
 };
 
 
-prestans.types.Array.prototype.indexOf = function(object, opt_fromIndex) {
-	return goog.array.indexOf(this.elements_, object, opt_fromIndex);
+prestans.types.Array.prototype.indexOf = function(obj, opt_fromIndex) {
+	return goog.array.indexOf(this.elements_, obj, opt_fromIndex);
 };
 
-prestans.types.Array.prototype.removeIf = function(condition, opt_context) {
+prestans.types.Array.prototype.removeAt = function(i) {
 
-	var retVal_ = goog.array.removeIf(this.elements_, condition, opt_context);
+	var retVal_ = goog.array.removeAt(this.elements_, i);
 
 	if(retVal_)
 		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
 
-	return retVal_
+	return retVal_;
 };
 
-prestans.types.Array.prototype.remove = function(value) {
+prestans.types.Array.prototype.removeIf = function(f, opt_obj) {
 
-	var retVal_ = goog.array.remove(this.elements_, value);
+	var retVal_ = goog.array.removeIf(this.elements_, f, opt_obj);
+
+	if(retVal_)
+		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+
+	return retVal_;
+};
+
+prestans.types.Array.prototype.remove = function(obj) {
+
+	var retVal_ = goog.array.remove(this.elements_, obj);
 
 	if(retVal_)
 		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
@@ -273,8 +283,8 @@ prestans.types.Array.prototype.length = function() {
 	return this.elements_.length;
 };
 
-prestans.types.Array.prototype.sort = function(sortFunction) {
-	goog.array.sort(this.elements_, sortFunction);
+prestans.types.Array.prototype.sort = function(opt_compareFn) {
+	goog.array.sort(this.elements_, opt_compareFn);
 };
 
 prestans.types.Array.prototype.clear = function() {
@@ -295,8 +305,8 @@ prestans.types.Array.prototype.slice = function(start, opt_end) {
 	});
 };
 
-prestans.types.Array.prototype.contains = function(element) {
-	return goog.array.contains(this.elements_, element);
+prestans.types.Array.prototype.contains = function(obj) {
+	return goog.array.contains(this.elements_, obj);
 };
 
 prestans.types.Array.prototype.containsIf = function(condition, opt_context) {

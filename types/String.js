@@ -46,16 +46,16 @@ prestans.types.String = function(opt_config){ // opt_value, opt_required, opt_de
     else
         this.required_ = true;
 
-    if(goog.isDef(opt_config.defaultValue)) {
+    if(goog.isDefAndNotNull(opt_config.defaultValue)) {
         this.default_ = opt_config.defaultValue;
         this.value_ = this.default_;
     }
 
-    if(goog.isDef(opt_config.maxLength))
-        this.maxLength_ = opt_config.maxLength;
+    if(goog.isDefAndNotNull(opt_config.opt_maxLength))
+        this.maxLength_ = opt_config.opt_maxLength;
     
-    if(goog.isDef(opt_config.minLength))
-        this.minLength_ = opt_config.minLength;
+    if(goog.isDefAndNotNull(opt_config.opt_minLength))
+        this.minLength_ = opt_config.opt_minLength;
 
     if(goog.isDef(opt_config.format) && opt_config.format != null)
         this.format_ = new RegExp(opt_config.format);
@@ -101,11 +101,11 @@ prestans.types.String.prototype.setValue = function(value) {
     }
 
     //Check max length
-    if(this.maxLength_ != null && value.length > this.maxLength_)
+    if(goog.isDefAndNotNull(this.maxLength_) && value.length > this.maxLength_)
         return false;
     
     //Check min length
-    if(this.minLength_ != null && value.length < this.minLength_) {
+    if(goog.isDefAndNotNull(this.minLength_) && value.length < this.minLength_) {
         return false;
     }
 

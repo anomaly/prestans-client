@@ -74,7 +74,7 @@ function testMinLength() {
     
     var string_ = new prestans.types.String({
         required: false,
-        minLength: 3
+        opt_minLength: 3
     });
 
     assertTrue(string_.setValue("123"));
@@ -86,7 +86,7 @@ function testMaxLength() {
 
     var string_ = new prestans.types.String({
         required: false,
-        maxLength: 3
+        opt_maxLength: 3
     });
 
     assertTrue(string_.setValue("123"));

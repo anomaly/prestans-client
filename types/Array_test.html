@@ -167,6 +167,24 @@ function testAppend() {
     assertEquals(1, model_.length());
 }
 
+function testRemoveAt() {
+    
+    var bands_ = ["Metallica", "Iron Maiden"];
+    var array_ = new prestans.types.Array({
+        elementTemplate: new prestans.types.String({
+            required: true
+        }),
+        opt_elements: bands_
+    });
+
+    assertTrue(array_.removeAt(0));
+    assertEquals(1, array_.length());
+    assertEquals("Iron Maiden", array_.objectAtIndex(0));
+
+    assertTrue(array_.removeAt(0));
+    assertTrue(array_.isEmpty());
+}
+
 function testRemove() {
     
     var bands_ = ["Metallica", "Iron Maiden"];
@@ -414,7 +432,7 @@ function testMinLength() {
         elementTemplate: new prestans.types.Integer({
             required: true
         }),
-        minLength: 2
+        opt_minLength: 2
     });
     assertTrue(array_.append(1));
     assertFalse(array_.isLengthValid());
@@ -429,7 +447,7 @@ function testMaxLength() {
         elementTemplate: new prestans.types.Integer({
             required: true
         }), 
-        maxLength: 2
+        opt_maxLength: 2
     });
     assertTrue(array_.append(1));
     assertTrue(array_.isLengthValid());
