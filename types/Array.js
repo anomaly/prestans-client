@@ -178,10 +178,16 @@ prestans.types.Array.prototype.itemIsValidType_ = function(value) {
 		throw "value must be the same type as the element template";
 };
 
-prestans.types.Array.prototype.append = function(value) {
+prestans.types.Array.prototype.append = function(value, opt_preventDuplicate) {
 
 	if(this.itemIsValidType_(value)) {
-		goog.array.insertAt(this.elements_, value, this.elements_.length);
+		if(goog.isBoolean(opt_preventDuplicate) && opt_preventDuplicate == true) {
+			goog.array.insert(this.elements_, value);
+		}
+		else {
+			goog.array.insertAt(this.elements_, value, this.elements_.length);
+		}
+
 		this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
 
 		return true;
