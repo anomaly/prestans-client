@@ -47,6 +47,18 @@ prestans.types.DateTime = function(opt_config) {
     else
         this.required_ = true;
 
+    //timezone defaults to false
+    if(goog.isDef(opt_config.timezone))
+        this.timezone_ = opt_config.timezone;
+    else
+        this.timezone_ = false;
+
+    //utc defaults to false
+    if(goog.isDef(opt_config.utc))
+        this.utc_ = opt_config.utc;
+    else
+        this.utc_ = false;
+
     //Check that default is defined and not null
     if(goog.isDef(opt_config.defaultValue) && opt_config.defaultValue != null) {
 
@@ -85,6 +97,8 @@ prestans.types.DateTime = function(opt_config) {
 prestans.types.DateTime.NOW                     = 'prestans.types.DateTime.NOW';
 prestans.types.DateTime.prototype.value_        = null;
 prestans.types.DateTime.prototype.required_     = null;
+prestans.types.DateTime.prototype.timezone_     = null;
+prestans.types.DateTime.prototype.utc_          = null;
 prestans.types.DateTime.prototype.default_      = null;
 prestans.types.DateTime.prototype.format_       = null;
 
@@ -126,7 +140,10 @@ prestans.types.DateTime.prototype.setValue = function(value) {
 
 prestans.types.DateTime.prototype.getJSONObject = function() {
     if(this.value_ instanceof goog.date.DateTime)
-        return this.value_.toIsoString(true);
+        if(this.utc_)
+            return this.value_.toUTCIsoString(true, this.timezone_);
+        else
+            return this.value_.toIsoString(true, this.timezone_);
     else
         return null;
 };
