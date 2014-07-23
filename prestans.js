@@ -1,11 +1,6 @@
 goog.provide('prestans');
 
-/**
- * @constructor
- */
-prestans = function() {
-
-};
+var prestans = prestans || {};
 
 /**
  * Globals
