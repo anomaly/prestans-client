@@ -103,8 +103,12 @@ prestans.types.Date.prototype.setValue = function(value) {
     else if(this.required_ && value == null)
         return false;
 
+    if(value instanceof goog.date.DateTime) {
+        this.value_ = new goog.date.Date(value.getFullYear(), value.getMonth(), value.getDate());
+        return true;
+    }
     //Allow goog.date.Date
-    if(value instanceof goog.date.Date) {
+    else if(value instanceof goog.date.Date) {
         this.value_ = value;
         return true;
     }
