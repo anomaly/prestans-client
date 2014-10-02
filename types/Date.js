@@ -28,6 +28,8 @@ goog.provide('prestans.types.Date');
 
 goog.require('goog.date.Date');
 
+goog.require('prestans');
+
 /**
  * @constructor
 */

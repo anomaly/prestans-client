@@ -27,6 +27,7 @@
 goog.provide('prestans.types.Float');
 
 goog.require('goog.array');
+goog.require('prestans');
 
 /**
  * @constructor

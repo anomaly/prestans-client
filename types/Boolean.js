@@ -26,6 +26,8 @@
 //
 goog.provide('prestans.types.Boolean');
 
+goog.require('prestans');
+
 /**
  * @constructor
 */

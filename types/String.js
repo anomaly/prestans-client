@@ -28,10 +28,12 @@ goog.provide('prestans.types.String');
 
 goog.require('goog.array');
 
+goog.require('prestans');
+
 /**
  * @constructor
 */
-prestans.types.String = function(opt_config){ // opt_value, opt_required, opt_default, opt_maxLength, opt_minLength, opt_format, opt_choices
+prestans.types.String = function(opt_config){
 
     //setup default values if config missing
     if(!goog.isDef(opt_config)) {

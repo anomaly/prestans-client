@@ -27,6 +27,7 @@
 
 goog.provide('prestans.rest.json.Response');
 
+goog.require('prestans');
 goog.require('prestans.types.Array');
 
 /*

@@ -29,6 +29,8 @@ goog.provide('prestans.types.DateTime');
 goog.require('goog.date.DateTime');
 goog.require('goog.date.UtcDateTime');
 
+goog.require('prestans');
+
 /**
  * @constructor
 */

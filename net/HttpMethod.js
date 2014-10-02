@@ -27,6 +27,8 @@
 
 goog.provide('prestans.net.HttpMethod');
 
+goog.require('prestans');
+
 /**
  * @enum {string}
  */

@@ -36,6 +36,7 @@ goog.require('goog.iter.Iterator');
 goog.require('goog.iter.StopIteration');
 goog.require('goog.json');
 
+goog.require('prestans');
 goog.require('prestans.types.Boolean');
 goog.require('prestans.types.Float');
 goog.require('prestans.types.Integer');

@@ -30,6 +30,8 @@ goog.require('goog.date.DateTime');
 goog.require('goog.i18n.DateTimeFormat');
 goog.require('goog.i18n.DateTimeParse');
 
+goog.require('prestans');
+
 /**
  * @constructor
 */

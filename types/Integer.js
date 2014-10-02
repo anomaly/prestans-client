@@ -28,6 +28,7 @@ goog.provide('prestans.types.Integer');
 
 goog.require('goog.array');
 goog.require('goog.string');
+goog.require('prestans');
 
 /**
  * @constructor

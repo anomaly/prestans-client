@@ -31,6 +31,8 @@ goog.provide('prestans.types.Model.AttributeChangedEvent');
 goog.require('goog.events.Event');
 goog.require('goog.events.EventTarget');
 
+goog.require('prestans');
+
 /**
  * @constructor
 */

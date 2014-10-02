@@ -26,6 +26,8 @@
 //
 goog.provide('prestans.types.DataURLFile');
 
+goog.require('prestans');
+
 /**
  * @constructor
  */

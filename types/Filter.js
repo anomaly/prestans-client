@@ -26,6 +26,8 @@
 //
 goog.provide('prestans.types.Filter');
 
+goog.require('prestans');
+
 /**
  * Base class for filters, used for type checking.
  * @constructor
