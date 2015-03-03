@@ -88,12 +88,12 @@ prestans.types.String.prototype.getValue = function() {
 
 prestans.types.String.prototype.setValue = function(value) {
 
+    //Convert empty string to null
+    if(goog.isString(value) && value.length == 0)
+        value = null;
+
     //Check value is a string if required
     if(this.required_ && !goog.isString(value))
-        return false;
-
-    //Check empty string if required
-    if(this.required_ && goog.isString(value) && value.length == 0)
         return false;
 
     //Check null is ok for not required
