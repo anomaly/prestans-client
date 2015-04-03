@@ -1,14 +1,10 @@
-# prestans-client
+## Prestans 2.0 Google Closure Library Extensions
 
-Google Closure client extensions for prestans.
+Prestans provides a number of extensions to Closure Library, that ease and automate building rich JavaScript clients that consume your Prestans API. Our current line up includes:
 
-## Packages
-
-### prestans.net
-
-### prestans.types
-
-
+* REST Client, provides a pattern to create Xhr requests, manages the life cycle and parsers responses, also supports Attribute Fitlers.
+* Types API, a client side replica of the Prestans server types package assisting with parsing responses.
+* Code generation tools to quickly produce client side stubs from your REST application models.
 
 ## Unit Testing
 1. To calculate dependencies prestans expects the closure directory to located at the same level and named "closure-library".
