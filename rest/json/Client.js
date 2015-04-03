@@ -39,9 +39,11 @@ goog.require('prestans.rest.json.Response');
 /**
  * @constructor
  *
- * @param {string} baseUrl
- * @param {class} opt_numRetries
- *
+ *   {
+ *     baseUrl: "/api",
+ *     opt_numRetries: 0,
+ *     opt_minified: true
+ *   }
  *
  */
 prestans.rest.json.Client = function(config) {
@@ -112,7 +114,14 @@ prestans.rest.json.Client.prototype.abortByRequestId = function(requestId) {
     }
 };
 
+/**
+ * @deprecated Use dispatchRequest with the same parameters
+ */
 prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSuccessMethod, callbackFailureMethod, opt_abortPreviousRequests) {
+    this.dispatchRequest(request, callbackSuccessMethod, callbackFailureMethod, opt_abortPreviousRequests);
+};
+
+prestans.rest.json.Client.prototype.dispatchRequest = function(request, callbackSuccessMethod, callbackFailureMethod, opt_abortPreviousRequests) {
 
     var objectAsJson_ = null;
     if(request.getRequestModel() && goog.isDefAndNotNull(request.getRequestFilter()))
@@ -185,6 +194,9 @@ prestans.rest.json.Client.Event = function(type, target, response) {
 };
 goog.inherits(prestans.rest.json.Client.Event, goog.events.Event);
 
+/**
+ * @private
+ */
 prestans.rest.json.Client.Event.prototype.response_     = null;
 
 prestans.rest.json.Client.Event.prototype.getResponse = function() {
