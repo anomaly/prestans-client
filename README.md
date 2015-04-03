@@ -5,7 +5,6 @@ Prestans provides a number of extensions to Closure Library, that ease and autom
 - REST Client, provides a pattern to create Xhr requests, manages the life cycle and parsers responses, also supports Attribute Fitlers.
 - Types API, a client side replica of the Prestans server types package assisting with parsing responses.
 - Code generation tools to quickly produce client side stubs from your REST application models.
-- 
 
 ### Installation
 
@@ -16,17 +15,12 @@ This allows you to keep up to date with our code base and benefit from the lates
 Closure library does the same, and we ensure that we are leveraging off their latest developments.
 
 ### Unit Testing
-1. To calculate dependencies prestans expects the closure directory to located at the same level and named "closure-library".
 
-	<code>
-	ls
-	closure-library		prestans
-	</code>
+Adjust the ``DEPSWRITER`` variable in the calcdeps.sh script and run it in the prestans-client directory.
+	
+    cd prestans-client
+    ./calcdeps.sh
 
-1. run the calcdeps.sh script
+To run these unit tests you will need to start Google Chrome with ``--allow-file-access-from-files`` parameter. Example on Mac OS X:
 
-	<code>
-	./calcdeps.sh
-	</code>
-
-1. Open any html file located in the source in a web browser to run unit tests for the corresponding javascript file.
+    /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --allow-file-access-from-files
