@@ -44,9 +44,6 @@ goog.require('prestans.types.Array');
 */
 
 /**
- * @param {string} requestIdentifier
- * @param {number} statusCode HTTP status of the response.
- *
  * @constructor
  */
 prestans.rest.json.Response = function(config) {
