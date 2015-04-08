@@ -45,6 +45,7 @@ goog.require('prestans.types.String');
 
 /**
  * @constructor
+ * @extends {goog.iter.Iterator}
  */
 prestans.types.ArrayIterator = function(array) {
   this.array_ = array;
@@ -64,6 +65,7 @@ prestans.types.ArrayIterator.prototype.next = function() {
 
 /**
  * @constructor
+ * @extends {goog.events.EventTarget}
  */
 prestans.types.Array = function(config) {
 
@@ -179,6 +181,10 @@ prestans.types.Array.prototype.itemIsValidType_ = function(value) {
 		throw "value must be the same type as the element template";
 };
 
+/**
+ * @param value
+ * @param {Boolean=} opt_preventDuplicate
+ */
 prestans.types.Array.prototype.append = function(value, opt_preventDuplicate) {
 
 	if(this.itemIsValidType_(value)) {
@@ -373,6 +379,9 @@ prestans.types.Array.prototype.getElementTemplate = function(){
 	return this.elementTemplate_;
 };
 
+/**
+ * @param {Object=} opt_filter
+ */
 prestans.types.Array.prototype.getJSONObject = function(opt_filter) {
 	var jsonifiedArray_ = new Array();
 

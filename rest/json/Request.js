@@ -61,7 +61,8 @@ Sample configuration
 
 /**
  * @param {Object} config
- *
+ * @suppress {missingProperties}
+ * 
  * @constructor
  */
 prestans.rest.json.Request = function(config) {

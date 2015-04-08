@@ -38,13 +38,7 @@ goog.require('prestans.rest.json.Response');
 
 /**
  * @constructor
- *
- *   {
- *     baseUrl: "/api",
- *     opt_numRetries: 0,
- *     opt_minified: true
- *   }
- *
+ * @extends {goog.events.EventTarget}
  */
 prestans.rest.json.Client = function(config) {
     
@@ -121,6 +115,12 @@ prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSucc
     this.dispatchRequest(request, callbackSuccessMethod, callbackFailureMethod, opt_abortPreviousRequests);
 };
 
+/**
+ * @param request
+ * @param callbackSuccessMethod
+ * param callbackFailureMethod
+ * @param {boolean=} opt_abortPreviousRequests
+ */
 prestans.rest.json.Client.prototype.dispatchRequest = function(request, callbackSuccessMethod, callbackFailureMethod, opt_abortPreviousRequests) {
 
     var objectAsJson_ = null;
@@ -151,7 +151,7 @@ prestans.rest.json.Client.prototype.dispatchRequest = function(request, callback
     if(request.getResponseFilter())
         headers_.set("Prestans-Response-Attribute-List", request.getResponseFilter().getJSONString(this.minified_, false));
 
-    this.xhrManager_.send(uniqueId_, completeURL_, request.getHttpMethod(), objectAsJson_, headers_, null, goog.bind(function(response){
+    this.xhrManager_.send(uniqueId_, completeURL_, request.getHttpMethod(), objectAsJson_, headers_, 0, goog.bind(function(response){
 
         // Remove this from the list
         goog.array.remove(this.cancelableRequestIds_, uniqueId_);
@@ -187,6 +187,7 @@ prestans.rest.json.Client.prototype.dispatchRequest = function(request, callback
 
 /**
  * @constructor
+ * @extends {goog.events.Event}
  */
 prestans.rest.json.Client.Event = function(type, target, response) {
     goog.events.Event.call(this, type, target);

@@ -35,6 +35,7 @@ goog.require('prestans');
 
 /**
  * @constructor
+ * @extends {goog.events.EventTarget}
 */
 prestans.types.Model = function() {
     goog.events.EventTarget.call(this);
@@ -59,6 +60,7 @@ prestans.types.Model.prototype.dispatchAttributeChangedEvent_ = function(attribu
 
 /**
  * @constructor
+ * @extends {goog.events.Event}
  */
 prestans.types.Model.AttributeChangedEvent = function(config) {
 
@@ -84,7 +86,7 @@ goog.inherits(prestans.types.Model.AttributeChangedEvent, goog.events.Event);
  * @type {string}
  * @private
  */
-prestans.types.Model.AttributeChangedEvent.prototype.identifier_	    = null;
+prestans.types.Model.AttributeChangedEvent.prototype.identifier_	    = "id";
 prestans.types.Model.AttributeChangedEvent.prototype.currentValue_		= null;
 prestans.types.Model.AttributeChangedEvent.prototype.previousValue_		= null;
 
