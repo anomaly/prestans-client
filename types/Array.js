@@ -71,6 +71,11 @@ prestans.types.Array = function(config) {
 
 	goog.events.EventTarget.call(this);
 
+	/**
+ 	 * @private {Array}
+ 	 */
+	this.elements_ = new Array();
+
 	//Check that element template exists
 	if (goog.isDefAndNotNull(config.elementTemplate)) {
 
@@ -90,9 +95,6 @@ prestans.types.Array = function(config) {
 	}
 	else
 		throw "No element template was supplied for Array";
-
-	//setup internal array
-	this.elements_ = new Array();
 
 	//Add elements if passed in
 	if(goog.isDef(config.opt_elements) && goog.isArray(config.opt_elements)) {
@@ -135,10 +137,6 @@ prestans.types.Array.EventType = {
     ARRAY_CHANGED: goog.events.getUniqueId('PRESTANS')
 };
 
-/**
- * @private {Array|null}
- */
-prestans.types.Array.prototype.elements_ 			= null;
 prestans.types.Array.prototype.elementTemplate_ 	= null;
 prestans.types.Array.prototype.maxLength_ 			= null;
 prestans.types.Array.prototype.minLength_ 			= null;
@@ -220,6 +218,11 @@ prestans.types.Array.prototype.binaryInsert = function(value, opt_compareFn) {
 	return retVal_;
 };
 
+/**
+ * @param {VALUE} value
+ * @param {function(VALUE, VALUE): number=} opt_compareFn
+ * @template VALUE
+ */
 prestans.types.Array.prototype.binaryRemove = function(value, opt_compareFn) {
 
 	var retVal_ = goog.array.binaryRemove(this.elements_, value, opt_compareFn);
@@ -383,9 +386,10 @@ prestans.types.Array.prototype.getElementTemplate = function(){
 };
 
 /**
+ * @param {boolean} minified
  * @param {Object=} opt_filter
  */
-prestans.types.Array.prototype.getJSONObject = function(opt_filter) {
+prestans.types.Array.prototype.getJSONObject = function(minified, opt_filter) {
 	var jsonifiedArray_ = new Array();
 
 	goog.array.forEach(this.elements_, function(element) {
@@ -397,7 +401,7 @@ prestans.types.Array.prototype.getJSONObject = function(opt_filter) {
 	   this.elementTemplate_ instanceof prestans.types.Boolean)
 		goog.array.insertAt(jsonifiedArray_, element, jsonifiedArray_.length);
 	else if (new this.elementTemplate_() instanceof prestans.types.Model)
-		goog.array.insertAt(jsonifiedArray_, element.getJSONObject(opt_filter), jsonifiedArray_.length);
+		goog.array.insertAt(jsonifiedArray_, element.getJSONObject(minified, opt_filter), jsonifiedArray_.length);
 
 	}, this);
 
@@ -405,5 +409,5 @@ prestans.types.Array.prototype.getJSONObject = function(opt_filter) {
 };
 
 prestans.types.Array.prototype.getJSONString = function() {
-	return goog.json.serialize(this.getJSONObject());
+	return goog.json.serialize(this.getJSONObject(false));
 };

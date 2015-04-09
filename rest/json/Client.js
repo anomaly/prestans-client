@@ -116,7 +116,7 @@ prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSucc
 };
 
 /**
- * @param request
+ * @param {prestans.rest.json.Request} request
  * @param callbackSuccessMethod
  * param callbackFailureMethod
  * @param {boolean=} opt_abortPreviousRequests
