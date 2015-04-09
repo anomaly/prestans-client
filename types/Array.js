@@ -135,6 +135,9 @@ prestans.types.Array.EventType = {
     ARRAY_CHANGED: goog.events.getUniqueId('PRESTANS')
 };
 
+/**
+ * @private {Array|null}
+ */
 prestans.types.Array.prototype.elements_ 			= null;
 prestans.types.Array.prototype.elementTemplate_ 	= null;
 prestans.types.Array.prototype.maxLength_ 			= null;

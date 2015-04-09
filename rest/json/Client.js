@@ -137,10 +137,9 @@ prestans.rest.json.Client.prototype.dispatchRequest = function(request, callback
     }
     
     // Append this to the list of ids
-    if(request.getCancelable()) {
-        var uniqueId_ = goog.string.format("%s %s", request.getIdentifier(), goog.string.createUniqueString());
+    var uniqueId_ = goog.string.format("%s %s", request.getIdentifier(), goog.string.createUniqueString());
+    if(request.getCancelable())
         goog.array.insert(this.cancelableRequestIds_, uniqueId_);
-    }
 
 
     var headers_ = new goog.structs.Map();
