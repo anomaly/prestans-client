@@ -32,7 +32,8 @@ goog.require('prestans');
 
 /**
  * @constructor
-*/
+ * @param {Object=} opt_config
+ */
 prestans.types.String = function(opt_config){
 
     //setup default values if config missing
@@ -74,18 +75,47 @@ prestans.types.String = function(opt_config){
 
 };
 
+/**
+ * @private
+ */
 prestans.types.String.prototype.value_         = null;
+/**
+ * @private
+ */
 prestans.types.String.prototype.required_      = null;
+/**
+ * @private
+ */
 prestans.types.String.prototype.default_       = null;
+/**
+ * @private
+ */
 prestans.types.String.prototype.maxLength_     = null;
+/**
+ * @private
+ */
 prestans.types.String.prototype.minLength_     = null;
+/**
+ * @private
+ */
 prestans.types.String.prototype.format_        = null;
+/**
+ * @private
+ */
 prestans.types.String.prototype.choices_       = null;
 
+/**
+ * @export
+ * @return {string}
+ */
 prestans.types.String.prototype.getValue = function() {
     return this.value_;
 };
 
+/**
+ * @export
+ * @param {string} value
+ */
 prestans.types.String.prototype.setValue = function(value) {
 
     //Convert empty string to null
@@ -127,18 +157,34 @@ prestans.types.String.prototype.setValue = function(value) {
 
 };
 
+/**
+ * @export
+ * @return {number}
+ */
 prestans.types.String.prototype.getMaxLength = function() {
     return this.maxLength_;
 };
 
+/**
+ * @export
+ * @return {number}
+ */
 prestans.types.String.prototype.getMinLength = function() {
     return this.minLength_;
 };
 
+/**
+ * @export
+ * @return {string}
+ */
 prestans.types.String.prototype.getFormat = function() {
     return this.format_;
 };
 
+/**
+ * @export
+ * @return {Array<string>}
+ */
 prestans.types.String.prototype.getChoices = function() {
     return this.choices_;
 };
