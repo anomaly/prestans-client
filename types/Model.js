@@ -87,17 +87,32 @@ goog.inherits(prestans.types.Model.AttributeChangedEvent, goog.events.Event);
  * @private
  */
 prestans.types.Model.AttributeChangedEvent.prototype.identifier_	    = "id";
+/**
+ * @private
+ */
 prestans.types.Model.AttributeChangedEvent.prototype.currentValue_		= null;
+/**
+ * @private
+ */
 prestans.types.Model.AttributeChangedEvent.prototype.previousValue_		= null;
 
+/**
+ * @export
+ */
 prestans.types.Model.AttributeChangedEvent.prototype.getIdentifier = function() {
 	return this.identifier_;
 };
 
+/**
+ * @export
+ */
 prestans.types.Model.AttributeChangedEvent.prototype.getCurrentValue = function() {
 	return this.currentValue_;
 };
 
+/**
+ * @export
+ */
 prestans.types.Model.AttributeChangedEvent.prototype.getPreviousValue = function() {
 	return this.previousValue_;
 };

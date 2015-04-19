@@ -32,7 +32,8 @@ goog.require('prestans');
 
 /**
  * @constructor
-*/
+ * @param {Object=} opt_config
+ */
 prestans.types.Integer = function(opt_config) {
 
     //setup default values if config missing
@@ -73,9 +74,18 @@ prestans.types.Integer = function(opt_config) {
 
 };
 
+/**
+ * @const
+ */
 prestans.types.Integer.REGEX                    = /^[-+]?\d+$/;
+/**
+ * @const
+ */
 prestans.types.Integer.MAX_SIGNED_INT           = 2147483647;
 
+/**
+ * @export
+ */
 prestans.types.Integer.isInteger = function(value) {
 
     var integer_ = new prestans.types.Integer({
@@ -85,13 +95,35 @@ prestans.types.Integer.isInteger = function(value) {
     return integer_.setValue(value);
 };
 
+/**
+ * @private
+ */
 prestans.types.Integer.prototype.value_         = null;
+/**
+ * @private
+ */
 prestans.types.Integer.prototype.required_      = null;
+/**
+ * @private
+ */
 prestans.types.Integer.prototype.default_       = null;
+/**
+ * @private
+ */
 prestans.types.Integer.prototype.maximum_       = null;
+/**
+ * @private
+ */
 prestans.types.Integer.prototype.minimum_       = null;
+/**
+ * @private
+ */
 prestans.types.Integer.prototype.choices_       = null;
 
+/**
+ * @export
+ * @return {number}
+ */
 prestans.types.Integer.prototype.getValue = function() {
     return this.value_;
 };
@@ -155,6 +187,10 @@ prestans.types.Integer.prototype.setValue = function(value) {
 
 };
 
+/**
+ * @export
+ * @return {Array<number>}
+ */
 prestans.types.Integer.prototype.getChoices = function() {
     return this.choices_;
 };

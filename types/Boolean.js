@@ -30,7 +30,8 @@ goog.require('prestans');
 
 /**
  * @constructor
-*/
+ * @param {Object=} opt_config
+ */
 prestans.types.Boolean = function(opt_config) {
 
     //setup default values if config missing
@@ -58,14 +59,29 @@ prestans.types.Boolean = function(opt_config) {
     }
 };
 
+/**
+ * @private
+ */
 prestans.types.Boolean.prototype.value_         = null;
+/**
+ * @private
+ */
 prestans.types.Boolean.prototype.required_      = null;
+/**
+ * @private
+ */
 prestans.types.Boolean.prototype.default_       = null;
 
+/**
+ * @export
+ */
 prestans.types.Boolean.prototype.getValue = function() {
     return this.value_;
 };
 
+/**
+ * @export
+ */
 prestans.types.Boolean.prototype.setValue = function(value) {
 
     //Check required

@@ -34,7 +34,8 @@ goog.require('prestans');
 
 /**
  * @constructor
-*/
+ * @param {Object=} opt_config
+ */
 prestans.types.Time = function(opt_config) {
 
     this.format_ = new goog.i18n.DateTimeFormat(prestans.types.Time.FORMAT);
@@ -86,22 +87,47 @@ prestans.types.Time = function(opt_config) {
     }
 };
 
-/*
+/**
  * @const
  * @type {string}
  */
 prestans.types.Time.FORMAT                  = 'HH:mm:ss';
+/**
+ * @const
+ * @type {string}
+ */
 prestans.types.Time.NOW                     = 'prestans.types.Time.NOW';
+/**
+ * @private
+ */
 prestans.types.Time.prototype.value_        = null;
+/**
+ * @private
+ */
 prestans.types.Time.prototype.required_     = null;
+/**
+ * @private
+ */
 prestans.types.Time.prototype.default_      = null;
+/**
+ * @private
+ */
 prestans.types.Time.prototype.format_       = null;
+/**
+ * @private
+ */
 prestans.types.Time.prototype.parse_        = null;
 
+/**
+ * @export
+ */
 prestans.types.Time.prototype.getValue = function() {
     return this.value_;
 };
 
+/**
+ * @export
+ */
 prestans.types.Time.prototype.setValue = function(value) {
 
     //Allow null for not required
@@ -136,6 +162,9 @@ prestans.types.Time.prototype.setValue = function(value) {
     return false;
 };
 
+/**
+ * @export
+ */
 prestans.types.Time.prototype.getJSONObject = function() {
     if(this.value_ instanceof goog.date.DateTime) {
         return this.format_.format(this.value_);

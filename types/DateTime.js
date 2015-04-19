@@ -33,7 +33,8 @@ goog.require('prestans');
 
 /**
  * @constructor
-*/
+ * @param {Object=} opt_config
+ */
 prestans.types.DateTime = function(opt_config) {
 
     //setup default values if config missing
@@ -97,17 +98,41 @@ prestans.types.DateTime = function(opt_config) {
  * @type {string}
  */
 prestans.types.DateTime.NOW                     = 'prestans.types.DateTime.NOW';
+/**
+ * @private
+ */
 prestans.types.DateTime.prototype.value_        = null;
+/**
+ * @private
+ */
 prestans.types.DateTime.prototype.required_     = null;
+/**
+ * @private
+ */
 prestans.types.DateTime.prototype.timezone_     = null;
+/**
+ * @private
+ */
 prestans.types.DateTime.prototype.utc_          = null;
+/**
+ * @private
+ */
 prestans.types.DateTime.prototype.default_      = null;
+/**
+ * @private
+ */
 prestans.types.DateTime.prototype.format_       = null;
 
+/**
+ * @export
+ */
 prestans.types.DateTime.prototype.getValue = function() {
     return this.value_;
 };
 
+/**
+ * @export
+ */
 prestans.types.DateTime.prototype.setValue = function(value) {
 
     //Allow null for not required
@@ -140,6 +165,9 @@ prestans.types.DateTime.prototype.setValue = function(value) {
     return false;
 };
 
+/**
+ * @export
+ */
 prestans.types.DateTime.prototype.getJSONObject = function() {
     if(this.value_ instanceof goog.date.DateTime)
         if(this.utc_)

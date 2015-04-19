@@ -137,22 +137,47 @@ prestans.types.Array.EventType = {
     ARRAY_CHANGED: goog.events.getUniqueId('PRESTANS')
 };
 
+/**
+ * @private
+ */
 prestans.types.Array.prototype.elementTemplate_ 	= null;
+/**
+ * @private
+ */
 prestans.types.Array.prototype.maxLength_ 			= null;
+/**
+ * @private
+ */
 prestans.types.Array.prototype.minLength_ 			= null;
 
+/**
+ * @export
+ * @return {number}
+ */
 prestans.types.Array.prototype.getMinLength = function() {
 	return this.minLength_;
 };
 
+/**
+ * @export
+ * @return {number}
+ */
 prestans.types.Array.prototype.getMaxLength = function() {
 	return this.maxLength_;
 };
 
+/**
+ * @export
+ * @return {boolean}
+ */
 prestans.types.Array.prototype.isEmpty = function() {
 	return goog.array.isEmpty(this.elements_);
 };
 
+/**
+ * @export
+ * @return {boolean}
+ */
 prestans.types.Array.prototype.isLengthValid = function() {
 
 	//Check max length
@@ -166,6 +191,9 @@ prestans.types.Array.prototype.isLengthValid = function() {
 	return true;
 };
 
+/** 
+ * @private
+ */
 prestans.types.Array.prototype.itemIsValidType_ = function(value) {
 	if (this.elementTemplate_ instanceof prestans.types.String ||
 		this.elementTemplate_ instanceof prestans.types.Boolean ||
@@ -183,8 +211,9 @@ prestans.types.Array.prototype.itemIsValidType_ = function(value) {
 };
 
 /**
- * @param value
- * @param {Boolean=} opt_preventDuplicate
+ * @export
+ * @param {*} value
+ * @param {boolean=} opt_preventDuplicate
  */
 prestans.types.Array.prototype.append = function(value, opt_preventDuplicate) {
 
@@ -204,10 +233,16 @@ prestans.types.Array.prototype.append = function(value, opt_preventDuplicate) {
 		return false;
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.binarySearch = function(target, opt_compareFn) {
 	return goog.array.binarySearch(this.elements_, target, opt_compareFn);
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.binaryInsert = function(value, opt_compareFn) {
 
 	var retVal_ = goog.array.binaryInsert(this.elements_, value, opt_compareFn);
@@ -219,6 +254,7 @@ prestans.types.Array.prototype.binaryInsert = function(value, opt_compareFn) {
 };
 
 /**
+ * @export
  * @param {VALUE} value
  * @param {function(VALUE, VALUE): number=} opt_compareFn
  * @template VALUE
@@ -233,6 +269,9 @@ prestans.types.Array.prototype.binaryRemove = function(value, opt_compareFn) {
 	return retVal_;
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.insertAt = function(obj, opt_i) {
 	
 	if(this.itemIsValidType_(obj)) {
@@ -245,6 +284,9 @@ prestans.types.Array.prototype.insertAt = function(obj, opt_i) {
 		return false;
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.insertAfter = function(newValue, existingValue) {
 
 	//check that the existing value actually exists
@@ -263,11 +305,16 @@ prestans.types.Array.prototype.insertAfter = function(newValue, existingValue) {
 		return false;
 };
 
-
+/**
+ * @export
+ */
 prestans.types.Array.prototype.indexOf = function(obj, opt_fromIndex) {
 	return goog.array.indexOf(this.elements_, obj, opt_fromIndex);
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.removeAt = function(i) {
 
 	var retVal_ = goog.array.removeAt(this.elements_, i);
@@ -278,6 +325,9 @@ prestans.types.Array.prototype.removeAt = function(i) {
 	return retVal_;
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.removeIf = function(f, opt_obj) {
 
 	var retVal_ = goog.array.removeIf(this.elements_, f, opt_obj);
@@ -288,6 +338,9 @@ prestans.types.Array.prototype.removeIf = function(f, opt_obj) {
 	return retVal_;
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.remove = function(obj) {
 
 	var retVal_ = goog.array.remove(this.elements_, obj);
@@ -298,23 +351,38 @@ prestans.types.Array.prototype.remove = function(obj) {
 	return retVal_;
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.length = function() {
 	return this.elements_.length;
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.sort = function(opt_compareFn) {
 	goog.array.sort(this.elements_, opt_compareFn);
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.clear = function() {
 	goog.array.clear(this.elements_);
 	this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.find = function(condition, opt_context) {
 	return goog.array.find(this.elements_, condition, opt_context);
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.slice = function(start, opt_end) {
 	var sliced_ = goog.array.slice(this.elements_, start, opt_end);
 
@@ -324,18 +392,31 @@ prestans.types.Array.prototype.slice = function(start, opt_end) {
 	});
 };
 
+/**
+ * @export
+ * @return {boolean}
+ */
 prestans.types.Array.prototype.contains = function(obj) {
 	return goog.array.contains(this.elements_, obj);
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.containsIf = function(condition, opt_context) {
 	return goog.array.find(this.elements_, condition, opt_context) != null;
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.objectAtIndex = function(index) {
 	return this.elements_[index];
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.asArray = function() {
 
 	var array_ = new Array();
@@ -356,6 +437,9 @@ prestans.types.Array.prototype.asArray = function() {
 	return array_;
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.clone = function(opt_filter) {
 
 	var clone_ = new prestans.types.Array({
@@ -381,6 +465,9 @@ prestans.types.Array.prototype.__iterator__ = function(){
 	return new prestans.types.ArrayIterator(this);
 };
 
+/**
+ * @export
+ */
 prestans.types.Array.prototype.getElementTemplate = function(){
 	return this.elementTemplate_;
 };

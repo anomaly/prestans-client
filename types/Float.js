@@ -31,7 +31,8 @@ goog.require('prestans');
 
 /**
  * @constructor
-*/
+ * @param {Object=} opt_config
+ */
 prestans.types.Float = function(opt_config) {
 
     //setup default values if config missing
@@ -69,6 +70,9 @@ prestans.types.Float = function(opt_config) {
 
 };
 
+/**
+ * @const
+ */
 prestans.types.Float.REGEX                    = /^\d+(\.\d*)?|\.\d+$/;
 
 prestans.types.Float.isFloat = function(value) {
@@ -80,17 +84,41 @@ prestans.types.Float.isFloat = function(value) {
     return float_.setValue(value);
 };
 
+/**
+ * @private
+ */
 prestans.types.Float.prototype.value_         = null;
+/**
+ * @private
+ */
 prestans.types.Float.prototype.required_      = null;
+/**
+ * @private
+ */
 prestans.types.Float.prototype.default_       = null;
+/**
+ * @private
+ */
 prestans.types.Float.prototype.maximum_       = null;
+/**
+ * @private
+ */
 prestans.types.Float.prototype.minimum_       = null;
+/**
+ * @private
+ */
 prestans.types.Float.prototype.choices_       = null;
 
+/**
+ * @export
+ */
 prestans.types.Float.prototype.getValue = function() {
     return this.value_;
 };
 
+/**
+ * @export
+ */
 prestans.types.Float.prototype.setValue = function(value) {
 
     //Check required
@@ -142,6 +170,9 @@ prestans.types.Float.prototype.setValue = function(value) {
 
 };
 
+/**
+ * @export
+ */
 prestans.types.Float.prototype.getChoices = function() {
     return this.choices_;
 };

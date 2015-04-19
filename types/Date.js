@@ -32,7 +32,8 @@ goog.require('prestans');
 
 /**
  * @constructor
-*/
+ * @param {Object=} opt_config
+ */
 prestans.types.Date = function(opt_config) {
 
     //setup default values if config missing
@@ -86,15 +87,33 @@ prestans.types.Date = function(opt_config) {
  * @type {string}
  */
 prestans.types.Date.TODAY                   = 'prestans.types.Date.TODAY';
+/**
+ * @private
+ */
 prestans.types.Date.prototype.value_        = null;
+/**
+ * @private
+ */
 prestans.types.Date.prototype.required_     = null;
+/**
+ * @private
+ */
 prestans.types.Date.prototype.default_      = null;
+/**
+ * @private
+ */
 prestans.types.Date.prototype.format_       = null;
 
+/**
+ * @export
+ */
 prestans.types.Date.prototype.getValue = function() {
     return this.value_;
 };
 
+/**
+ * @export
+ */
 prestans.types.Date.prototype.setValue = function(value) {
 
     //Allow null for not required
@@ -132,6 +151,9 @@ prestans.types.Date.prototype.setValue = function(value) {
     return false;
 };
 
+/**
+ * @export
+ */
 prestans.types.Date.prototype.getJSONObject = function() {
     if(this.value_ instanceof goog.date.Date)
         return this.value_.toIsoString(true);

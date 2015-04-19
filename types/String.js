@@ -114,7 +114,7 @@ prestans.types.String.prototype.getValue = function() {
 
 /**
  * @export
- * @param {string} value
+ * @param {*} value
  */
 prestans.types.String.prototype.setValue = function(value) {
 
@@ -175,7 +175,7 @@ prestans.types.String.prototype.getMinLength = function() {
 
 /**
  * @export
- * @return {string}
+ * @return {RegExp}
  */
 prestans.types.String.prototype.getFormat = function() {
     return this.format_;

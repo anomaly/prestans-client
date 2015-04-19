@@ -30,6 +30,7 @@ goog.require('prestans');
 
 /**
  * @constructor
+ * @param {Object=} opt_config
  */
 prestans.types.DataURLFile = function(opt_config){
 
@@ -59,14 +60,29 @@ prestans.types.DataURLFile = function(opt_config){
 
 };
 
+/**
+ * @private
+ */
 prestans.types.DataURLFile.prototype.value_             = null;
+/**
+ * @private
+ */
 prestans.types.DataURLFile.prototype.required_          = null;
+/**
+ * @private
+ */
 prestans.types.DataURLFile.prototype.allowedMimeTypes_  = null;
 
+/**
+ * @export
+ */
 prestans.types.DataURLFile.prototype.getValue = function() {
     return this.value_;
 };
 
+/**
+ * @export
+ */
 prestans.types.DataURLFile.prototype.setValue = function(value) {
 
     //Check value is a string if required
@@ -78,6 +94,9 @@ prestans.types.DataURLFile.prototype.setValue = function(value) {
 
 };
 
+/**
+ * @export
+ */
 prestans.types.DataURLFile.prototype.getAllowedMimeTypes = function() {
     return this.allowedMimeTypes_;
 };
