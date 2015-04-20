@@ -139,14 +139,22 @@ prestans.types.Array.EventType = {
 
 /**
  * @private
+ * @type {?Array}
+ */
+prestans.types.Array.prototype.elements_		 	= null;
+
+/**
+ * @private
  */
 prestans.types.Array.prototype.elementTemplate_ 	= null;
 /**
  * @private
+ * @type {?number}
  */
 prestans.types.Array.prototype.maxLength_ 			= null;
 /**
  * @private
+ * @type {!number}
  */
 prestans.types.Array.prototype.minLength_ 			= null;
 
