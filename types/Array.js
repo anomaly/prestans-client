@@ -72,8 +72,9 @@ prestans.types.Array = function(config) {
 	goog.events.EventTarget.call(this);
 
 	/**
- 	 * @private {Array}
- 	 */
+	 * @private
+	 * @type {Array}
+	 */
 	this.elements_ = new Array();
 
 	//Check that element template exists
@@ -139,28 +140,22 @@ prestans.types.Array.EventType = {
 
 /**
  * @private
- * @type {?Array}
- */
-prestans.types.Array.prototype.elements_		 	= null;
-
-/**
- * @private
  */
 prestans.types.Array.prototype.elementTemplate_ 	= null;
 /**
  * @private
- * @type {?number}
+ * @type {number|null}
  */
 prestans.types.Array.prototype.maxLength_ 			= null;
 /**
  * @private
- * @type {!number}
+ * @type {number|null}
  */
 prestans.types.Array.prototype.minLength_ 			= null;
 
 /**
  * @export
- * @return {number}
+ * @return {number|null}
  */
 prestans.types.Array.prototype.getMinLength = function() {
 	return this.minLength_;
@@ -168,7 +163,7 @@ prestans.types.Array.prototype.getMinLength = function() {
 
 /**
  * @export
- * @return {number}
+ * @return {number|null}
  */
 prestans.types.Array.prototype.getMaxLength = function() {
 	return this.maxLength_;
