@@ -333,6 +333,8 @@ prestans.types.Array.prototype.bucket = function(sorter, opt_obj) {
 
 /**
  * @export
+ * @param obj
+ * @param {!number=} opt_fromIndex
  */
 prestans.types.Array.prototype.indexOf = function(obj, opt_fromIndex) {
     return goog.array.indexOf(this.elements_, obj, opt_fromIndex);
