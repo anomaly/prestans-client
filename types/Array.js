@@ -444,8 +444,10 @@ prestans.types.Array.prototype.objectAtIndex = function(index) {
 
 /**
  * @export
+ * @param {boolean} minified
+ * @param {!prestans.types.Filter=} opt_filter
  */
-prestans.types.Array.prototype.asArray = function() {
+prestans.types.Array.prototype.asArray = function(minified, opt_filter) {
 
     var array_ = new Array();
 
@@ -458,7 +460,7 @@ prestans.types.Array.prototype.asArray = function() {
        this.elementTemplate_ instanceof prestans.types.Boolean)
         goog.array.insertAt(array_, element, array_.length);
     else if (new this.elementTemplate_() instanceof prestans.types.Model)
-        goog.array.insertAt(array_, new this.elementTemplate_(element.getJSONObject()), array_.length);
+        goog.array.insertAt(array_, new this.elementTemplate_(element.getJSONObject(minified, opt_filter)), array_.length);
 
     }, this);
 
