@@ -36,27 +36,45 @@ goog.require('prestans');
  */
 prestans.types.String = function(opt_config){
 
-    //setup default values if config missing
-    if(!goog.isDef(opt_config)) {
-        opt_config = {
-            required: true
-        };
-    }
+    //setup default config if missing
+    if(!goog.isDef(opt_config))
+        opt_config = {};
 
-    //required defaults to true
+    /**
+     * @private
+     * @type {!boolean}
+     */
+    this.required_ = true;
     if(goog.isDef(opt_config.required))
         this.required_ = opt_config.required;
-    else
-        this.required_ = true;
+
+    /**
+     * @private
+     * @type {!boolean}
+     */
+    this.trim_ = true;
+    if(goog.isDef(opt_config.trim))
+        this.trim_ = opt_config.trim;
+        
 
     if(goog.isDefAndNotNull(opt_config.defaultValue)) {
         this.default_ = opt_config.defaultValue;
         this.value_ = this.default_;
     }
 
+    /**
+     * @private
+     * @type {number|null}
+     */
+    this.maxLength_ = null;
     if(goog.isDefAndNotNull(opt_config.opt_maxLength))
         this.maxLength_ = opt_config.opt_maxLength;
     
+    /**
+     * @private
+     * @type {number|null}
+     */
+    this.minLength_ = null;
     if(goog.isDefAndNotNull(opt_config.opt_minLength))
         this.minLength_ = opt_config.opt_minLength;
 
@@ -79,22 +97,12 @@ prestans.types.String = function(opt_config){
  * @private
  */
 prestans.types.String.prototype.value_         = null;
-/**
- * @private
- */
-prestans.types.String.prototype.required_      = null;
+
 /**
  * @private
  */
 prestans.types.String.prototype.default_       = null;
-/**
- * @private
- */
-prestans.types.String.prototype.maxLength_     = null;
-/**
- * @private
- */
-prestans.types.String.prototype.minLength_     = null;
+
 /**
  * @private
  */
@@ -118,6 +126,7 @@ prestans.types.String.prototype.getValue = function() {
  */
 prestans.types.String.prototype.setValue = function(value) {
 
+
     //Convert empty string to null
     if(goog.isString(value) && value.length == 0)
         value = null;
@@ -131,6 +140,10 @@ prestans.types.String.prototype.setValue = function(value) {
         this.value_ = value;
         return true;
     }
+
+    //perform a trim
+    if(this.trim_ && goog.isString(value) && value.length > 0)
+        value = value.trim();
 
     //Check max length
     if(goog.isDefAndNotNull(this.maxLength_) && value.length > this.maxLength_)
@@ -159,7 +172,7 @@ prestans.types.String.prototype.setValue = function(value) {
 
 /**
  * @export
- * @return {number}
+ * @return {number|null}
  */
 prestans.types.String.prototype.getMaxLength = function() {
     return this.maxLength_;
@@ -167,7 +180,7 @@ prestans.types.String.prototype.getMaxLength = function() {
 
 /**
  * @export
- * @return {number}
+ * @return {number|null}
  */
 prestans.types.String.prototype.getMinLength = function() {
     return this.minLength_;
