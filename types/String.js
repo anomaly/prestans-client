@@ -126,6 +126,9 @@ prestans.types.String.prototype.getValue = function() {
  */
 prestans.types.String.prototype.setValue = function(value) {
 
+    //perform a trim
+    if(this.trim_ && goog.isString(value) && value.length > 0)
+        value = value.trim();
 
     //Convert empty string to null
     if(goog.isString(value) && value.length == 0)
@@ -140,10 +143,6 @@ prestans.types.String.prototype.setValue = function(value) {
         this.value_ = value;
         return true;
     }
-
-    //perform a trim
-    if(this.trim_ && goog.isString(value) && value.length > 0)
-        value = value.trim();
 
     //Check max length
     if(goog.isDefAndNotNull(this.maxLength_) && value.length > this.maxLength_)
