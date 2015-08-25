@@ -28,7 +28,7 @@
 goog.provide('prestans.rest.json.Request');
 
 goog.require('goog.array');
-goog.require('goog.string.format');
+goog.require('goog.string');
 
 goog.require('prestans');
 goog.require('prestans.types.Filter');
@@ -69,8 +69,19 @@ prestans.rest.json.Request = function(config) {
 
     this.setIdentifier(config.identifier);
     this.setUrl(config.urlFormat, config.urlArgs);
-    this.setHttpMethod(config.httpMethod);
 
+    /**
+     * @private
+     * @type {!prestans.net.HttpMethod}
+     */
+    this.httpMethod_ = prestans.net.HttpMethod.GET;
+    if(config.httpMethod)
+        this.setHttpMethod(config.httpMethod);
+
+    /**
+     * @private
+     * @type {!Array<Object>}
+     */
     this.parameters_ = new Array();
     if(goog.isDef(config.parameters) && goog.isArray(config.parameters)) {
         goog.array.forEach(config.parameters, function(parameter) {
@@ -82,43 +93,73 @@ prestans.rest.json.Request = function(config) {
     this.setResponseModel(config.responseModel);
     this.setRequestFilter(config.requestFilter);
     this.setResponseFilter(config.responseFilter);
-    this.setIsArray(config.isArray);
+    
+    /**
+     * @private
+     * @type {!boolean}
+     */
+    this.isArray_ = false;
+    if(goog.isDef(config.isArray))
+        this.setIsArray(config.isArray);
+    
     this.setResponseFilter(config.responseFilter);
-    this.setCancelable(config.cancelable);
+
+    /**
+     * @private
+     * @type {!boolean}
+     */
+    this.cancelable_ = true;
+    if(goog.isDef(config.cancelable))
+        this.setCancelable(config.cancelable);
 };
 
-prestans.rest.json.Request.prototype.identifier_                    = null;
-prestans.rest.json.Request.prototype.cancelable_                    = null;
 prestans.rest.json.Request.prototype.urlFormat_                     = null;
 prestans.rest.json.Request.prototype.urlArgs_                       = null;
 prestans.rest.json.Request.prototype.parameters_                    = null;
-prestans.rest.json.Request.prototype.httpMethod_                    = null;
 prestans.rest.json.Request.prototype.requestFilter_                 = null;
 prestans.rest.json.Request.prototype.requestModel_                  = null;
 prestans.rest.json.Request.prototype.responseFilter_                = null;
 prestans.rest.json.Request.prototype.responseModel_                 = null;
-prestans.rest.json.Request.prototype.isArray_                       = false;
 
+/**
+ * Generates a new unique identifer
+ * @param {!string} identifier
+ */
 prestans.rest.json.Request.prototype.setIdentifier = function(identifier) {
-    if(goog.isDef(identifier) && goog.isString(identifier))
-        this.identifier_ = identifier;
-    else
-        throw "identifier must be provided and of type string"
+
+    /**
+     * @private
+     * @type {!string}
+     */
+    this.identifier_ = goog.string.format("%s_%s", identifier, goog.string.createUniqueString());
 };
+
+/**
+ * Returns the unique identifier for this request
+ * @return {!string}
+ */
 prestans.rest.json.Request.prototype.getIdentifier = function() {
     return this.identifier_;
 };
 
+/**
+ * @param {!boolean} cancelable
+ */
 prestans.rest.json.Request.prototype.setCancelable = function(cancelable) {
-    if(goog.isDef(cancelable) && goog.isBoolean(cancelable))
-        this.cancelable_ = cancelable;
-    else
-        this.cancelable_ = true;
+    this.cancelable_ = cancelable;
 };
+
+/**
+ * @return {!boolean}
+ */
 prestans.rest.json.Request.prototype.getCancelable = function() {
     return this.cancelable_;
 };
 
+/**
+ * @param {!string} urlFormat
+ * @param {!Array} urlArgs
+ */
 prestans.rest.json.Request.prototype.setUrl = function(urlFormat, urlArgs) {
 
     //URL format
@@ -172,26 +213,19 @@ prestans.rest.json.Request.prototype.getUrlWithParameters = function() {
     
     }
 
-    /*
-    if(this.responseFilter_ != null) {
-        if(goog.array.isEmpty(this.parameters_))
-            parameterString_ = "?_response_attribute_list="+this.responseFilter_.getJSONString();
-        else
-            parameterString_ = parameterString_ + "&_response_attribute_list="+this.responseFilter_.getJSONString();
-
-    }
-    */
-
     return this.getUrl()+parameterString_;
 };
 
+/**
+ * @param {!prestans.net.HttpMethod} httpMethod
+ */
 prestans.rest.json.Request.prototype.setHttpMethod = function(httpMethod) {
-    //HTTP method
-    if(goog.isDef(httpMethod) && goog.isString(httpMethod))
-        this.httpMethod_ = httpMethod;
-    else
-        throw "http method must be provided and of type string";
+    this.httpMethod_ = httpMethod;
 };
+
+/**
+ * @return {!prestans.net.HttpMethod}
+ */
 prestans.rest.json.Request.prototype.getHttpMethod = function() {
     return this.httpMethod_;
 };
@@ -234,20 +268,29 @@ prestans.rest.json.Request.prototype.setResponseModel = function(responseModel) 
         throw "responseModel must be provided";
 };
 
+/**
+ * @return {!boolean}
+ */
 prestans.rest.json.Request.prototype.getIsArray = function() {
     return this.isArray_;
 };
 
+/**
+ * @param {!boolean} isArray
+ */
 prestans.rest.json.Request.prototype.setIsArray = function(isArray) {
-    if(goog.isDef(isArray) && goog.isBoolean(isArray))
-        this.isArray_ = isArray;
+    this.isArray_ = isArray;
 };
 
 prestans.rest.json.Request.prototype.clearParameters = function() {
     goog.array.clear(this.parameters_);
 };
 
-//Appends the parameter to the parameters list
+/**
+ * Appends parameter to the parameters list
+ * @param {!string} paramKey
+ * @param {!string} paramValue
+ */
 prestans.rest.json.Request.prototype.addParameter = function(paramKey, paramValue) {
     
     var param_ = {

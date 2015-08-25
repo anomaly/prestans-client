@@ -131,15 +131,13 @@ prestans.rest.json.Client.prototype.dispatchRequest = function(request, callback
 
     var completeURL_ = this.baseUrl_ + request.getUrlWithParameters();
     
-    // Abort all requests if this is true
-    if(goog.isDef(opt_abortPreviousRequests) && opt_abortPreviousRequests == true) {
+    //Abort all requests if this is true
+    if(goog.isDef(opt_abortPreviousRequests) && opt_abortPreviousRequests == true)
         this.abortAllPendingRequests();
-    }
     
-    // Append this to the list of ids
-    var uniqueId_ = goog.string.format("%s %s", request.getIdentifier(), goog.string.createUniqueString());
+    //Append this to the list of ids if it is cancellable
     if(request.getCancelable())
-        goog.array.insert(this.cancelableRequestIds_, uniqueId_);
+        goog.array.insert(this.cancelableRequestIds_, request.getIdentifier());
 
 
     var headers_ = new goog.structs.Map();
@@ -150,10 +148,10 @@ prestans.rest.json.Client.prototype.dispatchRequest = function(request, callback
     if(request.getResponseFilter())
         headers_.set("Prestans-Response-Attribute-List", request.getResponseFilter().getJSONString(this.minified_, false));
 
-    this.xhrManager_.send(uniqueId_, completeURL_, request.getHttpMethod(), objectAsJson_, headers_, 0, goog.bind(function(response){
+    this.xhrManager_.send(request.getIdentifier(), completeURL_, request.getHttpMethod(), objectAsJson_, headers_, 0, goog.bind(function(response){
 
         // Remove this from the list
-        goog.array.remove(this.cancelableRequestIds_, uniqueId_);
+        goog.array.remove(this.cancelableRequestIds_, request.getIdentifier());
 
         var responseJson_ = null;
         if(request.getResponseModel() != prestans.rest.json.Response.EMPTY_BODY)
