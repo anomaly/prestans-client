@@ -29,6 +29,7 @@ goog.provide('prestans.rest.json.Request');
 
 goog.require('goog.array');
 goog.require('goog.string');
+goog.require('goog.string.format');
 
 goog.require('prestans');
 goog.require('prestans.types.Filter');
