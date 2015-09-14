@@ -38,7 +38,16 @@ goog.require('prestans');
  */
 prestans.types.Time = function(opt_config) {
 
+    /**
+     * @private
+     * @type {!goog.i18n.DateTimeFormat}
+     */
     this.format_ = new goog.i18n.DateTimeFormat(prestans.types.Time.FORMAT);
+
+    /**
+     * @private
+     * @type {!goog.i18n.DateTimeParse}
+     */
     this.parse_ = new goog.i18n.DateTimeParse(prestans.types.Time.FORMAT);
 
     //setup default values if config missing
@@ -47,17 +56,20 @@ prestans.types.Time = function(opt_config) {
             required: true
         };
     }
-    
-    //required defaults to true
+
+    /**
+     * Required defaults to true
+     * @private
+     * @type {!boolean}
+     */
+    this.required_ = true;
     if(goog.isDef(opt_config.required))
         this.required_ = opt_config.required;
-    else
-        this.required_ = true;
     
     //Check that default is defined and not null
-    if(goog.isDef(opt_config.defaultValue) && opt_config.defaultValue != null) {
+    if(goog.isDefAndNotNull(opt_config.defaultValue)) {
 
-        if(opt_config.defaultValue instanceof goog.date.Date) {
+        if(opt_config.defaultValue instanceof goog.date.DateTime) {
             this.default_ = opt_config.defaultValue;
             this.value_ = this.default_;
         }
@@ -67,13 +79,13 @@ prestans.types.Time = function(opt_config) {
         }
         else if(goog.isString(opt_config.defaultValue)) {
             var parsedDate_ = goog.date.fromIsoString(opt_config.defaultValue);
-            if(parsedDate_ == null)
+            if(goog.isNull(parsedDate_))
                 throw "Default date string incorrect format";
             else {
-                var date_ = new goog.date.Date(parsedDate_.getFullYear(), parsedDate_.getMonth(), parsedDate_.getDate());
+                var datetime_ = new goog.date.DateTime(0, 0, 0, parsedDate_.getHours(), parsedDate_.getMinutes(), parsedDate_.getSeconds());
 
-                this.default_ = date_;
-                this.value_ = date_;
+                this.default_ = datetime_;
+                this.value_ = datetime_;
             }
         }
         else
@@ -101,10 +113,7 @@ prestans.types.Time.NOW                     = 'prestans.types.Time.NOW';
  * @private
  */
 prestans.types.Time.prototype.value_        = null;
-/**
- * @private
- */
-prestans.types.Time.prototype.required_     = null;
+
 /**
  * @private
  */
@@ -148,11 +157,11 @@ prestans.types.Time.prototype.setValue = function(value) {
     if(goog.isString(value)) {
         var parsedDate_ = new goog.date.DateTime(); 
         this.parse_.parse(value, parsedDate_);
-        if(parsedDate_ == null)
+        if(goog.isNull(parsedDate_))
             return false;
         else {
-            var datetime_ = new goog.date.DateTime(0, 0, 0, parsedDate_.getHour(), parsedDate_.getMinute(), parsedDate_.getSeconds());
-            this.value_ = date_;
+            var datetime_ = new goog.date.DateTime(0, 0, 0, parsedDate_.getHours(), parsedDate_.getMinutes(), parsedDate_.getSeconds());
+            this.value_ = datetime_;
             return true;
         }
 
