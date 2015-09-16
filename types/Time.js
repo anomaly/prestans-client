@@ -40,6 +40,18 @@ prestans.types.Time = function(opt_config) {
 
     /**
      * @private
+     * @type {goog.date.DateTime}
+     */
+    this.value_ = null;
+
+    /**
+     * @private
+     * @type {goog.date.DateTime}
+     */
+    this.default_ = null;
+
+    /**
+     * @private
      * @type {!goog.i18n.DateTimeFormat}
      */
     this.format_ = new goog.i18n.DateTimeFormat(prestans.types.Time.FORMAT);
@@ -99,33 +111,11 @@ prestans.types.Time = function(opt_config) {
     }
 };
 
-/**
- * @const
- * @type {string}
- */
-prestans.types.Time.FORMAT                  = 'HH:mm:ss';
-/**
- * @const
- * @type {string}
- */
-prestans.types.Time.NOW                     = 'prestans.types.Time.NOW';
-/**
- * @private
- */
-prestans.types.Time.prototype.value_        = null;
+/** @const {!string} */
+prestans.types.Time.FORMAT = 'HH:mm:ss';
 
-/**
- * @private
- */
-prestans.types.Time.prototype.default_      = null;
-/**
- * @private
- */
-prestans.types.Time.prototype.format_       = null;
-/**
- * @private
- */
-prestans.types.Time.prototype.parse_        = null;
+/** @const {!string} */
+prestans.types.Time.NOW    = 'prestans.types.Time.NOW';
 
 /**
  * @export
