@@ -39,79 +39,74 @@ goog.require('prestans');
 */
 prestans.types.Model = function() {
     goog.events.EventTarget.call(this);
+
+    this.eventHandler_ = new goog.events.EventHandler(this);
+    this.registerDisposable(this.eventHandler_);
 };
 goog.inherits(prestans.types.Model, goog.events.EventTarget);
 
 /**
  * Events associated with a Model
- * @enum {string}
+ * @enum {!string}
  */
 prestans.types.Model.EventType = {
     ATTRIBUTE_CHANGED: goog.events.getUniqueId('PRESTANS')
 };
 
+/**
+ * @param {!string} attributeName
+ * @param previousValue
+ * @param currentValue
+ */
 prestans.types.Model.prototype.dispatchAttributeChangedEvent_ = function(attributeName, previousValue, currentValue) {
-    this.dispatchEvent(new prestans.types.Model.AttributeChangedEvent({
-        identifier: attributeName,
-        previousValue: previousValue,
-        currentValue: currentValue
-    }));
+    this.dispatchEvent(new prestans.types.Model.AttributeChangedEvent(attributeName, previousValue, currentValue));
 };
 
 /**
  * @constructor
+ * @param {!string} identifier
+ * @param previousValue
+ * @param currentValue
  * @extends {goog.events.Event}
  */
-prestans.types.Model.AttributeChangedEvent = function(config) {
+prestans.types.Model.AttributeChangedEvent = function(identifier, previousValue, currentValue) {
 
-	goog.events.Event.call (this, prestans.types.Model.EventType.ATTRIBUTE_CHANGED);
+	goog.events.Event.call(this, prestans.types.Model.EventType.ATTRIBUTE_CHANGED);
 
-	if(goog.isDefAndNotNull(config.identifier))
-		this.identifier_ = config.identifier;
-	else
-		throw "identifier is required";
+	/**
+	 * @private
+	 * @type {!string}
+	 */
+	this.identifier_ = identifier;
 
-	if(goog.isDef(config.previousValue))
-		this.previousValue_ = config.previousValue;
-	else
-		throw "previous value is required";
+	/**
+	 * @private
+	 */
+	this.previousValue_ = previousValue;
 
-	if(goog.isDef(config.currentValue))
-		this.currentValue_ = config.currentValue;
-	else throw "current value is required";
+	/**
+	 * @private
+	 */
+	this.currentValue_ = currentValue;
 };
 goog.inherits(prestans.types.Model.AttributeChangedEvent, goog.events.Event);
 
 /**
- * @type {string}
- * @private
- */
-prestans.types.Model.AttributeChangedEvent.prototype.identifier_	    = "id";
-/**
- * @private
- */
-prestans.types.Model.AttributeChangedEvent.prototype.currentValue_		= null;
-/**
- * @private
- */
-prestans.types.Model.AttributeChangedEvent.prototype.previousValue_		= null;
-
-/**
- * @export
+ * @return {!string}
  */
 prestans.types.Model.AttributeChangedEvent.prototype.getIdentifier = function() {
 	return this.identifier_;
 };
 
 /**
- * @export
+ * @return {*}
  */
 prestans.types.Model.AttributeChangedEvent.prototype.getCurrentValue = function() {
 	return this.currentValue_;
 };
 
 /**
- * @export
+ * @return {*}
  */
 prestans.types.Model.AttributeChangedEvent.prototype.getPreviousValue = function() {
 	return this.previousValue_;
