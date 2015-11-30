@@ -42,6 +42,20 @@ prestans.types.String = function(opt_config){
 
     /**
      * @private
+     * @type {string|null}
+     */
+    this.value_ = null;
+
+    /**
+     * @private
+     * @type {!string}
+     */
+    this.name_ = "";
+    if(goog.isDefAndNotNull(opt_config.opt_name))
+        this.name_ = opt_config.opt_name;
+
+    /**
+     * @private
      * @type {!boolean}
      */
     this.required_ = true;
@@ -57,6 +71,11 @@ prestans.types.String = function(opt_config){
         this.trim_ = opt_config.trim;
         
 
+    /**
+     * @private
+     * @type {string|null}
+     */
+    this.default_ = null;
     if(goog.isDefAndNotNull(opt_config.defaultValue)) {
         this.default_ = opt_config.defaultValue;
         this.value_ = this.default_;
@@ -78,51 +97,42 @@ prestans.types.String = function(opt_config){
     if(goog.isDefAndNotNull(opt_config.opt_minLength))
         this.minLength_ = opt_config.opt_minLength;
 
-    if(goog.isDef(opt_config.format) && opt_config.format != null)
+    /** 
+     * @private
+     * @type {RegExp|null}
+     */
+    this.format_ = null;
+    if(goog.isDefAndNotNull(opt_config.format))
         this.format_ = new RegExp(opt_config.format);
 
-    
+    /**
+     * @private
+     * @type {Array<!string>}
+     */
+    this.choices_ = null;
     if(goog.isDef(opt_config.choices) && goog.isArray(opt_config.choices))
         this.choices_ = opt_config.choices;
 
     //run setter once to check if value is valid
     if(goog.isDef(opt_config.value)) {
         if(!this.setValue(opt_config.value))
-            throw "provided value is not valid";
+            if(goog.isDefAndNotNull(this.name_))
+                throw this.name_+": provided value is not valid "+opt_config.value;
+            else
+                throw "provided value is not valid "+opt_config.value;
     }
 
 };
 
 /**
- * @private
- */
-prestans.types.String.prototype.value_         = null;
-
-/**
- * @private
- */
-prestans.types.String.prototype.default_       = null;
-
-/**
- * @private
- */
-prestans.types.String.prototype.format_        = null;
-/**
- * @private
- */
-prestans.types.String.prototype.choices_       = null;
-
-/**
- * @export
- * @return {string}
+ * @return {string|null}
  */
 prestans.types.String.prototype.getValue = function() {
     return this.value_;
 };
 
 /**
- * @export
- * @param {*} value
+ * @param {string|null} value
  */
 prestans.types.String.prototype.setValue = function(value) {
 
@@ -154,7 +164,7 @@ prestans.types.String.prototype.setValue = function(value) {
     }
 
     //Check format
-    if(this.format_ != null)
+    if(this.format_ instanceof RegExp)
         if(value.match(this.format_) == null)
             return false;
 
@@ -170,7 +180,6 @@ prestans.types.String.prototype.setValue = function(value) {
 };
 
 /**
- * @export
  * @return {number|null}
  */
 prestans.types.String.prototype.getMaxLength = function() {
@@ -178,7 +187,6 @@ prestans.types.String.prototype.getMaxLength = function() {
 };
 
 /**
- * @export
  * @return {number|null}
  */
 prestans.types.String.prototype.getMinLength = function() {
@@ -186,16 +194,14 @@ prestans.types.String.prototype.getMinLength = function() {
 };
 
 /**
- * @export
- * @return {RegExp}
+ * @return {RegExp|null}
  */
 prestans.types.String.prototype.getFormat = function() {
     return this.format_;
 };
 
 /**
- * @export
- * @return {Array<string>}
+ * @return {Array<!string>}
  */
 prestans.types.String.prototype.getChoices = function() {
     return this.choices_;
