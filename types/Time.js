@@ -38,6 +38,18 @@ goog.require('prestans');
  */
 prestans.types.Time = function(opt_config) {
 
+    //setup default config if missing
+    if(!goog.isDef(opt_config))
+        opt_config = {};
+
+    /**
+     * @private
+     * @type {!string}
+     */
+    this.name_ = "Time";
+    if(goog.isDefAndNotNull(opt_config.opt_name))
+        this.name_ = opt_config.opt_name;
+
     /**
      * @private
      * @type {goog.date.DateTime}
@@ -92,7 +104,7 @@ prestans.types.Time = function(opt_config) {
         else if(goog.isString(opt_config.defaultValue)) {
             var parsedDate_ = goog.date.fromIsoString(opt_config.defaultValue);
             if(goog.isNull(parsedDate_))
-                throw "Default date string incorrect format";
+                throw this.name_+": default time string incorrect format";
             else {
                 var datetime_ = new goog.date.DateTime(0, 0, 0, parsedDate_.getHours(), parsedDate_.getMinutes(), parsedDate_.getSeconds());
 
@@ -101,13 +113,13 @@ prestans.types.Time = function(opt_config) {
             }
         }
         else
-            throw "Default must be of acceptable type";
+            throw this.name_+": default must be of acceptable type";
     }
     
     //run setter once to check if value is valid
     if(goog.isDef(opt_config.value)) {
         if(!this.setValue(opt_config.value))
-            throw "provided value is not valid";
+            throw this.name_+": provided value is not valid";
     }
 };
 

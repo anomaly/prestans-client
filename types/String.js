@@ -50,7 +50,7 @@ prestans.types.String = function(opt_config){
      * @private
      * @type {!string}
      */
-    this.name_ = "";
+    this.name_ = "String";
     if(goog.isDefAndNotNull(opt_config.opt_name))
         this.name_ = opt_config.opt_name;
 
@@ -116,10 +116,7 @@ prestans.types.String = function(opt_config){
     //run setter once to check if value is valid
     if(goog.isDef(opt_config.value)) {
         if(!this.setValue(opt_config.value))
-            if(goog.isDefAndNotNull(this.name_))
-                throw this.name_+": provided value is not valid "+opt_config.value;
-            else
-                throw "provided value is not valid "+opt_config.value;
+            throw this.name_+": provided value is not valid "+opt_config.value;
     }
 
 };
@@ -132,7 +129,9 @@ prestans.types.String.prototype.getValue = function() {
 };
 
 /**
- * @param {string|null} value
+ * @param {?} value
+ * 
+ * @return {!boolean}
  */
 prestans.types.String.prototype.setValue = function(value) {
 
@@ -145,8 +144,13 @@ prestans.types.String.prototype.setValue = function(value) {
         value = null;
 
     //Check value is a string if required
-    if(this.required_ && !goog.isString(value))
+    //if(this.required_ && !goog.isString(value)) {
+    if(this.required_ && !(typeof value == 'string')) {
+        console.log(this.required_);
+        console.log(!goog.isString(value));
+        console.log(value);
         return false;
+    }
 
     //Check null is ok for not required
     if(!this.required_ && goog.isNull(value)) {
@@ -169,7 +173,7 @@ prestans.types.String.prototype.setValue = function(value) {
             return false;
 
     //Check that value is in choices
-    if(this.choices_ != null) {
+    if(goog.isDefAndNotNull(this.choices_)) {
         if(!goog.array.contains(this.choices_, value))
             return false;
     }

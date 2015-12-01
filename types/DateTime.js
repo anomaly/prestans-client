@@ -44,6 +44,14 @@ prestans.types.DateTime = function(opt_config) {
         };
     }
 
+    /**
+     * @private
+     * @type {!string}
+     */
+    this.name_ = "DateTime";
+    if(goog.isDefAndNotNull(opt_config.opt_name))
+        this.name_ = opt_config.opt_name;
+
     //required defaults to true
     if(goog.isDef(opt_config.required))
         this.required_ = opt_config.required;
@@ -76,20 +84,20 @@ prestans.types.DateTime = function(opt_config) {
         else if(goog.isString(opt_config.defaultValue)) {
             var parsedDate_ = goog.date.fromIsoString(opt_config.defaultValue);
             if(parsedDate_ == null)
-                throw "Default date string incorrect format";
+                throw this.name_+": default date string incorrect format";
             else {
                 this.default_ = parsedDate_;
                 this.value_ = parsedDate_;
             }
         }
         else
-            throw "Default must be of acceptable type";
+            throw this.name_+": default must be of acceptable type";
     }
 
     //run setter once to check if value is valid
     if(goog.isDef(opt_config.value)) {
         if(!this.setValue(opt_config.value))
-            throw "provided value is not valid";
+            throw this.name_+": provided value is not valid";
     }
 };
 
@@ -131,16 +139,19 @@ prestans.types.DateTime.prototype.getValue = function() {
 };
 
 /**
- * @export
+ * @param {?} value
+ *
+ * @return {!boolean}
  */
 prestans.types.DateTime.prototype.setValue = function(value) {
 
     //Allow null for not required
-    if(!this.required_ && value == null) {
+    if(!this.required_ && goog.isNull(value)) {
         this.value_ = null;
         return true;
     }
-    else if(this.required_ && value == null)
+    //Disallow null for required
+    else if(this.required_ && goog.isNull(value))
         return false;
 
     //Allow goog.date.DateTime
@@ -149,7 +160,7 @@ prestans.types.DateTime.prototype.setValue = function(value) {
         return true;
     }
 
-    //Try to parse string
+    //Allow string
     if(goog.isString(value)) {
         var parsedDate_ = goog.date.fromIsoString(value);   
         if(parsedDate_ == null)
@@ -166,7 +177,7 @@ prestans.types.DateTime.prototype.setValue = function(value) {
 };
 
 /**
- * @export
+ * @return {string|null}
  */
 prestans.types.DateTime.prototype.getJSONObject = function() {
     if(this.value_ instanceof goog.date.DateTime)
@@ -182,18 +193,19 @@ prestans.types.DateTime.prototype.getJSONObject = function() {
  * CLASS METHODS
  ******************/
 
+/**
+ * @param {!goog.date.DateTime} datetime
+ *
+ * @return {goog.date.UtcDateTime}
+ */
 prestans.types.DateTime.asUTC = function(datetime) {
-    if(datetime instanceof goog.date.DateTime) {
-        return new goog.date.UtcDateTime(
-            datetime.getFullYear(),
-            datetime.getMonth(),
-            datetime.getDate(),
-            datetime.getHours(),
-            datetime.getMinutes(),
-            datetime.getSeconds(),
-            datetime.getMilliseconds()
-        );
-    }
-    else
-        return null;
+    return new goog.date.UtcDateTime(
+        datetime.getFullYear(),
+        datetime.getMonth(),
+        datetime.getDate(),
+        datetime.getHours(),
+        datetime.getMinutes(),
+        datetime.getSeconds(),
+        datetime.getMilliseconds()
+    );
 };
