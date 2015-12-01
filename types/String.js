@@ -144,11 +144,8 @@ prestans.types.String.prototype.setValue = function(value) {
         value = null;
 
     //Check value is a string if required
-    //if(this.required_ && !goog.isString(value)) {
-    if(this.required_ && !(typeof value == 'string')) {
-        console.log(this.required_);
-        console.log(!goog.isString(value));
-        console.log(value);
+    if(this.required_ && !goog.isString(value)) {
+    //if(this.required_ && !(typeof value == 'string')) {
         return false;
     }
 
