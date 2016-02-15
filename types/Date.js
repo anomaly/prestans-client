@@ -43,6 +43,14 @@ prestans.types.Date = function(opt_config) {
         };
     }
 
+    /**
+     * @private
+     * @type {!string}
+     */
+    this.name_ = "Date";
+    if(goog.isDefAndNotNull(opt_config.opt_name))
+        this.name_ = opt_config.opt_name;
+
     //required defaults to true
     if(goog.isDef(opt_config.required))
         this.required_ = opt_config.required;
@@ -63,7 +71,7 @@ prestans.types.Date = function(opt_config) {
         else if(goog.isString(opt_config.defaultValue)) {
             var parsedDate_ = goog.date.fromIsoString(opt_config.defaultValue);
             if(parsedDate_ == null)
-                throw "Default date string incorrect format";
+                throw this.name_+": default date string incorrect format";
             else {
                 var date_ = new goog.date.Date(parsedDate_.getFullYear(), parsedDate_.getMonth(), parsedDate_.getDate());
 
@@ -72,13 +80,13 @@ prestans.types.Date = function(opt_config) {
             }
         }
         else
-            throw "Default must be of acceptable type";
+            throw this.name_+": default must be of acceptable type";
     }
 
     //run setter once to check if value is valid
     if(goog.isDef(opt_config.value)) {
         if(!this.setValue(opt_config.value))
-            throw "provided value is not valid";
+            throw this.name_+": provided value is not valid";
     }
 };
 

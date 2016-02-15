@@ -41,6 +41,14 @@ prestans.types.DataURLFile = function(opt_config){
         };
     }
 
+    /**
+     * @private
+     * @type {!string}
+     */
+    this.name_ = "DataURLFile";
+    if(goog.isDefAndNotNull(opt_config.opt_name))
+        this.name_ = opt_config.opt_name;
+
     //required defaults to true
     if(goog.isDef(opt_config.required))
         this.required_ = opt_config.required;
@@ -55,7 +63,7 @@ prestans.types.DataURLFile = function(opt_config){
     //run setter once to check if value is valid
     if(goog.isDef(opt_config.value)) {
         if(!this.setValue(opt_config.value))
-            throw "provided value is not valid";
+            throw this.name_+": provided value is not valid";
     }
 
 };

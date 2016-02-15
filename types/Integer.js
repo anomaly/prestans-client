@@ -43,6 +43,14 @@ prestans.types.Integer = function(opt_config) {
         };
     }
 
+    /**
+     * @private
+     * @type {!string}
+     */
+    this.name_ = "Integer";
+    if(goog.isDefAndNotNull(opt_config.opt_name))
+        this.name_ = opt_config.opt_name;
+
     //required
     if(goog.isDefAndNotNull(opt_config.required))
         this.required_ = opt_config.required;
@@ -67,7 +75,7 @@ prestans.types.Integer = function(opt_config) {
     //run setter once to check if value is valid
     if(goog.isDef(opt_config.value)) {
         if(!this.setValue(opt_config.value))
-            throw goog.string.format("provided value: %i is not valid", opt_config.value);
+            throw goog.string.format("%s: provided value: %i is not valid", this.name_, opt_config.value);
     }
         
 
