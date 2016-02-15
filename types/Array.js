@@ -45,8 +45,9 @@ goog.require('prestans.types.String');
 
 /**
  * @constructor
- * @extends {goog.iter.Iterator}
  * @param {!prestans.types.Array} array
+ *
+ * @extends {goog.iter.Iterator}
  */
 prestans.types.ArrayIterator = function(array) {
 
@@ -73,6 +74,7 @@ prestans.types.ArrayIterator.prototype.next = function() {
 
 /**
  * @constructor
+ *
  * @extends {goog.events.EventTarget}
  */
 prestans.types.Array = function(config) {
@@ -86,6 +88,10 @@ prestans.types.Array = function(config) {
     this.elements_ = new Array();
 
     //Check that element template exists
+    /**
+     * @private
+     */
+    this.elementTemplate_ = null;
     if (goog.isDefAndNotNull(config.elementTemplate)) {
 
         //Check that element template is of an acceptable type
@@ -140,16 +146,12 @@ goog.inherits(prestans.types.Array, goog.events.EventTarget);
 
 /**
  * Events associated with a Model
- * @enum {string}
+ * @enum {!string}
  */
 prestans.types.Array.EventType = {
     ARRAY_CHANGED: goog.events.getUniqueId('PRESTANS')
 };
 
-/**
- * @private
- */
-prestans.types.Array.prototype.elementTemplate_     = null;
 /**
  * @private
  * @type {number|null}
@@ -162,7 +164,6 @@ prestans.types.Array.prototype.maxLength_           = null;
 prestans.types.Array.prototype.minLength_           = null;
 
 /**
- * @export
  * @return {number|null}
  */
 prestans.types.Array.prototype.getMinLength = function() {
@@ -170,7 +171,6 @@ prestans.types.Array.prototype.getMinLength = function() {
 };
 
 /**
- * @export
  * @return {number|null}
  */
 prestans.types.Array.prototype.getMaxLength = function() {
@@ -178,7 +178,6 @@ prestans.types.Array.prototype.getMaxLength = function() {
 };
 
 /**
- * @export
  * @return {boolean}
  */
 prestans.types.Array.prototype.isEmpty = function() {
@@ -186,7 +185,6 @@ prestans.types.Array.prototype.isEmpty = function() {
 };
 
 /**
- * @export
  * @return {boolean}
  */
 prestans.types.Array.prototype.isLengthValid = function() {
@@ -222,7 +220,6 @@ prestans.types.Array.prototype.itemIsValidType_ = function(value) {
 };
 
 /**
- * @export
  * @param {*} value
  * @param {boolean=} opt_preventDuplicate
  */
@@ -245,14 +242,16 @@ prestans.types.Array.prototype.append = function(value, opt_preventDuplicate) {
 };
 
 /**
- * @export
  */
 prestans.types.Array.prototype.binarySearch = function(target, opt_compareFn) {
     return goog.array.binarySearch(this.elements_, target, opt_compareFn);
 };
 
 /**
- * @export
+ * @param value
+ * @param opt_compareFn
+ *
+ * @return {!boolean}
  */
 prestans.types.Array.prototype.binaryInsert = function(value, opt_compareFn) {
 
@@ -265,7 +264,10 @@ prestans.types.Array.prototype.binaryInsert = function(value, opt_compareFn) {
 };
 
 /**
- * @export
+ * @param value
+ * @param opt_compareFn
+ *
+ * @return {!boolean}
  */
 prestans.types.Array.prototype.binaryRemove = function(value, opt_compareFn) {
 
@@ -278,7 +280,10 @@ prestans.types.Array.prototype.binaryRemove = function(value, opt_compareFn) {
 };
 
 /**
- * @export
+ * @param obj
+ * @param opt_i
+ *
+ * @return {!boolean}
  */
 prestans.types.Array.prototype.insertAt = function(obj, opt_i) {
     
@@ -293,7 +298,6 @@ prestans.types.Array.prototype.insertAt = function(obj, opt_i) {
 };
 
 /**
- * @export
  * @param {goog.array.ArrayLike} elementsToAdd The array of elements to add
  * @param {number=} opt_index
  */
@@ -302,7 +306,10 @@ prestans.types.Array.prototype.insertArrayAt = function(elementsToAdd, opt_index
 };
 
 /**
- * @export
+ * @param newValue
+ * @param existingValue
+ *
+ * @return {!boolean}
  */
 prestans.types.Array.prototype.insertAfter = function(newValue, existingValue) {
 
@@ -323,7 +330,6 @@ prestans.types.Array.prototype.insertAfter = function(newValue, existingValue) {
 };
 
 /**
- * @export
  * @param sorter
  * @param {Object=} opt_obj
  */
@@ -332,7 +338,6 @@ prestans.types.Array.prototype.bucket = function(sorter, opt_obj) {
 };
 
 /**
- * @export
  * @param obj
  * @param {!number=} opt_fromIndex
  */
@@ -341,7 +346,9 @@ prestans.types.Array.prototype.indexOf = function(obj, opt_fromIndex) {
 };
 
 /**
- * @export
+ * @param i
+ *
+ * @return {!boolean}
  */
 prestans.types.Array.prototype.removeAt = function(i) {
 
@@ -354,7 +361,9 @@ prestans.types.Array.prototype.removeAt = function(i) {
 };
 
 /**
- * @export
+ * @param f
+ *
+ * @return {!boolean}
  */
 prestans.types.Array.prototype.removeIf = function(f, opt_obj) {
 
@@ -367,7 +376,9 @@ prestans.types.Array.prototype.removeIf = function(f, opt_obj) {
 };
 
 /**
- * @export
+ * @param obj
+ *
+ * @return {!boolean}
  */
 prestans.types.Array.prototype.remove = function(obj) {
 
@@ -380,21 +391,21 @@ prestans.types.Array.prototype.remove = function(obj) {
 };
 
 /**
- * @export
+ * @return {!number}
  */
 prestans.types.Array.prototype.length = function() {
     return this.elements_.length;
 };
 
 /**
- * @export
+ * @param opt_compareFn
  */
 prestans.types.Array.prototype.sort = function(opt_compareFn) {
     goog.array.sort(this.elements_, opt_compareFn);
 };
 
 /**
- * @export
+ * @final
  */
 prestans.types.Array.prototype.clear = function() {
     goog.array.clear(this.elements_);
@@ -402,14 +413,18 @@ prestans.types.Array.prototype.clear = function() {
 };
 
 /**
- * @export
+ * @param condition
+ * @param opt_context
  */
 prestans.types.Array.prototype.find = function(condition, opt_context) {
     return goog.array.find(this.elements_, condition, opt_context);
 };
 
 /**
- * @export
+ * @param {!number} start
+ * @param opt_end
+ *
+ * @return {!prestans.types.Array}
  */
 prestans.types.Array.prototype.slice = function(start, opt_end) {
     var sliced_ = goog.array.slice(this.elements_, start, opt_end);
@@ -421,31 +436,36 @@ prestans.types.Array.prototype.slice = function(start, opt_end) {
 };
 
 /**
- * @export
- * @return {boolean}
+ * @param obj
+ *
+ * @return {!boolean}
  */
 prestans.types.Array.prototype.contains = function(obj) {
     return goog.array.contains(this.elements_, obj);
 };
 
 /**
- * @export
+ * @param condition
+ * @param opt_context
+ *
+ * @return {!boolean}
  */
 prestans.types.Array.prototype.containsIf = function(condition, opt_context) {
     return goog.array.find(this.elements_, condition, opt_context) != null;
 };
 
 /**
- * @export
+ * @param index
  */
 prestans.types.Array.prototype.objectAtIndex = function(index) {
     return this.elements_[index];
 };
 
 /**
- * @export
  * @param {boolean} minified
  * @param {!prestans.types.Filter=} opt_filter
+ *
+ * @return {!Array}
  */
 prestans.types.Array.prototype.asArray = function(minified, opt_filter) {
 
@@ -468,7 +488,7 @@ prestans.types.Array.prototype.asArray = function(minified, opt_filter) {
 };
 
 /**
- * @export
+ * @param opt_filter
  */
 prestans.types.Array.prototype.clone = function(opt_filter) {
 
@@ -496,7 +516,6 @@ prestans.types.Array.prototype.__iterator__ = function(){
 };
 
 /**
- * @export
  */
 prestans.types.Array.prototype.getElementTemplate = function(){
     return this.elementTemplate_;
@@ -525,6 +544,9 @@ prestans.types.Array.prototype.getJSONObject = function(minified, opt_filter) {
     return jsonifiedArray_;
 };
 
+/**
+ * @return {!string}
+ */
 prestans.types.Array.prototype.getJSONString = function() {
     return goog.json.serialize(this.getJSONObject(false));
 };
