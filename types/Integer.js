@@ -36,13 +36,6 @@ goog.require('prestans');
  */
 prestans.types.Integer = function(opt_config) {
 
-    //setup default values if config missing
-    if(!goog.isDef(opt_config)) {
-        opt_config = {
-            required: true
-        };
-    }
-
     /**
      * @private
      * @type {!string}
@@ -51,24 +44,51 @@ prestans.types.Integer = function(opt_config) {
     if(goog.isDefAndNotNull(opt_config.opt_name))
         this.name_ = opt_config.opt_name;
 
-    //required
+    /**
+     * @private
+     * @type {!boolean}
+     */
+    this.required_ = true;
     if(goog.isDefAndNotNull(opt_config.required))
         this.required_ = opt_config.required;
-    else
-        this.required_ = true;
 
-    //default
+    /**
+     * @private
+     * @type {?number}
+     */
+    this.value_ = null;
+
+    /**
+     * @private
+     * @type {?number}
+     */
+    this.default_ = null;
     if(goog.isDef(opt_config.defaultValue)) {
         this.default_ = opt_config.defaultValue;
         this.value_ = this.default_;
     }
 
+    /**
+     * @private
+     * @type {?number}
+     */
+    this.maximum_ = null;
     if(goog.isDef(opt_config.maximum))
         this.maximum_ = opt_config.maximum;
-    
+
+    /**
+     * @private
+     * @type {?number}
+     */
+    this.minimum_ = null;    
     if(goog.isDef(opt_config.minimum))
         this.minimum_ = opt_config.minimum;
     
+    /**
+     * @private
+     * @type {?Array<number>}
+     */
+    this.choices_ = null;
     if(goog.isDef(opt_config.choices))
         this.choices_ = opt_config.choices;
 
@@ -82,17 +102,16 @@ prestans.types.Integer = function(opt_config) {
 
 };
 
-/**
- * @const
- */
-prestans.types.Integer.REGEX                    = /^[-+]?\d+$/;
-/**
- * @const
- */
-prestans.types.Integer.MAX_SIGNED_INT           = 2147483647;
+/** @const {!RegExp} */
+prestans.types.Integer.REGEX = /^[-+]?\d+$/;
+
+/** @const {!number} */
+prestans.types.Integer.MAX_SIGNED_INT = 2147483647;
 
 /**
- * @export
+ * @param {*} value
+ * 
+ * @return {!boolean}
  */
 prestans.types.Integer.isInteger = function(value) {
 
@@ -104,38 +123,38 @@ prestans.types.Integer.isInteger = function(value) {
 };
 
 /**
- * @private
+ * @param {?number} value
+ *
+ * @return {!boolean}
  */
-prestans.types.Integer.prototype.value_         = null;
-/**
- * @private
- */
-prestans.types.Integer.prototype.required_      = null;
-/**
- * @private
- */
-prestans.types.Integer.prototype.default_       = null;
-/**
- * @private
- */
-prestans.types.Integer.prototype.maximum_       = null;
-/**
- * @private
- */
-prestans.types.Integer.prototype.minimum_       = null;
-/**
- * @private
- */
-prestans.types.Integer.prototype.choices_       = null;
+prestans.types.Integer.isBitwiseSafe = function(value) {
+
+    //check that value falls within signed integer range (to avoid bitshift problems in javascript)
+    if(value > prestans.types.Integer.MAX_SIGNED_INT || value < -prestans.types.Integer.MAX_SIGNED_INT)
+        return false;
+    else
+        return true;
+};
 
 /**
- * @export
- * @return {number}
+ * @return {?number}
  */
 prestans.types.Integer.prototype.getValue = function() {
     return this.value_;
 };
 
+/**
+ * @return {!boolean}
+ */
+prestans.types.Integer.prototype.isBitwiseSafe = function() {
+    return prestans.types.Integer.isBitwiseSafe(this.value_);
+};
+
+/**
+ * @param {*} value
+ *
+ * @return {!boolean}
+ */
 prestans.types.Integer.prototype.setValue = function(value) {
 
     //Check required
@@ -165,12 +184,12 @@ prestans.types.Integer.prototype.setValue = function(value) {
     if(isNaN(intValue))
         return false;
 
-    //check that value falls within signed integer range (to avoid bitshift problems in javascript)
-    if(value > prestans.types.Integer.MAX_SIGNED_INT || value < -prestans.types.Integer.MAX_SIGNED_INT)
-        return false;
-
     //check that the value is an integer
     if(goog.isNumber(value) && !(value === +value && value === (value|0)))
+        return false;
+
+    //check is a safe integer
+    if(!Number.isSafeInteger(/** @type {number} */(value)))
         return false;
 
     //copy the integer value across for further testing
@@ -185,7 +204,7 @@ prestans.types.Integer.prototype.setValue = function(value) {
         return false;
 
     //Check that value is in choices
-    if(this.choices_ != null) {
+    if(goog.isDefAndNotNull(this.choices_)) {
         if(!goog.array.contains(this.choices_, value))
             return false;
     }
@@ -196,8 +215,7 @@ prestans.types.Integer.prototype.setValue = function(value) {
 };
 
 /**
- * @export
- * @return {Array<number>}
+ * @return {?Array<number>}
  */
 prestans.types.Integer.prototype.getChoices = function() {
     return this.choices_;
