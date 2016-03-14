@@ -185,8 +185,8 @@ prestans.types.Integer.prototype.setValue = function(value) {
         return false;
 
     //check that the value is an integer
-    if(goog.isNumber(value) && !(value === +value && value === (value|0)))
-        return false;
+    //if(goog.isNumber(value) && !(value === +value && value === (value|0)))
+    //    return false;
 
     //check is a safe integer
     if(!Number.isSafeInteger(/** @type {number} */(value)))
