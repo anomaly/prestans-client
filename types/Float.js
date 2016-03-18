@@ -148,7 +148,7 @@ prestans.types.Float.prototype.setValue = function(value) {
     if(goog.isString(value)) {
         var matches_ = value.match(prestans.types.Float.REGEX);
 
-        if(matches_ == null || matches_.length == 0)
+        if(goog.isNull(matches_) || matches_.length == 0)
             return false;
     }
 
@@ -168,7 +168,7 @@ prestans.types.Float.prototype.setValue = function(value) {
         return false;
 
     //Check that value is in choices
-    if(this.choices_ != null) {
+    if(goog.isDefAndNotNull(this.choices_)) {
         if(!goog.array.contains(this.choices_, value))
             return false;
     }
