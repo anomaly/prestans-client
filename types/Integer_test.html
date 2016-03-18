@@ -22,13 +22,17 @@ See the COPYING file for details.
 function testIsInteger() {
 
     assertTrue(prestans.types.Integer.isInteger(1));
-    assertTrue(prestans.types.Integer.isInteger(prestans.types.Integer.MAX_SIGNED_INT));
-    assertFalse(prestans.types.Integer.isInteger(prestans.types.Integer.MAX_SIGNED_INT+1));
-    assertTrue(prestans.types.Integer.isInteger(-prestans.types.Integer.MAX_SIGNED_INT));
     assertFalse(prestans.types.Integer.isInteger(1.1));
     assertFalse(prestans.types.Integer.isInteger("string"));
+    assertTrue(prestans.types.Integer.isInteger("234"));
     assertFalse(prestans.types.Integer.isInteger(null));
     assertFalse(prestans.types.Integer.isInteger(false));
+}
+
+function testIsBitwiseSafe() {
+    assertTrue(prestans.types.Integer.isBitwiseSafe(prestans.types.Integer.MAX_SIGNED_INT));
+    assertFalse(prestans.types.Integer.isBitwiseSafe(prestans.types.Integer.MAX_SIGNED_INT+1));
+    assertTrue(prestans.types.Integer.isBitwiseSafe(-prestans.types.Integer.MAX_SIGNED_INT));
 }
 
 function testGetAndSetValue() {

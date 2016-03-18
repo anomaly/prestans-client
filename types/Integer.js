@@ -184,12 +184,17 @@ prestans.types.Integer.prototype.setValue = function(value) {
     if(isNaN(intValue))
         return false;
 
+    //check that value is not a float
+    if(goog.isNumber(value) && !(value % 1 === 0))
+        return false;
+
     //check that the value is an integer
+    //disabled as this limits the usable range of integers too much because it uses bit-shifting
     //if(goog.isNumber(value) && !(value === +value && value === (value|0)))
     //    return false;
 
     //check is a safe integer
-    if(!Number.isSafeInteger(/** @type {number} */(value)))
+    if(!Number.isSafeInteger(/** @type {number} */(intValue)))
         return false;
 
     //copy the integer value across for further testing
