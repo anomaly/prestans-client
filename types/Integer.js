@@ -32,9 +32,13 @@ goog.require('prestans');
 
 /**
  * @constructor
- * @param {Object=} opt_config
+ * @param {!Object=} opt_config
  */
 prestans.types.Integer = function(opt_config) {
+
+    //setup a blank config if one was missing
+    if(!goog.isDefAndNotNull(opt_config))
+        opt_config = {};
 
     /**
      * @private

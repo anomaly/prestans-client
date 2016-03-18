@@ -76,18 +76,6 @@ function testGetAndSetValue() {
     
     assertFalse(integer_.setValue(null)); //try to set a null
     assertEquals(-250, integer_.getValue()); //check value
-
-    assertTrue(integer_.setValue(2147483647)); //check max signed integer
-    assertEquals(2147483647, integer_.getValue()) //check value
-
-    assertFalse(integer_.setValue(2147483648)); //check integer above valid range
-    assertEquals(2147483647, integer_.getValue()) //check value
-
-    assertTrue(integer_.setValue(-2147483647)); //check min signed integer
-    assertEquals(-2147483647, integer_.getValue()) //check value
-
-    assertFalse(integer_.setValue(-2147483648)); //check integer below valid range
-    assertEquals(-2147483647, integer_.getValue()) //check value
 }
 
 function testGetChoices() {
@@ -101,6 +89,7 @@ function testGetChoices() {
 }
 
 function testRequired() {
+    
     var integer1_ = new prestans.types.Integer({
         required: false
     });
@@ -112,6 +101,8 @@ function testRequired() {
         required: true
     });
     assertFalse(integer2_.setValue(null));
+    assertFalse(integer2_.setValue(""));
+    assertEquals(null, integer2_.getValue());
 
     var integer3_ = new prestans.types.Integer();
     assertFalse(integer3_.setValue(null));
