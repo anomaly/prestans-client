@@ -155,8 +155,8 @@ prestans.rest.json.Request.prototype.setUrl = function(urlFormat, opt_urlArgs) {
 
     this.urlFormat_ = urlFormat;
 
-    if(goog.isDef(urlArgs) && goog.isArray(urlArgs))
-        this.urlArgs_ = urlArgs;
+    if(goog.isDef(opt_urlArgs) && goog.isArray(opt_urlArgs))
+        this.urlArgs_ = opt_urlArgs;
     else
         this.urlArgs_ = new Array();
 };
