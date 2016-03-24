@@ -13,6 +13,7 @@ See the COPYING file for details.
 <script src="../../deps.js"></script>
 <script>
     goog.require('prestans.rest.json.Response');
+    goog.require('goog.net.HttpStatus');
     goog.require('goog.testing.jsunit');
 </script>
 </head>
@@ -20,9 +21,17 @@ See the COPYING file for details.
 <script>
 
 function testRequestIdentifier() {
-	var response = new prestans.rest.json.Response({
-		requestIdentifier: "id"
-	});
+    var response_ = new prestans.rest.json.Response({
+        requestIdentifier: "id"
+    });
+    assertEquals(response_.getRequestIdentifier(), "id");
+}
+
+function testStatusCode() {
+    var response_ = new prestans.rest.json.Response({
+        statusCode: goog.net.HttpStatus.OK
+    });
+    assertEquals(response_.getStatusCode(), goog.net.HttpStatus.OK);
 }
 
 </script>

@@ -30,19 +30,6 @@ goog.provide('prestans.rest.json.Response');
 goog.require('prestans');
 goog.require('prestans.types.Array');
 
-/*
-{
-    requestIdentifier: The string identifier for the request type,
-    statusCode: HTTP status code,
-    responseModel: Class used to unpack response body,
-    arrayElementTemplate: prestans.types.Model,
-    responseModelElementTemplates: {
-        key: value
-    },
-    responseBody: JSON Object (Optional)
-}
-*/
-
 /**
  * @constructor
  * @param {!Object} config
@@ -99,6 +86,10 @@ prestans.rest.json.Response.prototype.getStatusCode = function() {
     return this.statusCode_;
 };
 
+/**
+ * Unpacks the response body using the model specified in the request.
+ * @return {!prestans.types.Model}
+ */
 prestans.rest.json.Response.prototype.getUnpackedBody = function() {
     if(this.responseModel_ == prestans.rest.json.Response.EMPTY_BODY)
         throw "responseModel must be provided or use prestans.rest.json.Response.EMPTY_BODY";
@@ -108,27 +99,26 @@ prestans.rest.json.Response.prototype.getUnpackedBody = function() {
         return this.unpackBodyWithTemplate(this.responseModel_);
 };
 
+/**
+ * @param {!prestans.types.Model} bodyTemplate
+ *
+ * @return {prestans.types.Array}
+ */
 prestans.rest.json.Response.prototype.unpackBodyAsArrayWithTemplate = function(bodyTemplate) {
 
-    var unpackedBody_ = null;
-
-    //If a response body was provided we should try to unpack it
-    if(goog.isDefAndNotNull(bodyTemplate)) {
-
-        if(new bodyTemplate() instanceof prestans.types.Model) {
-            unpackedBody_ = new prestans.types.Array({
-                elementTemplate: bodyTemplate,
-                opt_json: this.responseBody_,
-                opt_minified: this.minified_
-            });
-        }
-        else
-            throw "responseModel is not an acceptable type: must be subclass of prestans.types.Model";
-    }
-
-    return unpackedBody_;
+    return new prestans.types.Array({
+        elementTemplate: bodyTemplate,
+        opt_json: this.responseBody_,
+        opt_minified: this.minified_
+    });
 };
 
+/**
+ * Unpacks the response body using a provided model.
+ * @param {!prestans.types.Model} bodyTemplate
+ *
+ * @return {!prestans.types.Model}
+ */
 prestans.rest.json.Response.prototype.unpackBodyWithTemplate = function(bodyTemplate) {
     
     var unpackedBody_ = null;
