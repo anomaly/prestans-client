@@ -36,9 +36,11 @@ goog.require('prestans');
 
 /**
  * @constructor
+ *
  * @extends {goog.events.EventTarget}
-*/
+ */
 prestans.types.Model = function() {
+
     goog.events.EventTarget.call(this);
 
     this.eventHandler_ = new goog.events.EventHandler(this);
@@ -68,6 +70,7 @@ prestans.types.Model.prototype.dispatchAttributeChangedEvent_ = function(attribu
  * @param {!string} identifier
  * @param previousValue
  * @param currentValue
+ *
  * @extends {goog.events.Event}
  */
 prestans.types.Model.AttributeChangedEvent = function(identifier, previousValue, currentValue) {

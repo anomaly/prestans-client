@@ -31,8 +31,20 @@ goog.require('prestans');
 goog.require('prestans.types.Array');
 
 /**
+ * @typedef {{
+ *    requestIdentifier:string,
+ *    isArray:boolean,
+ *    responseModel:function(new:prestans.types.Model),
+ *    responseBody:string,
+ *    minified:boolean,
+ *    statusCode:goog.net.HttpStatus
+ *  }}
+ */
+prestans.rest.json.ResponseConfig;
+
+/**
  * @constructor
- * @param {!Object} config
+ * @param {!prestans.rest.json.ResponseConfig} config
  */
 prestans.rest.json.Response = function(config) {
 
@@ -50,10 +62,14 @@ prestans.rest.json.Response = function(config) {
 
     /**
      * @private
-     * @type {!prestans.types.Model}
+     * @type {!function(new:prestans.types.Model)}
      */
     this.responseModel_ = config.responseModel;
 
+    /**
+     * @private
+     * @type {!string}
+     */
     this.responseBody_ = config.responseBody;
     
     /**
@@ -88,21 +104,20 @@ prestans.rest.json.Response.prototype.getStatusCode = function() {
 
 /**
  * Unpacks the response body using the model specified in the request.
- * @return {!prestans.types.Model}
+ *
+ * @return {!prestans.types.Model|!prestans.types.Array}
  */
 prestans.rest.json.Response.prototype.getUnpackedBody = function() {
-    if(this.responseModel_ == prestans.rest.json.Response.EMPTY_BODY)
-        throw "responseModel must be provided or use prestans.rest.json.Response.EMPTY_BODY";
-    else if(this.isArray_)
+    if(this.isArray_)
         return this.unpackBodyAsArrayWithTemplate(this.responseModel_);
     else
         return this.unpackBodyWithTemplate(this.responseModel_);
 };
 
 /**
- * @param {!prestans.types.Model} bodyTemplate
+ * @param {!function(new:prestans.types.Model)} bodyTemplate
  *
- * @return {prestans.types.Array}
+ * @return {!prestans.types.Array}
  */
 prestans.rest.json.Response.prototype.unpackBodyAsArrayWithTemplate = function(bodyTemplate) {
 
@@ -115,22 +130,11 @@ prestans.rest.json.Response.prototype.unpackBodyAsArrayWithTemplate = function(b
 
 /**
  * Unpacks the response body using a provided model.
- * @param {!prestans.types.Model} bodyTemplate
+ * @param bodyTemplate
  *
  * @return {!prestans.types.Model}
  */
 prestans.rest.json.Response.prototype.unpackBodyWithTemplate = function(bodyTemplate) {
-    
-    var unpackedBody_ = null;
 
-    //If a response body was provided we should try to unpack it
-    if(goog.isDefAndNotNull(bodyTemplate)) {
-
-        if(new bodyTemplate() instanceof prestans.types.Model)
-            unpackedBody_ = new bodyTemplate(this.responseBody_, this.minified_);
-        else
-            throw "responseModel is not an acceptable type: must be subclass of prestans.types.Model";
-    }
-
-    return unpackedBody_;
+    return new bodyTemplate(this.responseBody_, this.minified_);
 };
