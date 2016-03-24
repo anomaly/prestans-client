@@ -61,10 +61,8 @@ Sample configuration
 */
 
 /**
- * @param {Object} config
- * @suppress {missingProperties}
- * 
  * @constructor
+ * @param {!Object} config
  */
 prestans.rest.json.Request = function(config) {
 
@@ -114,14 +112,6 @@ prestans.rest.json.Request = function(config) {
         this.setCancelable(config.cancelable);
 };
 
-prestans.rest.json.Request.prototype.urlFormat_                     = null;
-prestans.rest.json.Request.prototype.urlArgs_                       = null;
-prestans.rest.json.Request.prototype.parameters_                    = null;
-prestans.rest.json.Request.prototype.requestFilter_                 = null;
-prestans.rest.json.Request.prototype.requestModel_                  = null;
-prestans.rest.json.Request.prototype.responseFilter_                = null;
-prestans.rest.json.Request.prototype.responseModel_                 = null;
-
 /**
  * Generates a new unique identifer
  * @param {!string} identifier
@@ -159,28 +149,24 @@ prestans.rest.json.Request.prototype.getCancelable = function() {
 
 /**
  * @param {!string} urlFormat
- * @param {!Array} urlArgs
+ * @param {!Array=} opt_urlArgs
  */
-prestans.rest.json.Request.prototype.setUrl = function(urlFormat, urlArgs) {
+prestans.rest.json.Request.prototype.setUrl = function(urlFormat, opt_urlArgs) {
 
-    //URL format
-    if(goog.isDef(urlFormat) && goog.isString(urlFormat))
-        this.urlFormat_ = urlFormat;
-    else
-        throw "url format must be provided and of type string";
+    this.urlFormat_ = urlFormat;
 
-    //URL arguments
     if(goog.isDef(urlArgs) && goog.isArray(urlArgs))
         this.urlArgs_ = urlArgs;
     else
         this.urlArgs_ = new Array();
-
 };
 
-/*
-Google string format expects arguments in this format
-http://stackoverflow.com/questions/676721/calling-dynamic-function-with-dynamic-parameters-in-javascript
-*/
+/**
+ * Google string format expects arguments in this format
+ * http://stackoverflow.com/questions/676721/calling-dynamic-function-with-dynamic-parameters-in-javascript
+ *
+ * @return {!string}
+ */
 prestans.rest.json.Request.prototype.getUrl = function() {
 
     var args_ = new Array();
@@ -189,6 +175,10 @@ prestans.rest.json.Request.prototype.getUrl = function() {
 
     return goog.string.format.apply(this, args_);
 };
+
+/**
+ * @return {!string}
+ */
 prestans.rest.json.Request.prototype.getUrlWithParameters = function() {
     
     var parameterString_ = "";
@@ -235,6 +225,10 @@ prestans.rest.json.Request.prototype.setRequestFilter = function(requestFilter) 
     if(goog.isDef(requestFilter) && requestFilter instanceof prestans.types.Filter)
         this.requestFilter_ = requestFilter;
 };
+
+/**
+ * @return {!prestans.types.Filter}
+ */
 prestans.rest.json.Request.prototype.getRequestFilter = function() {
     return this.requestFilter_;
 };

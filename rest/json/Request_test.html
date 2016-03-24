@@ -9,7 +9,7 @@ See the COPYING file for details.
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Prestans Unit Tests - prestans.rest.json.Request</title>
-<script src="../../../goog/base.js"></script>
+<script src="../../../closure-library/closure/goog/base.js"></script>
 <script src="../../deps.js"></script>
 <script>
     goog.require('prestans.net.HttpMethod');
@@ -23,28 +23,12 @@ See the COPYING file for details.
 <body>
 <script>
 
-function testIdentifier() {
-
-    var config_ = {
-        identifier: "A",
-        httpMethod: prestans.net.HttpMethod.GET,
-        responseModel: new prestans.types.Model(),
-        urlFormat: "/api/task",
-    };
-
-    var request_ = new prestans.rest.json.Request(config_);
-    assertEquals("A", request_.getIdentifier());
-
-    request_.setIdentifier("B");
-    assertEquals("B", request_.getIdentifier());
-}
-
 function testHttpMethod() {
 
     var config_ = {
         identifier: "HttpMethod",
         httpMethod: prestans.net.HttpMethod.GET,
-        responseModel: new prestans.types.Model(),
+        responseModel: prestans.types.Model,
         urlFormat: "/url",
     };
 
@@ -66,7 +50,7 @@ function testUrl() {
     var config_ = {
         identifier: "ABC",
         httpMethod: prestans.net.HttpMethod.GET,
-        responseModel: new prestans.types.Model(),
+        responseModel: prestans.types.Model,
         urlFormat: "/A/%i/B/%i/C/%i",
         urlArgs: [1, 2, 3]
     };
@@ -83,7 +67,7 @@ function testUrlWithParameters() {
     var config_ = {
         identifier: "Search",
         httpMethod: prestans.net.HttpMethod.GET,
-        responseModel: new prestans.types.Model(),
+        responseModel: prestans.types.Model,
         urlFormat: "/search"
     };
 
@@ -120,7 +104,7 @@ function testUrlWithParameters() {
                 value: "yes"
             }
         ],
-        responseModel: new prestans.types.Model(),
+        responseModel: prestans.types.Model,
         urlFormat: "/review/%i/record/search",
         urlArgs: [1]
     };
@@ -138,7 +122,7 @@ function testRequestModel() {
         identifier: "RequestModel",
         httpMethod: prestans.net.HttpMethod.GET,
         requestModel: requestModel_,
-        responseModel: new prestans.types.Model(),
+        responseModel: prestans.types.Model,
         urlFormat: "/url"
     };
 

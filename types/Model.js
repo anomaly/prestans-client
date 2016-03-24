@@ -29,6 +29,7 @@ goog.provide('prestans.types.Model.EventType');
 goog.provide('prestans.types.Model.AttributeChangedEvent');
 
 goog.require('goog.events.Event');
+goog.require('goog.events.EventHandler');
 goog.require('goog.events.EventTarget');
 
 goog.require('prestans');
