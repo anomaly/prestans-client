@@ -30,7 +30,7 @@ goog.provide('prestans.net.HttpMethod');
 goog.require('prestans');
 
 /**
- * @enum {string}
+ * @enum {!string}
  */
 prestans.net.HttpMethod = {
 	HEAD: "HEAD",

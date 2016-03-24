@@ -45,33 +45,56 @@ goog.require('prestans.types.Array');
 
 /**
  * @constructor
+ * @param {!Object} config
  */
 prestans.rest.json.Response = function(config) {
 
+    /**
+     * @private
+     * @type {!string}
+     */
     this.requestIdentifier_ = config.requestIdentifier;
+
+    /**
+     * @private
+     * @type {!boolean}
+     */
     this.isArray_ = config.isArray;
+
+    /**
+     * @private
+     * @type {!prestans.types.Model}
+     */
     this.responseModel_ = config.responseModel;
+
     this.responseBody_ = config.responseBody;
+    
+    /**
+     * @private
+     * @type {!boolean}
+     */
     this.minified_ = config.minified;
 
-    if(goog.isDef(config.statusCode) && goog.isNumber(config.statusCode))
-        this.statusCode_ = config.statusCode;
-    else
-        throw "status code must be provided and of type number";
+    /**
+     * @private
+     * @type {!goog.net.HttpStatus}
+     */
+    this.statusCode_ = config.statusCode;
 };
 
-//constant used to skip body unpack
+/** const {!string} */
 prestans.rest.json.Response.EMPTY_BODY = "prestans.rest.json.Response.EMPTY_BODY";
 
-prestans.rest.json.Response.prototype.requestIdentifier_    = null;
-prestans.rest.json.Response.prototype.responseModel_        = null;
-prestans.rest.json.Response.prototype.responseBody_         = null;
-prestans.rest.json.Response.prototype.statusCode_           = null;
-
+/**
+ * @return {!string}
+ */
 prestans.rest.json.Response.prototype.getRequestIdentifier = function() {
     return this.requestIdentifier_;
 };
 
+/**
+ * @return {!goog.net.HttpStatus}
+ */
 prestans.rest.json.Response.prototype.getStatusCode = function() {
     return this.statusCode_;
 };
