@@ -206,7 +206,7 @@ prestans.types.Integer.prototype.setValue = function(value) {
         return (typeof intValue === 'number') &&
                (intValue % 1 === 0) &&
                intValue >= prestans.types.Integer.MIN_SAFE_INTEGER &&
-               integer <= prestans.types.Integer.MAX_SAFE_INTEGER;
+               intValue <= prestans.types.Integer.MAX_SAFE_INTEGER;
 
     //copy the integer value across for further testing
     value = intValue;
