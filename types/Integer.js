@@ -198,8 +198,15 @@ prestans.types.Integer.prototype.setValue = function(value) {
     //    return false;
 
     //check is a safe integer
-    if(!Number.isSafeInteger(/** @type {number} */(intValue)))
-        return false;
+    if(goog.isDef(Number.isSafeInteger)) {
+        if(!Number.isSafeInteger(/** @type {number} */(intValue)))
+            return false;
+    }
+    else
+        return (typeof intValue === 'number') &&
+               (intValue % 1 === 0) &&
+               intValue >= prestans.types.Integer.MIN_SAFE_INTEGER &&
+               integer <= prestans.types.Integer.MAX_SAFE_INTEGER;
 
     //copy the integer value across for further testing
     value = intValue;
