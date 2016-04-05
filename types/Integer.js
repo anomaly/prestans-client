@@ -101,9 +101,6 @@ prestans.types.Integer = function(opt_config) {
         if(!this.setValue(opt_config.value))
             throw goog.string.format("%s: provided value: %i is not valid", this.name_, opt_config.value);
     }
-        
-
-
 };
 
 /** @const {!RegExp} */
@@ -111,6 +108,14 @@ prestans.types.Integer.REGEX = /^[-+]?\d+$/;
 
 /** @const {!number} */
 prestans.types.Integer.MAX_SIGNED_INT = 2147483647;
+
+/** @const {!number} */
+prestans.types.Integer.MIN_SAFE_INTEGER = -9007199254740991;
+
+/** @const {!number} */
+prestans.types.Integer.MAX_SAFE_INTEGER = 9007199254740991;
+
+
 
 /**
  * @param {*} value
