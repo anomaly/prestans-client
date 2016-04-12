@@ -132,6 +132,26 @@ prestans.types.Integer.isInteger = function(value) {
 };
 
 /**
+ * @param {number} value
+ * 
+ * @return {!boolean}
+ */
+prestans.types.Integer.isSafeInteger = function(value) {
+
+    //check is a safe integer
+    if(goog.isDef(Number.isSafeInteger)) {
+        if(!Number.isSafeInteger(/** @type {number} */(value)))
+            return false;
+    }
+    else {
+        return (typeof value === 'number') &&
+               (value % 1 === 0) &&
+               value >= prestans.types.Integer.MIN_SAFE_INTEGER &&
+               value <= prestans.types.Integer.MAX_SAFE_INTEGER;
+    }
+};
+
+/**
  * @param {?number} value
  *
  * @return {!boolean}
@@ -202,16 +222,9 @@ prestans.types.Integer.prototype.setValue = function(value) {
     //if(goog.isNumber(value) && !(value === +value && value === (value|0)))
     //    return false;
 
-    //check is a safe integer
-    if(goog.isDef(Number.isSafeInteger)) {
-        if(!Number.isSafeInteger(/** @type {number} */(intValue)))
-            return false;
-    }
-    else
-        return (typeof intValue === 'number') &&
-               (intValue % 1 === 0) &&
-               intValue >= prestans.types.Integer.MIN_SAFE_INTEGER &&
-               intValue <= prestans.types.Integer.MAX_SAFE_INTEGER;
+    //check that value is a safe integer
+    if(!prestans.types.Integer.isSafeInteger(intValue))
+        return false;
 
     //copy the integer value across for further testing
     value = intValue;
