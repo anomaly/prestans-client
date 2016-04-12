@@ -139,10 +139,8 @@ prestans.types.Integer.isInteger = function(value) {
 prestans.types.Integer.isSafeInteger = function(value) {
 
     //check is a safe integer
-    if(goog.isDef(Number.isSafeInteger)) {
-        if(!Number.isSafeInteger(/** @type {number} */(value)))
-            return false;
-    }
+    if(goog.isDef(Number.isSafeInteger))
+        return Number.isSafeInteger(/** @type {number} */(value)))
     else {
         return (typeof value === 'number') &&
                (value % 1 === 0) &&
