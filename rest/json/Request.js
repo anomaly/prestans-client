@@ -55,8 +55,8 @@ Sample configuration
     responseModelElementTemplates: {
         key: value
     },
-    urlFormat: ,
-    urlArgs:
+    urlFormat: string,
+    urlArgs: Array
 }
 */
 
@@ -67,7 +67,21 @@ Sample configuration
 prestans.rest.json.Request = function(config) {
 
     this.setIdentifier(config.identifier);
-    this.setUrl(config.urlFormat, config.urlArgs);
+    //this.setUrl(config.urlFormat, config.urlArgs);
+
+    /**
+     * @private
+     * @type {!string}
+     */
+    this.urlFormat_ = config.urlFormat;
+
+    /**
+     * @private
+     * @type {!Array}
+     */
+    this.urlArgs_ = new Array();
+    if(goog.isDef(config.urlArgs) && goog.isArray(config.urlArgs))
+        this.urlArgs_ = config.urlArgs;
 
     /**
      * @private
@@ -150,6 +164,7 @@ prestans.rest.json.Request.prototype.getCancelable = function() {
 /**
  * @param {!string} urlFormat
  * @param {!Array=} opt_urlArgs
+ * @deprecated
  */
 prestans.rest.json.Request.prototype.setUrl = function(urlFormat, opt_urlArgs) {
 

@@ -136,9 +136,19 @@ prestans.types.Array = function(config) {
 
     }
 
+    /**
+     * @private
+     * @type {?number}
+     */
+    this.maxLength_ = null;
     if(goog.isDefAndNotNull(config.opt_maxLength))
         this.maxLength_ = config.opt_maxLength;
 
+    /**
+     * @private
+     * @type {?number}
+     */
+    this.minLength_ = null;
     if(goog.isDefAndNotNull(config.opt_minLength))
         this.minLength_ = config.opt_minLength;
 };
@@ -153,39 +163,28 @@ prestans.types.Array.EventType = {
 };
 
 /**
- * @private
- * @type {number|null}
- */
-prestans.types.Array.prototype.maxLength_           = null;
-/**
- * @private
- * @type {number|null}
- */
-prestans.types.Array.prototype.minLength_           = null;
-
-/**
- * @return {number|null}
+ * @return {?number}
  */
 prestans.types.Array.prototype.getMinLength = function() {
     return this.minLength_;
 };
 
 /**
- * @return {number|null}
+ * @return {?number}
  */
 prestans.types.Array.prototype.getMaxLength = function() {
     return this.maxLength_;
 };
 
 /**
- * @return {boolean}
+ * @return {!boolean}
  */
 prestans.types.Array.prototype.isEmpty = function() {
     return goog.array.isEmpty(this.elements_);
 };
 
 /**
- * @return {boolean}
+ * @return {!boolean}
  */
 prestans.types.Array.prototype.isLengthValid = function() {
 
@@ -298,7 +297,7 @@ prestans.types.Array.prototype.insertAt = function(obj, opt_i) {
 };
 
 /**
- * @param {goog.array.ArrayLike} elementsToAdd The array of elements to add
+ * @param {IArrayLike<?>} elementsToAdd The array of elements to add
  * @param {number=} opt_index
  */
 prestans.types.Array.prototype.insertArrayAt = function(elementsToAdd, opt_index) {
