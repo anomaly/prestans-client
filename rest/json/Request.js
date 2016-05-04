@@ -104,9 +104,25 @@ prestans.rest.json.Request = function(config) {
 
     this.setRequestModel(config.requestModel);
     this.setResponseModel(config.responseModel);
-    this.setRequestFilter(config.requestFilter);
-    this.setResponseFilter(config.responseFilter);
-    
+    //this.setRequestFilter(config.requestFilter);
+    //this.setResponseFilter(config.responseFilter);
+
+    /**
+     * @private
+     * @type {?prestans.types.Filter}
+     */
+    this.requestFilter_ = null;
+    if(goog.isDef(config.requestFilter) && config.requestFilter instanceof prestans.types.Filter)
+        this.requestFilter_ = config.requestFilter;
+
+    /**
+     * @private
+     * @type {?prestans.types.Filter}
+     */
+    this.responseFilter_ = null;
+    if(goog.isDef(config.responseFilter) && config.responseFilter instanceof prestans.types.Filter)
+        this.responseFilter_ = config.responseFilter;
+
     /**
      * @private
      * @type {!boolean}
@@ -114,8 +130,6 @@ prestans.rest.json.Request = function(config) {
     this.isArray_ = false;
     if(goog.isDef(config.isArray))
         this.setIsArray(config.isArray);
-    
-    this.setResponseFilter(config.responseFilter);
 
     /**
      * @private
@@ -236,13 +250,8 @@ prestans.rest.json.Request.prototype.getHttpMethod = function() {
     return this.httpMethod_;
 };
 
-prestans.rest.json.Request.prototype.setRequestFilter = function(requestFilter) {
-    if(goog.isDef(requestFilter) && requestFilter instanceof prestans.types.Filter)
-        this.requestFilter_ = requestFilter;
-};
-
 /**
- * @return {!prestans.types.Filter}
+ * @return {?prestans.types.Filter}
  */
 prestans.rest.json.Request.prototype.getRequestFilter = function() {
     return this.requestFilter_;
@@ -260,10 +269,16 @@ prestans.rest.json.Request.prototype.getRequestModel = function() {
     return this.requestModel_;
 };
 
+/*
 prestans.rest.json.Request.prototype.setResponseFilter = function(responseFilter) {
     if(goog.isDef(responseFilter) && responseFilter instanceof prestans.types.Filter)
         this.responseFilter_ = responseFilter;
 };
+*/
+
+/**
+ * @return {?prestans.types.Filter}
+ */
 prestans.rest.json.Request.prototype.getResponseFilter = function() {
     return this.responseFilter_;
 };
