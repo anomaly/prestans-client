@@ -375,6 +375,22 @@ prestans.types.Array.prototype.removeIf = function(f, opt_obj) {
 };
 
 /**
+ * @param f
+ * @param opt_obj
+ *
+ * @return {!number}
+ */
+prestans.types.Array.prototype.removeAllIf = function(f, opt_obj) {
+
+    var retVal_ = goog.array.removeAllIf(this.elements_, f, opt_obj);
+
+    if(retVal_ > 0)
+        this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));
+
+    return retVal_;
+};
+
+/**
  * @param obj
  *
  * @return {!boolean}
