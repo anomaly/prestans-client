@@ -489,10 +489,10 @@ prestans.types.Array.prototype.asArray = function(minified, opt_filter) {
     goog.array.forEach(this.elements_, function(element) {
 
     //Check that element template is a basic type
-    if(this.elementTemplate_ instanceof prestans.types.String ||
-       this.elementTemplate_ instanceof prestans.types.Integer ||
+    if(this.elementTemplate_ instanceof prestans.types.Boolean ||
        this.elementTemplate_ instanceof prestans.types.Float ||
-       this.elementTemplate_ instanceof prestans.types.Boolean)
+       this.elementTemplate_ instanceof prestans.types.Integer ||
+       this.elementTemplate_ instanceof prestans.types.String)
         goog.array.insertAt(array_, element, array_.length);
     else if (new this.elementTemplate_() instanceof prestans.types.Model)
         goog.array.insertAt(array_, new this.elementTemplate_(element.getJSONObject(minified, opt_filter)), array_.length);
@@ -514,10 +514,10 @@ prestans.types.Array.prototype.clone = function(opt_filter) {
     });
 
     goog.array.forEach(this.elements_, function(element) {
-            if(this.elementTemplate_ instanceof prestans.types.String ||
-               this.elementTemplate_ instanceof prestans.types.Integer ||
+            if(this.elementTemplate_ instanceof prestans.types.Boolean ||
                this.elementTemplate_ instanceof prestans.types.Float ||
-               this.elementTemplate_ == prestans.types.Boolean)
+               this.elementTemplate_ instanceof prestans.types.Integer ||
+               this.elementTemplate_ instanceof prestans.types.String)
                 clone_.append(element);
             else if(new this.elementTemplate_() instanceof prestans.types.Model)
                 clone_.append(element.clone(opt_filter));
