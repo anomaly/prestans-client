@@ -52,23 +52,32 @@ prestans.types.DateTime = function(opt_config) {
     if(goog.isDefAndNotNull(opt_config.opt_name))
         this.name_ = opt_config.opt_name;
 
-    //required defaults to true
+    /**
+     * required defaults to true
+     * @type {!boolean}
+     * @private
+     */
+    this.required_ = true;
     if(goog.isDef(opt_config.required))
         this.required_ = opt_config.required;
-    else
-        this.required_ = true;
 
-    //timezone defaults to false
+    /**
+     * timezone defaults to false
+     * @type {!boolean}
+     * @private
+     */
+    this.timezone_ = false;
     if(goog.isDef(opt_config.timezone))
         this.timezone_ = opt_config.timezone;
-    else
-        this.timezone_ = false;
 
-    //utc defaults to false
+    /**
+     * utc defaults to false
+     * @type {!boolean}
+     * @private
+     */
+    this.utc_ = false;
     if(goog.isDef(opt_config.utc))
         this.utc_ = opt_config.utc;
-    else
-        this.utc_ = false;
 
     //Check that default is defined and not null
     if(goog.isDef(opt_config.defaultValue) && opt_config.defaultValue != null) {
@@ -101,38 +110,11 @@ prestans.types.DateTime = function(opt_config) {
     }
 };
 
-/**
- * @const
- * @type {string}
- */
-prestans.types.DateTime.NOW                     = 'prestans.types.DateTime.NOW';
-/**
- * @private
- */
-prestans.types.DateTime.prototype.value_        = null;
-/**
- * @private
- */
-prestans.types.DateTime.prototype.required_     = null;
-/**
- * @private
- */
-prestans.types.DateTime.prototype.timezone_     = null;
-/**
- * @private
- */
-prestans.types.DateTime.prototype.utc_          = null;
-/**
- * @private
- */
-prestans.types.DateTime.prototype.default_      = null;
-/**
- * @private
- */
-prestans.types.DateTime.prototype.format_       = null;
+/** @const {!string} */
+prestans.types.DateTime.NOW = 'prestans.types.DateTime.NOW';
 
 /**
- * @export
+ * @return {?goog.date.DateTime}
  */
 prestans.types.DateTime.prototype.getValue = function() {
     return this.value_;
@@ -177,7 +159,7 @@ prestans.types.DateTime.prototype.setValue = function(value) {
 };
 
 /**
- * @return {string|null}
+ * @return {?string}
  */
 prestans.types.DateTime.prototype.getJSONObject = function() {
     if(this.value_ instanceof goog.date.DateTime)
@@ -194,7 +176,7 @@ prestans.types.DateTime.prototype.getJSONObject = function() {
  ******************/
 
 /**
- * @param {!goog.date.DateTime} datetime
+ * @param {goog.date.DateTime} datetime
  *
  * @return {goog.date.UtcDateTime}
  */

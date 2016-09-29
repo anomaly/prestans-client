@@ -79,7 +79,7 @@ prestans.rest.json.Request = function(config) {
      * @private
      * @type {!Array}
      */
-    this.urlArgs_ = new Array();
+    this.urlArgs_ = [];
     if(goog.isDef(config.urlArgs) && goog.isArray(config.urlArgs))
         this.urlArgs_ = config.urlArgs;
 
@@ -95,7 +95,7 @@ prestans.rest.json.Request = function(config) {
      * @private
      * @type {!Array<Object>}
      */
-    this.parameters_ = new Array();
+    this.parameters_ = [];
     if(goog.isDef(config.parameters) && goog.isArray(config.parameters)) {
         goog.array.forEach(config.parameters, function(parameter) {
             this.addParameter(parameter.key, parameter.value);
@@ -104,8 +104,6 @@ prestans.rest.json.Request = function(config) {
 
     this.setRequestModel(config.requestModel);
     this.setResponseModel(config.responseModel);
-    //this.setRequestFilter(config.requestFilter);
-    //this.setResponseFilter(config.responseFilter);
 
     /**
      * @private
@@ -141,7 +139,7 @@ prestans.rest.json.Request = function(config) {
 };
 
 /**
- * Generates a new unique identifer
+ * Generates a new unique identifier
  * @param {!string} identifier
  */
 prestans.rest.json.Request.prototype.setIdentifier = function(identifier) {
@@ -187,7 +185,7 @@ prestans.rest.json.Request.prototype.setUrl = function(urlFormat, opt_urlArgs) {
     if(goog.isDef(opt_urlArgs) && goog.isArray(opt_urlArgs))
         this.urlArgs_ = opt_urlArgs;
     else
-        this.urlArgs_ = new Array();
+        this.urlArgs_ = [];
 };
 
 /**
@@ -198,7 +196,7 @@ prestans.rest.json.Request.prototype.setUrl = function(urlFormat, opt_urlArgs) {
  */
 prestans.rest.json.Request.prototype.getUrl = function() {
 
-    var args_ = new Array();
+    var args_ = [];
     goog.array.insert(args_, this.urlFormat_);
     goog.array.insertArrayAt(args_, this.urlArgs_, 1);
 
@@ -326,12 +324,16 @@ prestans.rest.json.Request.prototype.addParameter = function(paramKey, paramValu
     goog.array.insert(this.parameters_, param_);
 };
 
-prestans.rest.json.Request.prototype.removeParameter = function(key) {
+/**
+ * Removes parameter from the parameters list
+ * @param {!string} paramKey
+ */
+prestans.rest.json.Request.prototype.removeParameter = function(paramKey) {
     if(!goog.array.isEmpty(this.parameters_)) {
 
         var clone_ = goog.array.clone(this.parameters_);
-        goog.array.forEach(clone_, function(element, index, array) {
-            if(element.key == key)
+        goog.array.forEach(clone_, function(element) {
+            if(element.key == paramKey)
                 goog.array.remove(this.parameters_, element);
         }, this);
     }

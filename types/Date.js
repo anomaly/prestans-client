@@ -51,11 +51,14 @@ prestans.types.Date = function(opt_config) {
     if(goog.isDefAndNotNull(opt_config.opt_name))
         this.name_ = opt_config.opt_name;
 
-    //required defaults to true
+    /**
+     * required defaults to true
+     * @private
+     * @type {!boolean}
+     */
+    this.required_ = true;
     if(goog.isDef(opt_config.required))
         this.required_ = opt_config.required;
-    else
-        this.required_ = true;
 
     //Check that default is defined and not null
     if(goog.isDef(opt_config.defaultValue) && opt_config.defaultValue != null) {
@@ -90,37 +93,23 @@ prestans.types.Date = function(opt_config) {
     }
 };
 
-/**
- * @const
- * @type {string}
- */
-prestans.types.Date.TODAY                   = 'prestans.types.Date.TODAY';
-/**
- * @private
- */
-prestans.types.Date.prototype.value_        = null;
-/**
- * @private
- */
-prestans.types.Date.prototype.required_     = null;
-/**
- * @private
- */
-prestans.types.Date.prototype.default_      = null;
-/**
- * @private
- */
-prestans.types.Date.prototype.format_       = null;
+/** @const {!string} */
+prestans.types.Date.TODAY = 'prestans.types.Date.TODAY';
 
 /**
- * @export
+ * @final
+ *
+ * @return {?goog.date.Date}
  */
 prestans.types.Date.prototype.getValue = function() {
     return this.value_;
 };
 
 /**
- * @export
+ * @final
+ * @param {*} value
+ *
+ * @return {!boolean}
  */
 prestans.types.Date.prototype.setValue = function(value) {
 
@@ -160,7 +149,9 @@ prestans.types.Date.prototype.setValue = function(value) {
 };
 
 /**
- * @export
+ * @final
+ *
+ * @return {?string}
  */
 prestans.types.Date.prototype.getJSONObject = function() {
     if(this.value_ instanceof goog.date.Date)

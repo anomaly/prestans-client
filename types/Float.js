@@ -50,23 +50,53 @@ prestans.types.Float = function(opt_config) {
     if(goog.isDefAndNotNull(opt_config.opt_name))
         this.name_ = opt_config.opt_name;
 
-    //required defaults to true
+    /**
+     * required defaults to true
+     * @type {!boolean}
+     * @private
+     */
+    this.required_ = true;
     if(goog.isDefAndNotNull(opt_config.required))
         this.required_ = opt_config.required;
-    else
-        this.required_ = true;
+
+    /**
+     * @type {?number}
+     * @private
+     */
+    this.default_ = null;
+
+    /**
+     * @type {?number}
+     * @private
+     */
+    this.value_ = null;
 
     if(goog.isDef(opt_config.defaultValue)) {
         this.default_ = opt_config.defaultValue;
         this.value_ = this.default_;
     }
 
+    /**
+     * @type {?number}
+     * @private
+     */
+    this.maximum_ = null;
     if(goog.isDef(opt_config.maximum))
         this.maximum_ = opt_config.maximum;
-    
+
+    /**
+     * @type {?number}
+     * @private
+     */
+    this.minimum_ = null;
     if(goog.isDef(opt_config.minimum))
         this.minimum_ = opt_config.minimum;
-    
+
+    /**
+     * @type {?Array<number>}
+     * @private
+     */
+    this.choices_ = null;
     if(goog.isDef(opt_config.choices))
         this.choices_ = opt_config.choices;
 
@@ -78,11 +108,14 @@ prestans.types.Float = function(opt_config) {
 
 };
 
-/**
- * @const
- */
-prestans.types.Float.REGEX                    = /^\d+(\.\d*)?|\.\d+$/;
+/** @const {!RegExp} */
+prestans.types.Float.REGEX = /^\d+(\.\d*)?|\.\d+$/;
 
+/**
+ * @param {*} value
+ *
+ * @return {!boolean}
+ */
 prestans.types.Float.isFloat = function(value) {
 
     var float_ = new prestans.types.Float({
@@ -93,39 +126,19 @@ prestans.types.Float.isFloat = function(value) {
 };
 
 /**
- * @private
- */
-prestans.types.Float.prototype.value_         = null;
-/**
- * @private
- */
-prestans.types.Float.prototype.required_      = null;
-/**
- * @private
- */
-prestans.types.Float.prototype.default_       = null;
-/**
- * @private
- */
-prestans.types.Float.prototype.maximum_       = null;
-/**
- * @private
- */
-prestans.types.Float.prototype.minimum_       = null;
-/**
- * @private
- */
-prestans.types.Float.prototype.choices_       = null;
-
-/**
- * @export
+ * @final
+ *
+ * @return {?number}
  */
 prestans.types.Float.prototype.getValue = function() {
     return this.value_;
 };
 
 /**
- * @export
+ * @final
+ * @param {*} value
+ *
+ * @return {!boolean}
  */
 prestans.types.Float.prototype.setValue = function(value) {
 
@@ -175,11 +188,12 @@ prestans.types.Float.prototype.setValue = function(value) {
 
     this.value_ = value;
     return true;
-
 };
 
 /**
- * @export
+ * @final
+ *
+ * @return {?Array<number>}
  */
 prestans.types.Float.prototype.getChoices = function() {
     return this.choices_;

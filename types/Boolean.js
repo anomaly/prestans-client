@@ -30,7 +30,7 @@ goog.require('prestans');
 
 /**
  * @constructor
- * @param {Object=} opt_config
+ * @param {!Object=} opt_config
  */
 prestans.types.Boolean = function(opt_config) {
 
@@ -49,14 +49,27 @@ prestans.types.Boolean = function(opt_config) {
     if(goog.isDefAndNotNull(opt_config.opt_name))
         this.name_ = opt_config.opt_name;
 
-    //required defaults to true
+    /**
+     * required defaults to true
+     * @type {!boolean}
+     * @private
+     */
+    this.required_ = true;
     if(goog.isDef(opt_config.required))
         this.required_ = opt_config.required;
-    else
-        this.required_ = true;
 
     if(goog.isDef(opt_config.defaultValue)) {
+
+        /**
+         * @type {?boolean}
+         * @private
+         */
         this.default_ = opt_config.defaultValue;
+
+        /**
+         * @type {?boolean}
+         * @private
+         */
         this.value_ = this.default_;
     }
 
@@ -68,27 +81,19 @@ prestans.types.Boolean = function(opt_config) {
 };
 
 /**
- * @private
- */
-prestans.types.Boolean.prototype.value_         = null;
-/**
- * @private
- */
-prestans.types.Boolean.prototype.required_      = null;
-/**
- * @private
- */
-prestans.types.Boolean.prototype.default_       = null;
-
-/**
- * @export
+ * @final
+ *
+ * @return {?boolean}
  */
 prestans.types.Boolean.prototype.getValue = function() {
     return this.value_;
 };
 
 /**
- * @export
+ * @final
+ * @param {*} value
+ *
+ * @return {!boolean}
  */
 prestans.types.Boolean.prototype.setValue = function(value) {
 

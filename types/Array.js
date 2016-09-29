@@ -85,7 +85,7 @@ prestans.types.Array = function(config) {
      * @private
      * @type {!Array}
      */
-    this.elements_ = new Array();
+    this.elements_ = [];
 
     //Check that element template exists
     /**
@@ -201,6 +201,9 @@ prestans.types.Array.prototype.isLengthValid = function() {
 
 /** 
  * @private
+ * @param {*} value
+ *
+ * @return {!boolean}
  */
 prestans.types.Array.prototype.itemIsValidType_ = function(value) {
     if (this.elementTemplate_ instanceof prestans.types.String ||
@@ -220,7 +223,9 @@ prestans.types.Array.prototype.itemIsValidType_ = function(value) {
 
 /**
  * @param {*} value
- * @param {boolean=} opt_preventDuplicate
+ * @param {!boolean=} opt_preventDuplicate
+ *
+ * @return {!boolean}
  */
 prestans.types.Array.prototype.append = function(value, opt_preventDuplicate) {
 
@@ -477,25 +482,25 @@ prestans.types.Array.prototype.objectAtIndex = function(index) {
 };
 
 /**
- * @param {boolean} minified
+ * @param {!boolean=} opt_minified
  * @param {!prestans.types.Filter=} opt_filter
  *
  * @return {!Array}
  */
-prestans.types.Array.prototype.asArray = function(minified, opt_filter) {
+prestans.types.Array.prototype.asArray = function(opt_minified, opt_filter) {
 
     var array_ = new Array();
 
     goog.array.forEach(this.elements_, function(element) {
 
-    //Check that element template is a basic type
-    if(this.elementTemplate_ instanceof prestans.types.Boolean ||
-       this.elementTemplate_ instanceof prestans.types.Float ||
-       this.elementTemplate_ instanceof prestans.types.Integer ||
-       this.elementTemplate_ instanceof prestans.types.String)
-        goog.array.insertAt(array_, element, array_.length);
-    else if (new this.elementTemplate_() instanceof prestans.types.Model)
-        goog.array.insertAt(array_, new this.elementTemplate_(element.getJSONObject(minified, opt_filter)), array_.length);
+        //Check that element template is a basic type
+        if(this.elementTemplate_ instanceof prestans.types.Boolean ||
+           this.elementTemplate_ instanceof prestans.types.Float ||
+           this.elementTemplate_ instanceof prestans.types.Integer ||
+           this.elementTemplate_ instanceof prestans.types.String)
+            goog.array.insertAt(array_, element, array_.length);
+        else if (new this.elementTemplate_() instanceof prestans.types.Model)
+            goog.array.insertAt(array_, new this.elementTemplate_(element.getJSONObject(opt_minified, opt_filter)), array_.length);
 
     }, this);
 
@@ -503,7 +508,7 @@ prestans.types.Array.prototype.asArray = function(minified, opt_filter) {
 };
 
 /**
- * @param opt_filter
+ * @param {!prestans.types.Filter=} opt_filter
  */
 prestans.types.Array.prototype.clone = function(opt_filter) {
 
@@ -537,11 +542,11 @@ prestans.types.Array.prototype.getElementTemplate = function(){
 };
 
 /**
- * @param {boolean} minified
- * @param {Object=} opt_filter
+ * @param {!boolean} minified
+ * @param {!prestans.types.Filter=} opt_filter
  */
 prestans.types.Array.prototype.getJSONObject = function(minified, opt_filter) {
-    var jsonifiedArray_ = new Array();
+    var jsonifiedArray_ = [];
 
     goog.array.forEach(this.elements_, function(element) {
 

@@ -49,16 +49,28 @@ prestans.types.DataURLFile = function(opt_config){
     if(goog.isDefAndNotNull(opt_config.opt_name))
         this.name_ = opt_config.opt_name;
 
-    //required defaults to true
+    /**
+     * @type {?string}
+     * @private
+     */
+    this.value_ = null;
+
+    /**
+     * required defaults to true
+     * @type {!boolean}
+     * @private
+     */
+    this.required_ = true;
     if(goog.isDef(opt_config.required))
         this.required_ = opt_config.required;
-    else
-        this.required_ = true;
 
+    /**
+     * @type {!Array}
+     * @private
+     */
+    this.allowedMimeTypes_ = [];
     if(goog.isDef(opt_config.allowedMimeTypes))
         this.allowedMimeTypes_ = opt_config.allowedMimeTypes;
-    else
-        this.allowedMimeTypes_ = new Array();
 
     //run setter once to check if value is valid
     if(goog.isDef(opt_config.value)) {
@@ -69,27 +81,18 @@ prestans.types.DataURLFile = function(opt_config){
 };
 
 /**
- * @private
- */
-prestans.types.DataURLFile.prototype.value_             = null;
-/**
- * @private
- */
-prestans.types.DataURLFile.prototype.required_          = null;
-/**
- * @private
- */
-prestans.types.DataURLFile.prototype.allowedMimeTypes_  = null;
-
-/**
- * @export
+ * @final
+ * @return {?string}
  */
 prestans.types.DataURLFile.prototype.getValue = function() {
     return this.value_;
 };
 
 /**
- * @export
+ * @final
+ * @param {*} value
+ *
+ * @return {!boolean}
  */
 prestans.types.DataURLFile.prototype.setValue = function(value) {
 
@@ -97,13 +100,16 @@ prestans.types.DataURLFile.prototype.setValue = function(value) {
     if(this.required_ && !goog.isString(value))
         return false;
 
-    this.value_ = value;
-    return true;
+    if(goog.isNull(value) || goog.isString(value))
+        this.value_ = value;
 
+    return true;
 };
 
 /**
- * @export
+ * @final
+ *
+ * @return {!Array}
  */
 prestans.types.DataURLFile.prototype.getAllowedMimeTypes = function() {
     return this.allowedMimeTypes_;

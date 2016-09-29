@@ -42,7 +42,7 @@ prestans.types.String = function(opt_config){
 
     /**
      * @private
-     * @type {string|null}
+     * @type {?string}
      */
     this.value_ = null;
 
@@ -73,7 +73,7 @@ prestans.types.String = function(opt_config){
 
     /**
      * @private
-     * @type {string|null}
+     * @type {?string}
      */
     this.default_ = null;
     if(goog.isDefAndNotNull(opt_config.defaultValue)) {
@@ -83,7 +83,7 @@ prestans.types.String = function(opt_config){
 
     /**
      * @private
-     * @type {number|null}
+     * @type {?number}
      */
     this.maxLength_ = null;
     if(goog.isDefAndNotNull(opt_config.opt_maxLength))
@@ -91,15 +91,15 @@ prestans.types.String = function(opt_config){
     
     /**
      * @private
-     * @type {number|null}
+     * @type {?number}
      */
     this.minLength_ = null;
     if(goog.isDefAndNotNull(opt_config.opt_minLength))
         this.minLength_ = opt_config.opt_minLength;
 
-    /** 
+    /**
      * @private
-     * @type {RegExp|null}
+     * @type {?RegExp}
      */
     this.format_ = null;
     if(goog.isDefAndNotNull(opt_config.format))
@@ -107,7 +107,7 @@ prestans.types.String = function(opt_config){
 
     /**
      * @private
-     * @type {Array<!string>}
+     * @type {?Array<!string>}
      */
     this.choices_ = null;
     if(goog.isDef(opt_config.choices) && goog.isArray(opt_config.choices))
@@ -122,7 +122,7 @@ prestans.types.String = function(opt_config){
 };
 
 /**
- * @return {string|null}
+ * @return {?string}
  */
 prestans.types.String.prototype.getValue = function() {
     return this.value_;
@@ -181,28 +181,28 @@ prestans.types.String.prototype.setValue = function(value) {
 };
 
 /**
- * @return {number|null}
+ * @return {?number}
  */
 prestans.types.String.prototype.getMaxLength = function() {
     return this.maxLength_;
 };
 
 /**
- * @return {number|null}
+ * @return {?number}
  */
 prestans.types.String.prototype.getMinLength = function() {
     return this.minLength_;
 };
 
 /**
- * @return {RegExp|null}
+ * @return {?RegExp}
  */
 prestans.types.String.prototype.getFormat = function() {
     return this.format_;
 };
 
 /**
- * @return {Array<!string>}
+ * @return {?Array<!string>}
  */
 prestans.types.String.prototype.getChoices = function() {
     return this.choices_;

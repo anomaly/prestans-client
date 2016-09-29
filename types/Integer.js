@@ -67,6 +67,7 @@ prestans.types.Integer = function(opt_config) {
      * @type {?number}
      */
     this.default_ = null;
+
     if(goog.isDef(opt_config.defaultValue)) {
         this.default_ = opt_config.defaultValue;
         this.value_ = this.default_;
@@ -156,7 +157,10 @@ prestans.types.Integer.isSafeInteger = function(value) {
  */
 prestans.types.Integer.isBitwiseSafe = function(value) {
 
-    //check that value falls within signed integer range (to avoid bitshift problems in javascript)
+    if(goog.isNull(value))
+        return false;
+
+    //check that value falls within signed integer range (to avoid bit-shift problems in javascript)
     if(value > prestans.types.Integer.MAX_SIGNED_INT || value < -prestans.types.Integer.MAX_SIGNED_INT)
         return false;
     else

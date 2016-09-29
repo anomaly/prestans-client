@@ -38,27 +38,46 @@ goog.require('prestans.rest.json.Response');
 
 /**
  * @constructor
+ * @param {!Object} config
+ *
  * @extends {goog.events.EventTarget}
  */
 prestans.rest.json.Client = function(config) {
     
     goog.events.EventTarget.call(this);
 
+    /**
+     * @type {!string}
+     * @private
+     */
     this.baseUrl_ = config.baseUrl;
-    
-    //num retries
-    if(goog.isDef(config.opt_numRetries) && goog.isNumber(config.opt_numRetries))
-        this.numRetries_ = config.opt_numRetries;
-    else
-        this.numRetries_ = 0;
-    
-    //minified
-    if(goog.isDef(config.opt_minified) && goog.isBoolean(config.opt_minified))
-        this.minified_ = config.opt_minified;
-    else
-       this.minified_ = false;
 
+    /**
+     * @type {!number}
+     * @private
+     */
+    this.numRetries_ = 0;
+    if(goog.isDef(config.opt_numRetries))
+        this.numRetries_ = config.opt_numRetries;
+
+    /**
+     * @type {!boolean}
+     * @private
+     */
+    this.minified_ = false;
+    if(goog.isDef(config.opt_minified))
+        this.minified_ = config.opt_minified;
+
+    /**
+     * @type {!goog.events.EventHandler}
+     * @private
+     */
     this.eventHandler_ = new goog.events.EventHandler(this);
+
+    /**
+     * @type {Array<!string>}
+     * @private
+     */
     this.cancelableRequestIds_ = new Array();
 
     var headers_ = new goog.structs.Map({
@@ -67,7 +86,10 @@ prestans.rest.json.Client = function(config) {
         "Prestans-Minification": this.minified_ ? "On" : "Off"
     });
 
-    // Shared XhrManager
+    /**
+     * @type {goog.net.XhrManager}
+     * @private
+     */
     this.xhrManager_ = new goog.net.XhrManager(this.numRetries_, headers_);
     
 };
@@ -75,7 +97,7 @@ goog.inherits(prestans.rest.json.Client, goog.events.EventTarget);
 
 /**
  * Compiler directive to translate these into strings
- * @enum {string}
+ * @enum {!string}
  */
 prestans.rest.json.Client.EventType = {
     RESPONSE: goog.events.getUniqueId('PRESTANS'),
@@ -83,15 +105,8 @@ prestans.rest.json.Client.EventType = {
 };
 
 /**
- * @private
- */
-prestans.rest.json.Client.prototype.baseUrl_                  = null;
-prestans.rest.json.Client.prototype.numRetries_               = null;
-prestans.rest.json.Client.prototype.cancelableRequestIds_     = null;
-prestans.rest.json.Client.prototype.xhrManager_               = null;
-
-/**
  * Aborts all pending requests
+ * @final
  */
 prestans.rest.json.Client.prototype.abortAllPendingRequests = function() {
     goog.array.forEach(this.cancelableRequestIds_, function(requestId) { 
@@ -101,6 +116,9 @@ prestans.rest.json.Client.prototype.abortAllPendingRequests = function() {
     goog.array.clear(this.cancelableRequestIds_);  
 };
 
+/**
+ * @param {!string} requestId
+ */
 prestans.rest.json.Client.prototype.abortByRequestId = function(requestId) {
     if(goog.array.contains(this.cancelableRequestIds_, requestId)) {
         this.xhrManager_.abort(requestId, true);
@@ -116,10 +134,10 @@ prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSucc
 };
 
 /**
- * @param {prestans.rest.json.Request} request
+ * @param {!prestans.rest.json.Request} request
  * @param callbackSuccessMethod
  * param callbackFailureMethod
- * @param {boolean=} opt_abortPreviousRequests
+ * @param {!boolean=} opt_abortPreviousRequests
  */
 prestans.rest.json.Client.prototype.dispatchRequest = function(request, callbackSuccessMethod, callbackFailureMethod, opt_abortPreviousRequests) {
 
@@ -184,19 +202,26 @@ prestans.rest.json.Client.prototype.dispatchRequest = function(request, callback
 
 /**
  * @constructor
+ * @param {!prestans.rest.json.Client.EventType} type
+ * @param target
+ * @param {!prestans.rest.json.Response} response
+ *
  * @extends {goog.events.Event}
  */
 prestans.rest.json.Client.Event = function(type, target, response) {
     goog.events.Event.call(this, type, target);
+
+    /**
+     * @type {!prestans.rest.json.Response}
+     * @private
+     */
     this.response_ = response;
 };
 goog.inherits(prestans.rest.json.Client.Event, goog.events.Event);
 
 /**
- * @private
+ * @return {!prestans.rest.json.Response}
  */
-prestans.rest.json.Client.Event.prototype.response_     = null;
-
 prestans.rest.json.Client.Event.prototype.getResponse = function() {
     return this.response_;
 };

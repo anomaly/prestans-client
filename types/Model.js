@@ -58,8 +58,8 @@ prestans.types.Model.EventType = {
 
 /**
  * @param {!string} attributeName
- * @param previousValue
- * @param currentValue
+ * @param {*} previousValue
+ * @param {*} currentValue
  */
 prestans.types.Model.prototype.dispatchAttributeChangedEvent_ = function(attributeName, previousValue, currentValue) {
     this.dispatchEvent(new prestans.types.Model.AttributeChangedEvent(attributeName, previousValue, currentValue));
@@ -68,8 +68,8 @@ prestans.types.Model.prototype.dispatchAttributeChangedEvent_ = function(attribu
 /**
  * @constructor
  * @param {!string} identifier
- * @param previousValue
- * @param currentValue
+ * @param {*} previousValue
+ * @param {*} currentValue
  *
  * @extends {goog.events.Event}
  */
