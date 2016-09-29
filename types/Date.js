@@ -60,6 +60,12 @@ prestans.types.Date = function(opt_config) {
     if(goog.isDef(opt_config.required))
         this.required_ = opt_config.required;
 
+    /**
+     * @type {?goog.date.Date}
+     * @private
+     */
+    this.value_ = null;
+
     //Check that default is defined and not null
     if(goog.isDef(opt_config.defaultValue) && opt_config.defaultValue != null) {
 
