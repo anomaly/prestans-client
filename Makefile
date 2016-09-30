@@ -5,9 +5,10 @@ DEPSWRITER=${CLOSURE_LIBRARY}/closure/bin/build/depswriter.py
 CURRENT_PATH=$(shell pwd)
 CURRENT_DIR= $(shell basename ${CURRENT_PATH})
 
-test:
+.PHONY: test
+test: deps
 	echo "Running unit tests"
-	$(CHROME) --allow-file-access-from-files -incognito alltests.html
+	$(CHROME) --user-data-dir=/tmp --allow-file-access-from-files -incognito alltests.html
 
 .PHONY: deps
 deps:

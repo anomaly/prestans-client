@@ -13,5 +13,24 @@
 // limitations under the License.
 
 var _allTests = [
-	"types/String_test.html"
+    "rest/json/Client_test.html",
+    "rest/json/Request_test.html",
+    "rest/json/Response_test.html",
+    "types/Array_test.html",
+    "types/Boolean_test.html",
+    "types/DataURLFile_test.html",
+	"types/Date_test.html",
+    "types/DateTime_test.html",
+    "types/Filter_test.html",
+    "types/Float_test.html",
+    "types/Integer_test.html",
+    "types/Model_test.html",
+    "types/String_test.html",
+    "types/Time_test.html"
 ];
+
+// If we're running in a nodejs context, export tests. Used when running tests
+// externally on Travis.
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = _allTests;
+}

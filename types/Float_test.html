@@ -60,6 +60,7 @@ function testGetAndSetValue() {
     assertEquals(2.53234, float_.getValue());
 
     assertFalse(float_.setValue("2,5"));
+    assertEquals(2.53234, float_.getValue());
 }
 
 function testGetChoices() {

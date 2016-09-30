@@ -22,11 +22,7 @@ See the COPYING file for details.
 
 function testAttributeChangedEvent() {
 
-	var event_ = new prestans.types.Model.AttributeChangedEvent({
-		identifier: 'first_name',
-		previousValue: 'James',
-		currentValue: 'Bruce'
-	});
+	var event_ = new prestans.types.Model.AttributeChangedEvent('first_name', 'James', 'Bruce');
 
 	assertEquals('first_name', event_.getIdentifier());
 	assertEquals('James', event_.getPreviousValue());
