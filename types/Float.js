@@ -31,9 +31,13 @@ goog.require('prestans');
 
 /**
  * @constructor
- * @param {Object=} opt_config
+ * @param {!Object=} opt_config
+ * @param {!boolean=} opt_raiseValidateException whether to raise exception if validate fails in constructor
  */
-prestans.types.Float = function(opt_config) {
+prestans.types.Float = function(opt_config, opt_raiseValidateException) {
+
+    if(!goog.isDef(opt_raiseValidateException))
+        opt_raiseValidateException = true;
 
     //setup default values if config missing
     if(!goog.isDef(opt_config)) {
@@ -102,7 +106,7 @@ prestans.types.Float = function(opt_config) {
 
     //run setter once to check if value is valid
     if(goog.isDef(opt_config.value)) {
-        if(!this.setValue(opt_config.value))
+        if(!this.setValue(opt_config.value) && opt_raiseValidateException)
             throw this.name_+": provided value is not valid";
     }
 

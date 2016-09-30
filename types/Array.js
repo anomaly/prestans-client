@@ -74,10 +74,12 @@ prestans.types.ArrayIterator.prototype.next = function() {
 
 /**
  * @constructor
+ * @param {!Object} config
+ * @param {!boolean=} opt_raiseValidateException whether to raise exception if validate fails in constructor
  *
  * @extends {goog.events.EventTarget}
  */
-prestans.types.Array = function(config) {
+prestans.types.Array = function(config, opt_raiseValidateException) {
 
     goog.events.EventTarget.call(this);
 
@@ -130,7 +132,7 @@ prestans.types.Array = function(config) {
                this.elementTemplate_ instanceof prestans.types.String)
                 this.append(elementJSON);
             else if(new this.elementTemplate_() instanceof prestans.types.Model)
-                this.append(new this.elementTemplate_(elementJSON, config.opt_minified));
+                this.append(new this.elementTemplate_(elementJSON, config.opt_minified, opt_raiseValidateException));
 
         }, this);
 
@@ -500,7 +502,7 @@ prestans.types.Array.prototype.asArray = function(opt_minified, opt_filter) {
            this.elementTemplate_ instanceof prestans.types.String)
             goog.array.insertAt(array_, element, array_.length);
         else if (new this.elementTemplate_() instanceof prestans.types.Model)
-            goog.array.insertAt(array_, new this.elementTemplate_(element.getJSONObject(opt_minified, opt_filter)), array_.length);
+            goog.array.insertAt(array_, new this.elementTemplate_(element.getJSONObject(opt_minified, opt_filter), opt_minified, false), array_.length);
 
     }, this);
 
