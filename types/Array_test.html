@@ -121,7 +121,7 @@ function testConstructorJsonBoolean() {
     assertEquals(3, boolean_.length());
 }
 
-function testThrowException() {
+function testThrowExceptionElement() {
 
     assertThrows(function() {
         new prestans.types.Array({
@@ -149,6 +149,43 @@ function testThrowException() {
             opt_elements: [1, 2, 3]
         });
     });
+}
+
+function testThrowExceptionJson() {
+    assertThrows(function() {
+        new prestans.types.Array({
+            elementTemplate: new prestans.types.Integer({
+                required: true
+            }),
+            opt_json: ["throw exception 1", "throw exception 2"]
+        });
+    });
+
+    assertNotThrows(function() {
+        new prestans.types.Array({
+            elementTemplate: new prestans.types.Integer({
+                required: true
+            }),
+            opt_json: ["throw exception 1", "throw exception 2"]
+        }, false);
+    });
+
+    assertNotThrows(function() {
+        new prestans.types.Array({
+            elementTemplate: new prestans.types.Integer({
+                required: true
+            }),
+            opt_json: [1, 2, 3]
+        });
+    });
+
+    assertNotThrows(function() {
+        new prestans.types.Array({
+            elementTemplate: SampleModel,
+            opt_json: {"key": "value"}
+        });
+    });
+
 }
 
 function testAppendString() {

@@ -129,8 +129,18 @@ prestans.types.Array = function(config, opt_raiseValidateException) {
     else if(goog.isDef(config.opt_json) && goog.isArray(config.opt_json)) {
 
         goog.array.forEach(config.opt_json, function(elementJSON) {
-            if(!this.append(elementJSON) && opt_raiseValidateException)
-                throw "Passed json is invalid";
+
+            if(this.elementTemplate_ instanceof prestans.types.Boolean ||
+               this.elementTemplate_ instanceof prestans.types.Float ||
+               this.elementTemplate_ instanceof prestans.types.Integer ||
+               this.elementTemplate_ instanceof prestans.types.String) {
+                if(!this.append(elementJSON) && opt_raiseValidateException)
+                    throw "Passed json is invalid";
+            }
+            else if(new this.elementTemplate_() instanceof prestans.types.Model) {
+                if(!this.append(elementJSON) && opt_raiseValidateException)
+                    this.append(new this.elementTemplate_(elementJSON, config.opt_minified, opt_raiseValidateException));
+            }
         }, this);
     }
 
