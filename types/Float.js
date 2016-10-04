@@ -113,7 +113,7 @@ prestans.types.Float = function(opt_config, opt_raiseValidateException) {
 };
 
 /** @const {!RegExp} */
-prestans.types.Float.REGEX = /^\d+(\.\d*)?|\.\d+$/;
+prestans.types.Float.REGEX = /^[\d]+$|\.\d+|\d+\.\d+$/;
 
 /**
  * @param {*} value

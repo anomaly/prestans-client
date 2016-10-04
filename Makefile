@@ -8,7 +8,7 @@ CURRENT_DIR= $(shell basename ${CURRENT_PATH})
 .PHONY: test
 test: deps
 	echo "Running unit tests"
-	$(CHROME) --user-data-dir=/tmp --allow-file-access-from-files -incognito alltests.html
+	$(CHROME) --allow-file-access-from-files -incognito alltests.html
 
 .PHONY: deps
 deps:

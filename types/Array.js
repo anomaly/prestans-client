@@ -208,19 +208,16 @@ prestans.types.Array.prototype.isLengthValid = function() {
  * @return {!boolean}
  */
 prestans.types.Array.prototype.itemIsValidType_ = function(value) {
-    if (this.elementTemplate_ instanceof prestans.types.String ||
-        this.elementTemplate_ instanceof prestans.types.Boolean ||
+    if (this.elementTemplate_ instanceof prestans.types.Boolean ||
+        this.elementTemplate_ instanceof prestans.types.Integer ||
         this.elementTemplate_ instanceof prestans.types.Float ||
-        this.elementTemplate_ instanceof prestans.types.Integer) {
-        if(this.elementTemplate_.setValue(value))
-            return true;
-        else
-            throw "value must be the same type and validate according to rules in the element template";
+        this.elementTemplate_ instanceof prestans.types.String) {
+            return this.elementTemplate_.setValue(value);
     }
     else if(value instanceof this.elementTemplate_)
         return true;
     else
-        throw "value must be the same type as the element template";
+        false;
 };
 
 /**

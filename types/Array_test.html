@@ -29,27 +29,34 @@ SampleModel = function() {
 };
 goog.inherits(SampleModel, prestans.types.Model);
 
-function testConstructorElements() {
+function testConstructorElementsString() {
 
-    //string
-    var string_ = new prestans.types.Array({
+    var strings_ = ["A", "B", "C"];
+    var stringArray_ = new prestans.types.Array({
         elementTemplate: new prestans.types.String({
             required: true
         }),
-        opt_elements: ["A", "B", "C"]
+        opt_elements: strings_
     });
-    assertEquals(3, string_.length());
+    assertEquals(3, stringArray_.length());
+    assertArrayEquals(strings_, stringArray_.asArray());
+}
 
-    //integer
-    var integer_ = new prestans.types.Array({
+function testConstructorElementsInteger() {
+
+    var integers_ = [1, 2, 3];
+    var integerArray_ = new prestans.types.Array({
         elementTemplate: new prestans.types.Integer({
             required: true
         }),
-        opt_elements: [1, 2, 3]
+        opt_elements: integers_
     });
-    assertEquals(3, integer_.length());
+    assertEquals(3, integerArray_.length());
+    assertArrayEquals(integers_, integerArray_.asArray());
+}
 
-    //float
+function testConstructorElementsFloat() {
+
     var float_ = new prestans.types.Array({
         elementTemplate: new prestans.types.Float({
             required: true
@@ -57,8 +64,10 @@ function testConstructorElements() {
         opt_elements: [1.1, 2.2, 3.3]
     });
     assertEquals(3, float_.length());
+}
 
-    //boolean
+function testConstructorElementsBoolean() {
+
     var boolean_ = new prestans.types.Array({
         elementTemplate: new prestans.types.Boolean({
             required: true
@@ -68,9 +77,8 @@ function testConstructorElements() {
     assertEquals(3, boolean_.length());
 }
 
-function testConstructorJson() {
+function testConstructorJsonString() {
 
-    //string
     var string_ = new prestans.types.Array({
         elementTemplate: new prestans.types.String({
             required: true
@@ -78,8 +86,10 @@ function testConstructorJson() {
         opt_json: ["A", "B", "C"]
     });
     assertEquals(3, string_.length());
+}
 
-    //integer
+function testConstructorJsonInteger() {
+
     var integer_ = new prestans.types.Array({
         elementTemplate: new prestans.types.Integer({
             required: true
@@ -87,8 +97,10 @@ function testConstructorJson() {
         opt_json: [1, 2, 3]
     });
     assertEquals(3, integer_.length());
+}
 
-    //float
+function testConstructorJsonFloat() {
+
     var float_ = new prestans.types.Array({
         elementTemplate: new prestans.types.Float({
             required: true
@@ -96,8 +108,10 @@ function testConstructorJson() {
         opt_json: [1.1, 2.2, 3.3]
     });
     assertEquals(3, float_.length());
+}
 
-    //boolean
+function testConstructorJsonBoolean() {
+
     var boolean_ = new prestans.types.Array({
         elementTemplate: new prestans.types.Boolean({
             required: true
@@ -108,23 +122,16 @@ function testConstructorJson() {
 }
 
 function testThrowException() {
-    var array_ = new prestans.types.Array({
-        elementTemplate: new prestans.types.String({
-            required: true
-        })
-    });
 
-    var exceptionThrown_ = false;
-    try {
-        array_.append("string");
-        assertFalse(exceptionThrown_);
-        array_.append(1);
-    }
-    catch (error) {
-        exceptionThrown_ = true;
-    }
-    assertTrue(exceptionThrown_)
-};
+    assertThrows(function() {
+        new prestans.types.Array({
+            elementTemplate: new prestans.types.Integer({
+                required: true
+            }),
+            opt_elements: ["cat"]
+        });
+    });
+}
 
 function testAppend() {
 
@@ -547,17 +554,10 @@ function testElementTemplate() {
         elementTemplate: stringTemplate_
     });
     assertEquals(stringTemplate_, stringArray_.getElementTemplate());
-    var exceptionThrown_ = false;
-    try {
-        stringArray_.append("A");
-    }
-    catch(error) {
-        exceptionThrown_ = true;
-    }
-    assertTrue(exceptionThrown_);
 
+    assertFalse(stringArray_.append(1));
+    //assertFalse(stringArray_.append("A"));
     assertTrue(stringArray_.append("ABC"));
-
 }
 
 </script>

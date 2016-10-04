@@ -19,7 +19,7 @@ var _allTests = [
     "types/Array_test.html",
     "types/Boolean_test.html",
     "types/DataURLFile_test.html",
-	"types/Date_test.html",
+    "types/Date_test.html",
     "types/DateTime_test.html",
     "types/Filter_test.html",
     "types/Float_test.html",
