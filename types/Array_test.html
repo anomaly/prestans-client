@@ -128,12 +128,30 @@ function testThrowException() {
             elementTemplate: new prestans.types.Integer({
                 required: true
             }),
-            opt_elements: ["cat"]
+            opt_elements: ["throw exception 1", "throw exception 2"]
+        });
+    });
+
+    assertNotThrows(function() {
+        new prestans.types.Array({
+            elementTemplate: new prestans.types.Integer({
+                required: true
+            }),
+            opt_elements: ["throw exception 1", "throw exception 2"]
+        }, false);
+    });
+
+    assertNotThrows(function() {
+        new prestans.types.Array({
+            elementTemplate: new prestans.types.Integer({
+                required: true
+            }),
+            opt_elements: [1, 2, 3]
         });
     });
 }
 
-function testAppend() {
+function testAppendString() {
 
     var string_ = new prestans.types.Array({
         elementTemplate: new prestans.types.String({
@@ -142,7 +160,9 @@ function testAppend() {
     });
     assertTrue(string_.append("Metallica"));
     assertEquals(1, string_.length());
-    
+}
+
+function testAppendFloat() {
     var float_ = new prestans.types.Array({
         elementTemplate: new prestans.types.Float({
             required: true
@@ -150,7 +170,9 @@ function testAppend() {
     });
     assertTrue(float_.append(1.1));
     assertEquals(1, float_.length());
+}
 
+function testAppendInteger() {
     var integer_ = new prestans.types.Array({
         elementTemplate: new prestans.types.Integer({
             required: true
@@ -158,7 +180,9 @@ function testAppend() {
     });
     assertTrue(integer_.append(1));
     assertEquals(1, integer_.length());
+}
 
+function testAppendBoolean() {
     var boolean_ = new prestans.types.Array({
         elementTemplate: new prestans.types.Boolean({
             required: true
@@ -166,7 +190,9 @@ function testAppend() {
     });
     assertTrue(boolean_.append(true));
     assertEquals(1, boolean_.length());
+}
 
+function testAppendModel() {
     var model_ = new prestans.types.Array({
         elementTemplate: SampleModel
     });

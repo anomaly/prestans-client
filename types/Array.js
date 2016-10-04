@@ -83,6 +83,9 @@ prestans.types.Array = function(config, opt_raiseValidateException) {
 
     goog.events.EventTarget.call(this);
 
+    if(!goog.isDef(opt_raiseValidateException))
+        opt_raiseValidateException = true;
+
     /**
      * @private
      * @type {!Array}
@@ -117,25 +120,18 @@ prestans.types.Array = function(config, opt_raiseValidateException) {
     if(goog.isDef(config.opt_elements) && goog.isArray(config.opt_elements)) {
 
         goog.array.forEach(config.opt_elements, function(element) {
-            this.append(element);
+
+            if(!this.append(element) && opt_raiseValidateException)
+                throw "Passed elements are invalid";
         }, this);
     }
     //Alternatively add json but not both
     else if(goog.isDef(config.opt_json) && goog.isArray(config.opt_json)) {
 
         goog.array.forEach(config.opt_json, function(elementJSON) {
-
-            //Check that given value is of passed type
-            if(this.elementTemplate_ instanceof prestans.types.Boolean ||
-               this.elementTemplate_ instanceof prestans.types.Float ||
-               this.elementTemplate_ instanceof prestans.types.Integer ||
-               this.elementTemplate_ instanceof prestans.types.String)
-                this.append(elementJSON);
-            else if(new this.elementTemplate_() instanceof prestans.types.Model)
-                this.append(new this.elementTemplate_(elementJSON, config.opt_minified, opt_raiseValidateException));
-
+            if(!this.append(elementJSON) && opt_raiseValidateException)
+                throw "Passed json is invalid";
         }, this);
-
     }
 
     /**
@@ -165,6 +161,8 @@ prestans.types.Array.EventType = {
 };
 
 /**
+ * @final
+ *
  * @return {?number}
  */
 prestans.types.Array.prototype.getMinLength = function() {
@@ -172,6 +170,8 @@ prestans.types.Array.prototype.getMinLength = function() {
 };
 
 /**
+ * @final
+ *
  * @return {?number}
  */
 prestans.types.Array.prototype.getMaxLength = function() {
@@ -179,6 +179,8 @@ prestans.types.Array.prototype.getMaxLength = function() {
 };
 
 /**
+ * @final
+ *
  * @return {!boolean}
  */
 prestans.types.Array.prototype.isEmpty = function() {
@@ -208,16 +210,17 @@ prestans.types.Array.prototype.isLengthValid = function() {
  * @return {!boolean}
  */
 prestans.types.Array.prototype.itemIsValidType_ = function(value) {
+
     if (this.elementTemplate_ instanceof prestans.types.Boolean ||
         this.elementTemplate_ instanceof prestans.types.Integer ||
         this.elementTemplate_ instanceof prestans.types.Float ||
         this.elementTemplate_ instanceof prestans.types.String) {
-            return this.elementTemplate_.setValue(value);
+        return this.elementTemplate_.setValue(value);
     }
     else if(value instanceof this.elementTemplate_)
         return true;
     else
-        false;
+        return false;
 };
 
 /**
@@ -365,6 +368,7 @@ prestans.types.Array.prototype.removeAt = function(i) {
 
 /**
  * @param f
+ * @param opt_obj
  *
  * @return {!boolean}
  */
@@ -441,7 +445,7 @@ prestans.types.Array.prototype.find = function(condition, opt_context) {
 
 /**
  * @param {!number} start
- * @param opt_end
+ * @param {!number=} opt_end
  *
  * @return {!prestans.types.Array}
  */
@@ -474,7 +478,7 @@ prestans.types.Array.prototype.containsIf = function(condition, opt_context) {
 };
 
 /**
- * @param index
+ * @param {!number} index
  */
 prestans.types.Array.prototype.objectAtIndex = function(index) {
     return this.elements_[index];
@@ -488,7 +492,7 @@ prestans.types.Array.prototype.objectAtIndex = function(index) {
  */
 prestans.types.Array.prototype.asArray = function(opt_minified, opt_filter) {
 
-    var array_ = new Array();
+    var array_ = [];
 
     goog.array.forEach(this.elements_, function(element) {
 

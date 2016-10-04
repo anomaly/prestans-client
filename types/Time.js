@@ -93,17 +93,21 @@ prestans.types.Time = function(opt_config, opt_raiseValidateException) {
     this.required_ = true;
     if(goog.isDef(opt_config.required))
         this.required_ = opt_config.required;
-    
+
     //Check that default is defined and not null
     if(goog.isDefAndNotNull(opt_config.defaultValue)) {
 
         if(opt_config.defaultValue instanceof goog.date.DateTime) {
             this.default_ = opt_config.defaultValue;
             this.value_ = this.default_;
+
+            console.log("default datetime");
         }
         else if(opt_config.defaultValue == prestans.types.Time.NOW) {
             this.default_ = opt_config.defaultValue;
             this.value_ = new goog.date.DateTime();
+
+            console.log("default now");
         }
         else if(goog.isString(opt_config.defaultValue)) {
             var parsedDate_ = goog.date.fromIsoString(opt_config.defaultValue);

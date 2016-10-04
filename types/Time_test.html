@@ -35,20 +35,20 @@ function testConstructor() {
 	assertTrue(time2_.getValue() instanceof goog.date.DateTime);
 	assertEquals("10:30:15", time2_.getJSONObject());
 }
-/*
+
 function testGetAndSetValue() {
 
 	//test set date
-	var date1_ = new prestans.types.Time();
-	var d1_ = new goog.date.Date()
-	assertTrue(date1_.setValue(d1_));
-	assertEquals(d1_, date1_.getValue());
+	var time1_ = new prestans.types.Time();
+	var dt_ = new goog.date.DateTime();
+	assertTrue(time1_.setValue(dt_));
+	assertEquals(dt_, time1_.getValue());
 
 	//test set string
-	var date2_ = new prestans.types.Time();
-	var d2_ = "2010-01-01";
-	assertTrue(date2_.setValue(d2_));
-	assertEquals(d2_, date2_.getJSONObject());
+	var time2_ = new prestans.types.Time();
+	var s_ = "13:30:00";
+	assertTrue(time2_.setValue(s_));
+	assertEquals("13:30:00", time2_.getJSONObject());
 
 }
 
@@ -67,29 +67,29 @@ function testRequired() {
 function testDefault() {
 
 	//Test now constant
-	var date1_ = new prestans.types.Time({
+	var t1_ = new prestans.types.Time({
 		required: false,
-		default: prestans.types.Time.TODAY
+        defaultValue: prestans.types.Time.NOW
 	});
-	assertTrue(date1_.getValue() instanceof goog.date.Date);
+	assertTrue(t1_.getValue() instanceof goog.date.DateTime);
 
 	//Test date object
-	var d2_ = new goog.date.Date();
-	var date2_ = new prestans.types.Time({
+	var datetime_ = new goog.date.DateTime();
+	var t2_ = new prestans.types.Time({
 		required: false,
-		default: d2_
+        defaultValue: datetime_
 	});
-	assertEquals(d2_, date2_.getValue());
+	assertEquals(datetime_, t2_.getValue());
 
 	//Test ISO string format
-	var s_ = "2010-01-01";
-	date3_ = new prestans.types.Time({
+	var s_ = "2010-01-01 10:00:00";
+	var t3_ = new prestans.types.Time({
 		required: false,
-		default: s_
+        defaultValue: s_
 	});
-	assertEquals(s_, date3_.getJSONObject());
+	assertEquals("10:00:00", t3_.getJSONObject());
 }
-*/
+
 </script>
 </body>
 </html>
