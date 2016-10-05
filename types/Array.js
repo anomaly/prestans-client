@@ -38,10 +38,14 @@ goog.require('goog.json');
 
 goog.require('prestans');
 goog.require('prestans.types.Boolean');
+goog.require('prestans.types.DataURLFile');
+goog.require('prestans.types.Date');
+goog.require('prestans.types.DateTime');
 goog.require('prestans.types.Float');
 goog.require('prestans.types.Integer');
 goog.require('prestans.types.Model');
 goog.require('prestans.types.String');
+goog.require('prestans.types.Time');
 
 /**
  * @constructor
@@ -102,9 +106,13 @@ prestans.types.Array = function(config, opt_raiseValidateException) {
         //Check that element template is of an acceptable type
         //Basic type
         if(config.elementTemplate instanceof prestans.types.Boolean ||
+           config.elementTemplate instanceof prestans.types.DataURLFile ||
+           config.elementTemplate instanceof prestans.types.Date ||
+           config.elementTemplate instanceof prestans.types.DateTime ||
            config.elementTemplate instanceof prestans.types.Float ||
            config.elementTemplate instanceof prestans.types.Integer ||
-           config.elementTemplate instanceof prestans.types.String) {
+           config.elementTemplate instanceof prestans.types.String ||
+           config.elementTemplate instanceof prestans.types.Time) {
             this.elementTemplate_ = config.elementTemplate;
         }
         //model type
@@ -131,9 +139,13 @@ prestans.types.Array = function(config, opt_raiseValidateException) {
         goog.array.forEach(config.opt_json, function(elementJSON) {
 
             if(this.elementTemplate_ instanceof prestans.types.Boolean ||
+               this.elementTemplate_ instanceof prestans.types.DataURLFile ||
+               this.elementTemplate_ instanceof prestans.types.Date ||
+               this.elementTemplate_ instanceof prestans.types.DateTime ||
                this.elementTemplate_ instanceof prestans.types.Float ||
                this.elementTemplate_ instanceof prestans.types.Integer ||
-               this.elementTemplate_ instanceof prestans.types.String) {
+               this.elementTemplate_ instanceof prestans.types.String ||
+               this.elementTemplate_ instanceof prestans.types.Time) {
                 if(!this.append(elementJSON) && opt_raiseValidateException)
                     throw "Passed json is invalid";
             }
@@ -222,9 +234,13 @@ prestans.types.Array.prototype.isLengthValid = function() {
 prestans.types.Array.prototype.itemIsValidType_ = function(value) {
 
     if (this.elementTemplate_ instanceof prestans.types.Boolean ||
+        this.elementTemplate_ instanceof prestans.types.DataURLFile ||
+        this.elementTemplate_ instanceof prestans.types.Date ||
+        this.elementTemplate_ instanceof prestans.types.DateTime ||
         this.elementTemplate_ instanceof prestans.types.Integer ||
         this.elementTemplate_ instanceof prestans.types.Float ||
-        this.elementTemplate_ instanceof prestans.types.String) {
+        this.elementTemplate_ instanceof prestans.types.String ||
+        this.elementTemplate_ instanceof prestans.types.Time) {
         return this.elementTemplate_.setValue(value);
     }
     else if(value instanceof this.elementTemplate_)
@@ -508,9 +524,13 @@ prestans.types.Array.prototype.asArray = function(opt_minified, opt_filter) {
 
         //Check that element template is a basic type
         if(this.elementTemplate_ instanceof prestans.types.Boolean ||
+           this.elementTemplate_ instanceof prestans.types.DataURLFile ||
+           this.elementTemplate_ instanceof prestans.types.Date ||
+           this.elementTemplate_ instanceof prestans.types.DateTime ||
            this.elementTemplate_ instanceof prestans.types.Float ||
            this.elementTemplate_ instanceof prestans.types.Integer ||
-           this.elementTemplate_ instanceof prestans.types.String)
+           this.elementTemplate_ instanceof prestans.types.String ||
+           this.elementTemplate_ instanceof prestans.types.Time)
             goog.array.insertAt(array_, element, array_.length);
         else if (new this.elementTemplate_() instanceof prestans.types.Model)
             goog.array.insertAt(array_, new this.elementTemplate_(element.getJSONObject(opt_minified, opt_filter), opt_minified, false), array_.length);
@@ -533,9 +553,13 @@ prestans.types.Array.prototype.clone = function(opt_filter) {
 
     goog.array.forEach(this.elements_, function(element) {
             if(this.elementTemplate_ instanceof prestans.types.Boolean ||
+               this.elementTemplate_ instanceof prestans.types.DataURLFile ||
+               this.elementTemplate_ instanceof prestans.types.Date ||
+               this.elementTemplate_ instanceof prestans.types.DateTime ||
                this.elementTemplate_ instanceof prestans.types.Float ||
                this.elementTemplate_ instanceof prestans.types.Integer ||
-               this.elementTemplate_ instanceof prestans.types.String)
+               this.elementTemplate_ instanceof prestans.types.String ||
+               this.elementTemplate_ instanceof prestans.types.Time)
                 clone_.append(element);
             else if(new this.elementTemplate_() instanceof prestans.types.Model)
                 clone_.append(element.clone(opt_filter));
@@ -564,14 +588,17 @@ prestans.types.Array.prototype.getJSONObject = function(minified, opt_filter) {
     goog.array.forEach(this.elements_, function(element) {
 
     //Check that element template is a basic type
-    if(this.elementTemplate_ instanceof prestans.types.String ||
-       this.elementTemplate_ instanceof prestans.types.Integer ||
+    if(this.elementTemplate_ instanceof prestans.types.Boolean ||
+       this.elementTemplate_ instanceof prestans.types.DataURLFile ||
+       this.elementTemplate_ instanceof prestans.types.Date ||
+       this.elementTemplate_ instanceof prestans.types.DateTime ||
        this.elementTemplate_ instanceof prestans.types.Float ||
-       this.elementTemplate_ instanceof prestans.types.Boolean)
+       this.elementTemplate_ instanceof prestans.types.Integer ||
+       this.elementTemplate_ instanceof prestans.types.String ||
+       this.elementTemplate_ instanceof prestans.types.Time)
         goog.array.insertAt(jsonifiedArray_, element, jsonifiedArray_.length);
     else if (new this.elementTemplate_() instanceof prestans.types.Model)
         goog.array.insertAt(jsonifiedArray_, element.getJSONObject(minified, opt_filter), jsonifiedArray_.length);
-
     }, this);
 
     return jsonifiedArray_;
