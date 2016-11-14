@@ -171,9 +171,14 @@ prestans.rest.json.Client.prototype.dispatchRequest = function(request, callback
         // Remove this from the list
         goog.array.remove(this.cancelableRequestIds_, request.getIdentifier());
 
+        // try to parse the response body
         var responseJson_ = null;
-        if(request.getResponseModel() != prestans.rest.json.Response.EMPTY_BODY)
+        try {
             responseJson_ = response.target.getResponseJson();
+        }
+        catch(error) {
+
+        }
 
         var responseConfig_ = {
             requestIdentifier: request.getIdentifier(),
