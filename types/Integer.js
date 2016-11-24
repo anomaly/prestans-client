@@ -193,8 +193,7 @@ prestans.types.Integer.prototype.isBitwiseSafe = function() {
 prestans.types.Integer.prototype.setValue = function(value) {
 
     //Check required
-     var intValue = parseInt(value, 10);
-    if(!this.required_ && (goog.isNull(value) || value.length == 0)) {
+    if(!this.required_ && (goog.isNull(value) || (goog.isString(value) && value.length == 0))) {
         this.value_ = null;
         return true;
     }
@@ -216,17 +215,13 @@ prestans.types.Integer.prototype.setValue = function(value) {
     }
 
     //invalid integer
+    var intValue = parseInt(value, 10);
     if(isNaN(intValue))
         return false;
 
     //check that value is not a float
     if(goog.isNumber(value) && !(value % 1 === 0))
         return false;
-
-    //check that the value is an integer
-    //disabled as this limits the usable range of integers too much because it uses bit-shifting
-    //if(goog.isNumber(value) && !(value === +value && value === (value|0)))
-    //    return false;
 
     //check that value is a safe integer
     if(!prestans.types.Integer.isSafeInteger(intValue))
@@ -239,7 +234,7 @@ prestans.types.Integer.prototype.setValue = function(value) {
     if(goog.isDefAndNotNull(this.maximum_) && value > this.maximum_)
         return false;
 
-    //minium
+    //minimum
     if(goog.isDefAndNotNull(this.minimum_) && value < this.minimum_)
         return false;
 
