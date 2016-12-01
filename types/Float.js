@@ -148,7 +148,7 @@ prestans.types.Float.prototype.setValue = function(value) {
 
     //Check required
      var floatValue = parseFloat(value);
-    if(!this.required_ && (goog.isNull(value) || value.length == 0)) {
+    if(!this.required_ && (goog.isNull(value) || (goog.isString(value) && value.length == 0))) {
         this.value_ = null;
         return true;
     }
