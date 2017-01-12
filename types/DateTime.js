@@ -66,7 +66,7 @@ prestans.types.DateTime = function(opt_config, opt_raiseValidateException) {
         this.required_ = opt_config.required;
 
     /**
-     * timezone defaults to false
+     * whether or not to include timezone (defaults to false)
      * @type {!boolean}
      * @private
      */
