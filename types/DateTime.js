@@ -176,7 +176,7 @@ prestans.types.DateTime.prototype.getJSONObject = function() {
 };
 
 /******************
- * CLASS METHODS
+ * CLASS METHODS  *
  ******************/
 
 /**
@@ -185,13 +185,5 @@ prestans.types.DateTime.prototype.getJSONObject = function() {
  * @return {goog.date.UtcDateTime}
  */
 prestans.types.DateTime.asUTC = function(datetime) {
-    return new goog.date.UtcDateTime(
-        datetime.getFullYear(),
-        datetime.getMonth(),
-        datetime.getDate(),
-        datetime.getHours(),
-        datetime.getMinutes(),
-        datetime.getSeconds(),
-        datetime.getMilliseconds()
-    );
+    return new goog.date.UtcDateTime(datetime);
 };
