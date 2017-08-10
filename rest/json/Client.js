@@ -80,7 +80,7 @@ prestans.rest.json.Client = function(config) {
      */
     this.cancelableRequestIds_ = new Array();
 
-    var headers_ = new goog.structs.Map({
+    var headers_ = new Map({
         "Accept": "application/json",
         "Prestans-Version": prestans.GLOBALS.VERSION,
         "Prestans-Minification": this.minified_ ? "On" : "Off"
