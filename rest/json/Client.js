@@ -136,7 +136,7 @@ prestans.rest.json.Client.prototype.makeRequest = function(request, callbackSucc
 /**
  * @param {!prestans.rest.json.Request} request
  * @param callbackSuccessMethod
- * param callbackFailureMethod
+ * @param callbackFailureMethod
  * @param {!boolean=} opt_abortPreviousRequests
  */
 prestans.rest.json.Client.prototype.dispatchRequest = function(request, callbackSuccessMethod, callbackFailureMethod, opt_abortPreviousRequests) {
@@ -150,7 +150,7 @@ prestans.rest.json.Client.prototype.dispatchRequest = function(request, callback
     var completeURL_ = this.baseUrl_ + request.getUrlWithParameters();
     
     //Abort all requests if this is true
-    if(goog.isDef(opt_abortPreviousRequests) && opt_abortPreviousRequests == true)
+    if(goog.isDef(opt_abortPreviousRequests) && opt_abortPreviousRequests)
         this.abortAllPendingRequests();
     
     //Append this to the list of ids if it is cancellable
@@ -158,7 +158,7 @@ prestans.rest.json.Client.prototype.dispatchRequest = function(request, callback
         goog.array.insert(this.cancelableRequestIds_, request.getIdentifier());
 
 
-    var headers_ = new goog.structs.Map();
+    var headers_ = new Map();
     //Add content type header for request bodies
     if(request.getRequestModel())
         headers_.set("Content-Type", "application/json");
