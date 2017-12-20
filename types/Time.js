@@ -103,14 +103,14 @@ prestans.types.Time = function(opt_config, opt_raiseValidateException) {
 
             console.log("default datetime");
         }
-        else if(opt_config.defaultValue == prestans.types.Time.NOW) {
+        else if(opt_config.defaultValue === prestans.types.Time.NOW) {
             this.default_ = opt_config.defaultValue;
             this.value_ = new goog.date.DateTime();
 
             console.log("default now");
         }
         else if(goog.isString(opt_config.defaultValue)) {
-            var parsedDate_ = goog.date.fromIsoString(opt_config.defaultValue);
+            var parsedDate_ = goog.date.Date.fromIsoString(opt_config.defaultValue);
             if(goog.isNull(parsedDate_))
                 throw this.name_+": default time string incorrect format";
             else {

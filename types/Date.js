@@ -77,12 +77,12 @@ prestans.types.Date = function(opt_config, opt_raiseValidateException) {
             this.default_ = opt_config.defaultValue;
             this.value_ = this.default_;
         }
-        else if(opt_config.defaultValue == prestans.types.Date.TODAY) {
+        else if(opt_config.defaultValue === prestans.types.Date.TODAY) {
             this.default_ = opt_config.defaultValue;
             this.value_ = new goog.date.Date();
         }
         else if(goog.isString(opt_config.defaultValue)) {
-            var parsedDate_ = goog.date.fromIsoString(opt_config.defaultValue);
+            var parsedDate_ = goog.date.Date.fromIsoString(opt_config.defaultValue);
             if(parsedDate_ == null)
                 throw this.name_+": default date string incorrect format";
             else {
@@ -143,7 +143,7 @@ prestans.types.Date.prototype.setValue = function(value) {
 
     //Try to parse string
     if(goog.isString(value)) {
-        var parsedDate_ = goog.date.fromIsoString(value);   
+        var parsedDate_ = goog.date.Date.fromIsoString(value);
         if(parsedDate_ == null)
             return false;
         else {
