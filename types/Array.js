@@ -134,12 +134,14 @@ prestans.types.Array = function(config, opt_raiseValidateException) {
                this.elementTemplate_ instanceof prestans.types.Float ||
                this.elementTemplate_ instanceof prestans.types.Integer ||
                this.elementTemplate_ instanceof prestans.types.String) {
-                if(!this.append(elementJSON) && opt_raiseValidateException)
+                let added_ = this.append(elementJSON);
+                if(!added_ && opt_raiseValidateException)
                     throw "Passed json is invalid";
             }
             else if(new this.elementTemplate_() instanceof prestans.types.Model) {
-                if(!this.append(elementJSON) && opt_raiseValidateException)
-                    this.append(new this.elementTemplate_(elementJSON, config.opt_minified, opt_raiseValidateException));
+                let added_ = this.append(new this.elementTemplate_(elementJSON, config.opt_minified, opt_raiseValidateException));
+                if(!added_ && opt_raiseValidateException)
+                    throw "Passed json is invalid";
             }
         }, this);
     }
@@ -287,7 +289,7 @@ prestans.types.Array.prototype.binaryInsert = function(value, opt_compareFn) {
  */
 prestans.types.Array.prototype.binaryRemove = function(value, opt_compareFn) {
 
-    var retVal_ = goog.array.binaryRemove(this.elements_, value, opt_compareFn);
+    let retVal_ = goog.array.binaryRemove(this.elements_, value, opt_compareFn);
 
     if(retVal_)
         this.dispatchEvent(new goog.events.Event(prestans.types.Array.EventType.ARRAY_CHANGED));

@@ -180,12 +180,11 @@ function testThrowExceptionJson() {
     });
 
     assertNotThrows(function() {
-        new prestans.types.Array({
+        array_ = new prestans.types.Array({
             elementTemplate: SampleModel,
-            opt_json: {"key": "value"}
+            opt_json: [{"key": "value"}]
         });
     });
-
 }
 
 function testAppendString() {
